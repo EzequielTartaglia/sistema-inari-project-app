@@ -7,7 +7,6 @@ import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useState, useEffect } from "react";
 
 import Button from "@/components/Button";
-import PageBody from "@/components/page_formats/PageBody";
 import PageHeader from "@/components/page_formats/PageHeader";
 import Image from "next/image";
 

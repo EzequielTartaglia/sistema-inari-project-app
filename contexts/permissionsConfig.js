@@ -1,27 +1,35 @@
 const sharedPermissions = [
-    { group: "courses", name: 'Lista de Cursos', route: '/platform/courses' }
+    { group: "stock", name: 'Lista de Productos', route: '/platform/stock' }
   ];
   
   const userPermissions = {
-    // Profesor
+    // Salesman
     1: [...sharedPermissions], 
-    // Student
+    // Supervisor
     2: [...sharedPermissions], 
     // Administrator
     3: [
       ...sharedPermissions,
       
-      { group: "administration", name: 'Estado de inscripcion', route: '/platform/admin/course_enrollment_states' },
+      { group: "users", name: 'Usuarios', route: '/platform/users' },
 
-      { group: "courses", name: 'Formatos de Curso', route: '/platform/course_formats' },
-      { group: "courses", name: 'Herramientas de Curso', route: '/platform/course_platform_tools' },
+    ], 
+    // Manager
+    4: [
+      ...sharedPermissions,
 
       { group: "users", name: 'Usuarios', route: '/platform/users' },
 
+    ],
+    // Provider
+    5: [
+      ...sharedPermissions,
       
-    ], 
+      { group: "users", name: 'Usuarios', route: '/platform/users' },
+
+    ],
     // Root
-    4: [], // Access to all routes
+    6: [], // Access to all routes
   };
   
   export default userPermissions;

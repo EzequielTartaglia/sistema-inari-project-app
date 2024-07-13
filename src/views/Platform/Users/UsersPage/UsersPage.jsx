@@ -42,7 +42,7 @@ export default function AdminUsersPage() {
   const handleDeleteUser = async (id) => {
     try {
       const userToDelete = users.find((user) => user.id === id);
-      if (userToDelete && userToDelete.user_role_id === 4) {
+      if (userToDelete && userToDelete.user_role_id === 6) {
         showNotification("No se puede eliminar este usuario.", "danger");
         return;
       }

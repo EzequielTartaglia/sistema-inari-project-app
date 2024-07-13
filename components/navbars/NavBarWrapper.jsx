@@ -22,7 +22,7 @@ export function NavBar() {
 
   const toggleMenuItems = [
     { id: 'home', route: '/', text: 'Inicio' },
-    { id: 'platform', route: '/platform', text: 'Plataforma' }
+    { id: 'platform', route: '/platform', text: 'Plataforma' },
   ];
 
   return <BaseNavBar mainMenu={mainMenu} toggleMenuItems={toggleMenuItems} />;
@@ -46,7 +46,7 @@ export function NavBarPlataform({ user }) {
     const allowedPermissions = userPermissions[user.user_role_id] || [];
 
     // Get all routes if the user is root (user role 4)
-    if (user.user_role_id === 4) {
+    if (user.user_role_id === 6) {
       Object.values(userPermissions).forEach(routes => {
         routes.forEach(({ group, route, name }) => {
           if (!subMenuItems.some(item => item.route === route)) {
@@ -64,23 +64,13 @@ export function NavBarPlataform({ user }) {
 
     const filteredToggleMenuItems = [];
 
-    const coursesSubMenu = subMenuItems.filter(item => item.group === 'courses');
-    if (coursesSubMenu.length > 0) {
+    const stockSubMenu = subMenuItems.filter(item => item.group === 'stock');
+    if (stockSubMenu.length > 0) {
       filteredToggleMenuItems.push({
-        id: 'courses',
+        id: 'stock',
         route: '#',
-        text: 'Cursos',
-        subMenu: coursesSubMenu
-      });
-    }
-
-    const adminSubMenu = subMenuItems.filter(item => item.group === 'administration');
-    if (adminSubMenu.length > 0) {
-      filteredToggleMenuItems.push({
-        id: 'administration',
-        route: '#',
-        text: 'Administracion',
-        subMenu: adminSubMenu,
+        text: 'Stock',
+        subMenu: stockSubMenu
       });
     }
 

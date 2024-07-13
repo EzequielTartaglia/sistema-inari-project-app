@@ -211,7 +211,7 @@ export default function Table({
                                 className="text-blue-600 hover:text-blue-900 mr-4"
                                 title="Ver"
                               >
-                                <FiEye className="text-lg" size={24}/>
+                                <FiEye className="text-lg" size={24} />
                               </a>
                             </Link>
                           )}
@@ -221,7 +221,7 @@ export default function Table({
                                 className="text-yellow-600 hover:text-yellow-900 mr-4"
                                 title="Editar"
                               >
-                                <FiEdit className="text-lg" size={24}/>
+                                <FiEdit className="text-lg" size={24} />
                               </a>
                             </Link>
                           )}
@@ -231,7 +231,10 @@ export default function Table({
                               onClick={() => buttonApproveRoute(item.id)}
                               className="text-green-500 hover:text-green-700"
                             >
-                              <FiCheck className="ml-2 text-edit-link" size={24}/>
+                              <FiCheck
+                                className="ml-2 text-edit-link"
+                                size={24}
+                              />
                             </button>
                           )}
                           {hasDelete && (
@@ -240,7 +243,7 @@ export default function Table({
                               className="text-red-600 hover:text-red-900"
                               title="Eliminar"
                             >
-                              <FiTrash2 className="text-lg" size={24}/>
+                              <FiTrash2 className="text-lg" size={24} />
                             </button>
                           )}
                         </>
@@ -263,105 +266,112 @@ export default function Table({
   }
 
   return (
-    <div className={`${title ? "box-theme" : ""}`}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-primary">{title && title}</h3>
-        {hasAdd && buttonAddRoute && (
-          <Link href={buttonAddRoute}>
-            <button
-              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-              title="Agregar"
-            >
-              <FiPlus size={24} />
-            </button>
-          </Link>
-        )}
-      </div>
-      <div className="table-box font-semibold">
-        <table className="min-w-full border border-gray-200">
-          <thead>
-            <tr className="box-theme">
-              {columns.map((column, index) => (
-                <th
-                  key={index}
-                  className="border border-white border-opacity-25 px-6 py-2"
-                >
-                  {columnAliases[column] || column}
-                </th>
-              ))}
-              {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                <th className="border border-white border-opacity-25 px-6 py-2">
-                  Acciones
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, rowIndex) => (
-              <tr key={rowIndex}>
-                {columns.map((column, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="border border-white border-opacity-25 px-6 py-2 text-center"
+    <>
+      <div className={`${title ? "box-theme" : ""}`}>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-primary">
+            {title && title}
+          </h3>
+          {hasAdd && buttonAddRoute && (
+            <Link href={buttonAddRoute}>
+              <button
+                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+                title="Agregar"
+              >
+                <FiPlus size={24} />
+              </button>
+            </Link>
+          )}
+        </div>
+        <div className="table-box font-semibold">
+          <table className="min-w-full border border-gray-200">
+            <thead>
+              <tr className="box-theme">
+                {columns.map((column, index) => (
+                  <th
+                    key={index}
+                    className="border border-white border-opacity-25 px-6 py-2"
                   >
-                    {item[column]}
-                  </td>
+                    {columnAliases[column] || column}
+                  </th>
                 ))}
                 {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                  <td className="border border-white border-opacity-25 px-6 py-2">
-                    <div className="flex justify-center space-x-4">
-                      {hasShow && (
-                        <Link href={buttonShowRoute(item.id)}>
-                          <a
-                            className="text-blue-600 hover:text-blue-900"
-                            title="Ver"
-                          >
-                            <FiEye className="text-lg" size={24}/>
-                          </a>
-                        </Link>
-                      )}
-                      {hasEdit && (
-                        <Link href={buttonEditRoute(item.id)}>
-                          <a
-                            className="text-yellow-600 hover:text-yellow-900"
-                            title="Editar"
-                          >
-                            <FiEdit className="text-lg" size={24}/>
-                          </a>
-                        </Link>
-                      )}
-                      {hasApprove(item) && (
-                        <button
-                          title="Aprobar"
-                          onClick={() => buttonApproveRoute(item.id)}
-                          className="text-green-500 hover:text-green-700"
-                        >
-                          <FiCheck className="ml-2 text-edit-link" size={24}/>
-                        </button>
-                      )}
-                      {hasDelete && (
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="text-red-600 hover:text-red-900"
-                          title="Eliminar"
-                        >
-                          <FiTrash2 className="text-lg" size={24}/>
-                        </button>
-                      )}
-                    </div>
-                  </td>
+                  <th className="border border-white border-opacity-25 px-6 py-2">
+                    Acciones
+                  </th>
                 )}
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <ConfirmModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          onConfirm={confirmDelete}
-          message={confirmModalText}
-        />
+            </thead>
+            <tbody>
+              {data.map((item, rowIndex) => (
+                <tr key={rowIndex}>
+                  {columns.map((column, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="border border-white border-opacity-25 px-6 py-2 text-center"
+                    >
+                      {item[column]}
+                    </td>
+                  ))}
+                  {(hasShow || hasEdit || hasDelete || hasApprove) && (
+                    <td className="border border-white border-opacity-25 px-6 py-2">
+                      <div className="flex justify-center space-x-4">
+                        {hasShow && (
+                          <Link href={buttonShowRoute(item.id)}>
+                            <a
+                              className="text-blue-600 hover:text-blue-900"
+                              title="Ver"
+                            >
+                              <FiEye className="text-lg" size={24} />
+                            </a>
+                          </Link>
+                        )}
+                        {hasEdit && (
+                          <Link href={buttonEditRoute(item.id)}>
+                            <a
+                              className="text-yellow-600 hover:text-yellow-900"
+                              title="Editar"
+                            >
+                              <FiEdit className="text-lg" size={24} />
+                            </a>
+                          </Link>
+                        )}
+                        {hasApprove(item) && (
+                          <button
+                            title="Aprobar"
+                            onClick={() => buttonApproveRoute(item.id)}
+                            className="text-green-500 hover:text-green-700"
+                          >
+                            <FiCheck
+                              className="ml-2 text-edit-link"
+                              size={24}
+                            />
+                          </button>
+                        )}
+                        {hasDelete && (
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="text-red-600 hover:text-red-900"
+                            title="Eliminar"
+                          >
+                            <FiTrash2 className="text-lg" size={24} />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={confirmDelete}
+        message={confirmModalText}
+      />
+    </>
   );
 }

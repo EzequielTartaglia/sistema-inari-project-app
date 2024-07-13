@@ -1,1 +1,0 @@
-1.1.0 - M.V.P. (Horas totales de desarrollo 200) (commit: c3224c5247c7fabdeb78d8187f27c4366d9e04fa)

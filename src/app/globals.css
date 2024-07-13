@@ -79,7 +79,7 @@ body {
 }
 
 .border-card-detail{
-  border: 1px solid rgba(var(--foreground-rgb), 0.25);
+  border: 1px solid var(--bg-secondary);
 }
 
 .text-primary,.text-title {

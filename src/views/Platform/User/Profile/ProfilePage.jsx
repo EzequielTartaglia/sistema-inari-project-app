@@ -64,7 +64,7 @@ export default function ProfilePage() {
             </div>
             <div className="flex justify-center sm:justify-end mt-4 sm:mt-0 space-x-2">
               <Button
-                customClasses="rounded-md bg-primary border-card-detail text-title-active-static font-semibold"
+                customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold"
                 route={"/platform/user/profile/settings"}
                 isAnimated={false}
                 title="Editar"

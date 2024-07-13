@@ -44,7 +44,7 @@ export default function SignUpForm() {
       try {
         const platformUserRolesFetched = await getPlatformUserRoles();
         const filteredRoles = platformUserRolesFetched
-          .filter(role => role.id !== 4)
+          .filter(role => role.id !== 6)
           .map(role => ({
             value: role.id,
             label: role.name

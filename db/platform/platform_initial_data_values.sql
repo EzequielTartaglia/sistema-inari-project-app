@@ -1,10 +1,12 @@
 -- Insert roles into platform_user_roles
 INSERT INTO public.platform_user_roles (id, name, created_at)
 VALUES 
-  (1, 'Estudiante', NOW()),
-  (2, 'Profesor', NOW()),
+  (1, 'Vendedor', NOW()),
+  (2, 'Supervisor de ventas', NOW()),
   (3, 'Administrador', NOW()),
-  (4, 'root', NOW());
+  (4, 'Gerente', NOW()),
+  (5, 'Proveedor', NOW()),
+  (6, 'root', NOW());
 
 -- Insert user into platform_states
 INSERT INTO public.platform_states (id, name, created_at) 
@@ -53,13 +55,6 @@ INSERT INTO public.platform_user_genders (id, abbreviation, name, created_at) VA
 (3, 'NB', 'No binario', NOW()),
 (4, 'NA', 'Prefiero no responder', NOW());
 
--- Insert data into course_levels table
-INSERT INTO public.course_levels (name) VALUES
-('Inicial'),
-('Principiante'),
-('Intermedio'),
-('Avanzado');
-
 -- Insert data into payment_methods table
 INSERT INTO public.payment_methods (name)
 VALUES ('Mercado Pago');
@@ -69,4 +64,4 @@ INSERT INTO public.platform_users (
   first_name, last_name, phone, email, username, password, is_root, user_role_id, created_at, is_active, token, dni_ssn, country_id, platform_user_gender_id
 )
 VALUES 
-  ('Ezequiel', 'Tartaglia', '2216794817', 'ezequielmtartaglia@gmail.com', 'Ezequiel M. Tartaglia', '123123123', true, 4, NOW(), false, null, '12312312', 1, 1);
+  ('Ezequiel', 'Tartaglia', '2216794817', 'ezequielmtartaglia@gmail.com', 'Ezequiel M. Tartaglia', '123123123', true, 6, NOW(), false, null, '12312312', 1, 1);

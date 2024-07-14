@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import logoSvg from '@/public/logo.png';
 
 export default function Logo({ isFooter = false }) {
 
@@ -10,8 +9,8 @@ export default function Logo({ isFooter = false }) {
   return (
     <Link href="/">
       {isFooter
-        ? <Image alt={brandName} title={brandName} loading="lazy" width="200" height="50" decoding="async" src={logoSrc} />
-        : <Image alt={brandName} title={brandName} loading="lazy" width="70" height="20" decoding="async" src={logoSrc} />
+        ? <Image className="rounded-full" alt={brandName} title={brandName} loading="lazy" width="200" height="50" decoding="async" src={logoSrc} />
+        : <Image className="rounded-full" alt={brandName} title={brandName} loading="lazy" width="70" height="20" decoding="async" src={logoSrc} />
       }
     </Link>
   );

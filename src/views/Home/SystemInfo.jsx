@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  FaBookOpen,
-  FaChalkboardTeacher,
-  FaGraduationCap,
-} from "react-icons/fa";
+import { FaShoppingCart, FaBoxes, FaMoneyBillAlt } from "react-icons/fa";
 
 export default function SystemInfo() {
-
-    const systemName = process.env.NEXT_PUBLIC_SYSTEM_NAME
+  const systemName = process.env.NEXT_PUBLIC_SYSTEM_NAME;
 
   return (
     <div className="box-theme p-8 bg-white rounded-lg shadow-lg">
@@ -15,40 +10,40 @@ export default function SystemInfo() {
         Acerca del Sistema {systemName}
       </h1>
       <p className="text-lg text-center text-primary mb-8">
-        Odin es un sistema de gestión educativa diseñado para facilitar la
-        administración y seguimiento de cursos, estudiantes y profesores.
-        Nuestra plataforma ofrece herramientas para la creación de contenidos,
-        evaluación de aprendizajes y gestión de información académica.
+        {systemName} es un sistema de gestión comercial diseñado para optimizar
+        la administración de tiendas y comercios electrónicos. Nuestra plataforma
+        ofrece herramientas avanzadas para control de inventario, gestión de
+        pedidos y manejo de transacciones financieras.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
-          <FaChalkboardTeacher className="text-primary text-6xl mx-auto mb-4" />
+          <FaShoppingCart className="text-primary text-6xl mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-primary mb-2">
-            Gestión de Cursos
+            Gestión de Ventas
           </h2>
           <p className="text-primary">
-            Administra y organiza tus cursos de manera eficiente con
-            herramientas avanzadas de gestión de contenidos.
+            Optimiza tu proceso de ventas con herramientas avanzadas para gestionar
+            pedidos y transacciones.
           </p>
         </div>
         <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
-          <FaBookOpen className="text-primary text-6xl mx-auto mb-4" />
+          <FaBoxes className="text-primary text-6xl mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-primary mb-2">
-            Seguimiento de Estudiantes
+            Control de Stock
           </h2>
           <p className="text-primary">
-            Realiza un seguimiento detallado del progreso y desempeño de los
-            estudiantes en tiempo real.
+            Administra y supervisa tu inventario en tiempo real para mantener el
+            control total sobre tus productos.
           </p>
         </div>
         <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
-          <FaGraduationCap className="text-primary text-6xl mx-auto mb-4" />
+          <FaMoneyBillAlt className="text-primary text-6xl mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-primary mb-2">
-            Evaluación de Aprendizajes
+            Gestión Financiera
           </h2>
           <p className="text-primary">
-            Utiliza herramientas de evaluación para medir y mejorar el
-            aprendizaje de los estudiantes.
+            Maneja eficazmente las transacciones financieras y asegura una gestión
+            contable precisa.
           </p>
         </div>
       </div>

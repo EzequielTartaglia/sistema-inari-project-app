@@ -1,4 +1,3 @@
-import React from "react";
 import { FaShoppingCart, FaBoxes, FaMoneyBillAlt } from "react-icons/fa";
 
 export default function SystemInfo() {

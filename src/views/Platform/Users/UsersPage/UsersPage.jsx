@@ -23,19 +23,7 @@ export default function AdminUsersPage() {
   const { showNotification } = useNotification();
 
   const router = useRouter();
-
-  const roleFilters = {
-    // Supervisor
-    2: (role) => role.id !== 2 && role.id !== 4 && role.id !== 6,
-    // Admin
-    3: (role) => role.id !== 4 && role.id !== 6,
-    // Manager
-    4: (role) => role.id !== 6,
-    // Root
-    6: (role) => role.id !== 6,
-    default: (role) => role.id === 1,
-  };
-  
+ 
   useEffect(() => {
     async function fetchUsersAndRoles() {
       try {

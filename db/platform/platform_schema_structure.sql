@@ -65,6 +65,7 @@ CREATE TABLE public.platform_users (
     platform_user_gender_id BIGINT NULL default '4'::BIGINT,
     country_id BIGINT NULL,
     CONSTRAINT platform_users_pkey PRIMARY KEY (id),
+    CONSTRAINT platform_users_email_key unique (email),
     CONSTRAINT platform_users_country_id_fkey FOREIGN KEY (country_id) REFERENCES countries (id) ON UPDATE CASCADE ON DELETE SET NULL,
     CONSTRAINT platform_users_platform_user_gender_id_fkey FOREIGN KEY (platform_user_gender_id) REFERENCES platform_user_genders (id) ON UPDATE CASCADE ON DELETE SET NULL,
     CONSTRAINT platform_users_user_role_id_fkey FOREIGN KEY (user_role_id) REFERENCES platform_user_roles (id) ON UPDATE CASCADE ON DELETE SET NULL

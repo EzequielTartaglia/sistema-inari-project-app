@@ -105,7 +105,6 @@ export default function AdminUsersPage() {
       email: user.email,
       user_role: userRole ? userRole.name : "N/A",
       is_active: user.is_active ? "En linea" : "Desconectado",
-      hasDelete: canDeleteUser(user.user_role_id, userRole?.id),
     };
   });
 

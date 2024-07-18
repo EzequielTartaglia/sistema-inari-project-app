@@ -24,6 +24,18 @@ export default function AdminUsersPage() {
 
   const router = useRouter();
 
+  const roleFilters = {
+    // Supervisor
+    2: (role) => role.id !== 2 && role.id !== 4 && role.id !== 6,
+    // Admin
+    3: (role) => role.id !== 4 && role.id !== 6,
+    // Manager
+    4: (role) => role.id !== 6,
+    // Root
+    6: (role) => role.id !== 6,
+    default: (role) => role.id === 1,
+  };
+  
   useEffect(() => {
     async function fetchUsersAndRoles() {
       try {
@@ -42,22 +54,42 @@ export default function AdminUsersPage() {
   const handleDeleteUser = async (id) => {
     try {
       const userToDelete = users.find((user) => user.id === id);
-      if (userToDelete && userToDelete.user_role_id === 6) {
-        showNotification("No se puede eliminar este usuario.", "danger");
+  
+      const roleErrorMessages = {
+        2: "No se puede eliminar este usuario con tus permisos de supervisor.",
+        3: "No se puede eliminar este usuario con tus permisos de administrativo.",
+        4: "No se puede eliminar este usuario con tus permisos de gerente.",
+        6: "No se puede eliminar este usuario.",
+      };
+  
+      // Supervisor can't delete admin or manager
+      if (user.user_role_id === 2 && [3, 4].includes(userToDelete.user_role_id)) {
+        showNotification(roleErrorMessages[2], "danger");
         return;
       }
-
+  
+      // Admin can't delete manager
+      if (user.user_role_id === 3 && userToDelete.user_role_id === 4) {
+        showNotification(roleErrorMessages[3], "danger");
+        return;
+      }
+  
+      // Whoever can't delete root
+      if (userToDelete.user_role_id === 6) {
+        showNotification(roleErrorMessages[6], "danger");
+        return;
+      }
+  
       await deletePlatformUser(id);
-
-      showNotification("Usuario eliminado exitosamente!", "info");
-
+      showNotification("¡Usuario eliminado exitosamente!", "info");
+  
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
-
     } catch (error) {
       console.error("Error deleting user:", error.message);
+      showNotification("Error al eliminar el usuario.", "danger");
     }
   };
-
+  
   const columns = [
     "first_name",
     "last_name",
@@ -85,6 +117,7 @@ export default function AdminUsersPage() {
       email: user.email,
       user_role: userRole ? userRole.name : "N/A",
       is_active: user.is_active ? "En linea" : "Desconectado",
+      hasDelete: canDeleteUser(user.user_role_id, userRole?.id),
     };
   });
 

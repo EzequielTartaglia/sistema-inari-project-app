@@ -31,16 +31,6 @@ body {
   background-color: var(--bg-secondary);
 }
 
-.bg-disabled{
-  background-color: var(--bg-disabled);
-  font-weight: 400;
-  color: var(--border-disabled)
-}
-
-.border-disabled{
-  border: solid 1px var(--border-disabled);
-}
-
 .border-b-none{
   border-bottom: none;
 }
@@ -63,6 +53,13 @@ body {
 
 .secondary-bg-button:hover, .primary-button-success:hover {
   background-color: var(--button-success-bg);
+}
+
+.button-disabled{
+  border: solid 1px var(--border-disabled);
+  background-color: var(--bg-disabled);
+  font-weight: 700;
+  color: var(--border-disabled)
 }
 
 .border-primary {

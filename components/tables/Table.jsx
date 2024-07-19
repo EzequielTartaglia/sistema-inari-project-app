@@ -153,7 +153,7 @@ export default function Table({
               <tr>
                 <td
                   colSpan={columns.length + 1}
-                  className="text-center p-2 text-primary bg-secondary"
+                  className="text-center p-2 text-primary border border-white border-opacity-25 px-6 py-2"
                 >
                   No hay nada que mostrar.
                 </td>
@@ -185,10 +185,10 @@ export default function Table({
         </div>
         <div className="border table-box font-semibold mt-4">
           <table className="min-w-full divide-y divide-gray-200">
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="">
               {data.map((item, rowIndex) => (
-                <tr key={rowIndex} className="bg-black">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium table-row-primary">
+                <tr key={rowIndex}>
+                  <td className="text-center p-2 text-primary border border-white border-opacity-25 px-6 py-2">
                     {columns.map((column, colIndex) => (
                       <div
                         key={colIndex}

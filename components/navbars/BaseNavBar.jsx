@@ -178,7 +178,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
             <div className="p-4">
               <div className="flex justify-center items-center mb-4">
                 <button
-                  className="text-title-active border-secondary-light transition duration-300 hover:-translate-y-1 flex items-center shadow-none py-2 px-2"
+                  className="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
                   onClick={() =>
                     openModal(<LoginForm onCloseModal={closeModal} />)
                   }
@@ -192,7 +192,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
             <div className="p-4">
               <div className="flex justify-center items-center mb-4">
                 <Button
-                  customClasses="text-title-active border-secondary-light shadow-none py-1 px-3"
+                  customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
                   customFunction={() =>
                     openModal(
                       <ConfirmModal

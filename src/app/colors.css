@@ -17,10 +17,15 @@
   --button-delete-bg-hover: #c42323;
   --button-danger-bg: #e41515;
   --button-primary-bg-hover: #66c066;
+  --button-confirm-primary: #f35134;
+  --button-confirm-secondary: #fcfcfc;
+  --button-confirm-text: #000000;
   --text-danger: #ef4444;
   --spinner-border: #f35134;
-  --table-row-primary: #499c4e;
-  --table-row-secondary: #8d9294;
+  --table-row-primary: #f0e8e8e3;
+  --table-row-secondary: #f0e8e8e3;
+  --bg-focus-primary: #f0e8e8e3;
+  --bg-focus-secondary: #f35134;
 
   --border-primary: var(--bg-secondary);
   --border-secondary: var(--bg-primary);

@@ -205,6 +205,16 @@ body {
   background-image: linear-gradient(to right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
 }
 
+.gradient-button-success{
+  background-image: linear-gradient(to right, var(--bg-focus-primary), var(--bg-focus-secondary), var(--bg-focus-primary));
+}
+
+.gradient-button-confirm{
+  background-image: linear-gradient(to right, var(--button-confirm-primary), var(--button-confirm-secondary), var(--button-confirm-primary));
+  border: solid 1px var(--border-primary-light);
+  color: var(--button-confirm-text);
+}
+
 /* Scrollbar styles */
 
 html {

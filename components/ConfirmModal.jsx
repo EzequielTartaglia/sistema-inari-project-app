@@ -10,12 +10,12 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, message }) {
         <div className="flex justify-center gap-4 mt-4">
           <Button
             customFunction={onClose}
-            customClasses="bg-secondary border-primary px-4 py-2 rounded text-primary"
+            customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
             text={"Cancelar"}
           />
           <Button
             customFunction={onConfirm}
-            customClasses="button-delete-bg text-primary px-4 py-2 rounded"
+            customClasses="px-4 py-2 rounded gradient-button-confirm font-semibold"
             text={"Confirmar"}
           />
         </div>

@@ -12,7 +12,7 @@ export default function SystemInfo() {
   return (
     <div className="box-theme p-8 bg-white rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold text-center text-primary mb-6">
-        Acerca del Sistema {systemName}
+        Acerca del {systemName}
       </h1>
       <p className="text-lg text-center text-primary mb-8">
         {systemName} es un sistema de gestión comercial diseñado para optimizar

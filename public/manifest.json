@@ -6,7 +6,7 @@
     "start_url": "/",
     "name": "Sistema Inari",
     "short_name": "Sistema Inari",
-    "description": "Sistema Inari: Sistema de gestion comercial",
+    "description": "Sistema Inari: Sistema de gestion comercial. Desarrollado por Ezequiel M. Tartaglia.",
     "icons": [
         {
             "src": "/icon-192x192.png",

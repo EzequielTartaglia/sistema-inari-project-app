@@ -1,5 +1,6 @@
 const sharedPermissions = [
-    { group: "stock", name: 'Lista de Productos', route: '/platform/stock' }
+    { group: "stock", name: 'Lista de Productos', route: '/platform/products' },
+    { group: "stock", name: 'Categorias', route: '/platform/product_categories' }
   ];
   
   const userPermissions = {

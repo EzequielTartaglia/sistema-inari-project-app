@@ -45,6 +45,13 @@ export default function ProductCategoriesPage() {
     }
   };
 
+  const userHasAccess =
+  user.user_role_id === 1 ||
+  user.user_role_id === 2 ||
+  user.user_role_id === 3 ||
+  user.user_role_id === 4 ||
+  user.user_role_id === 6;
+
   return (
     <>
       <PageHeader title={"Categorias"} 
@@ -53,21 +60,20 @@ export default function ProductCategoriesPage() {
 
         <ListWithTitle
           title=""
-          hasAdd={user.user_role_id === 1 || user.user_role_id === 2 || user.user_role_id === 3 || user.user_role_id === 4 || user.user_role_id === 6 }
-          buttonAddRoute={
-            user.user_role_id === 1 || user.user_role_id === 2 || user.user_role_id === 3 || user.user_role_id === 4 || user.user_role_id === 6
+          hasAdd={userHasAccess}
+          buttonAddRoute={userHasAccess
               ? `/platform/product_categories/new`
               : null
           }
           items={productCategoriesNames}
           buttonShowRoute={(id) => `/platform/product_categories/${id}`}
-          hasEdit={user.user_role_id === 1 || user.user_role_id === 2 || user.user_role_id === 3 || user.user_role_id === 4 || user.user_role_id === 6 }
-          buttonEditRoute={(id) => (user.user_role_id === 3 || user.user_role_id === 4) ? `/platform/product_categories/${id}/edit` : null}
-          hasDelete={user.user_role_id === 1 || user.user_role_id === 2 || user.user_role_id === 3 || user.user_role_id === 4 || user.user_role_id === 6 }
+          hasEdit={userHasAccess}
+          buttonEditRoute={(id) => (userHasAccess) ? `/platform/product_categories/${id}/edit` : null}
+          hasDelete={userHasAccess}
           buttonDeleteRoute={handleDeleteProductCategory}
           columnName="name"
           confirmModalText="¿Estás seguro de que deseas eliminar esta categoria?"
-          hasShow={(id) => null}
+          hasShow={(id) => true}
         />
     </>
   );

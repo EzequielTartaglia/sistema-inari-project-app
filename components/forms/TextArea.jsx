@@ -24,7 +24,7 @@ const TextArea = ({
         placeholder={placeholder}
         onChange={onChange}
         className={`w-full rounded-[5px] p-1 text-black focus-visible:outline-none border-2 resize-none ${
-          isSubmitted && !value
+          isSubmitted && required && !value
             ? "border-red-500"
             : "border-transparent focus:border-primary"
         }`}
@@ -32,7 +32,7 @@ const TextArea = ({
         style={{ marginBottom: "2px" }}
       />
 
-      {isSubmitted && !value && (
+      {isSubmitted && required && !value && (
         <span className="text-danger">{errorMessage}</span>
       )}
 

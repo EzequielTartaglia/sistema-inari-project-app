@@ -1,6 +1,6 @@
 "use client";
 
-import { addPlatformUser } from "@/src/models/platform/platform_user/platform_user";
+import { addPlatformUser, checkEmailExists } from "@/src/models/platform/platform_user/platform_user";
 import { getPlatformUserRoles } from "@/src/models/platform/platform_user_role/platform_user_role";
 import { getCountries } from "@/src/models/platform/country/country";
 import { getPlatformUserGenders } from "@/src/models/platform/platform_user_gender/platform_user_gender";
@@ -45,19 +45,19 @@ export default function SignUpForm() {
     async function fetchData() {
       try {
         const platformUserRolesFetched = await getPlatformUserRoles();
-  
+
         const roleFilters = {
-          //Supervisor
+          // Supervisor
           2: (role) => role.id !== 2 && role.id !== 4 && role.id !== 6,
-          //Admin
+          // Admin
           3: (role) => role.id !== 4 && role.id !== 6,
-          //Manager
+          // Manager
           4: (role) => role.id !== 6,
-          //root
+          // Root
           6: (role) => role.id !== 6,
           default: (role) => role.id === 1,
         };
-  
+
         const filteredRoles = platformUserRolesFetched
           .filter(roleFilters[user.user_role_id] || roleFilters.default)
           .map((role) => ({
@@ -65,14 +65,14 @@ export default function SignUpForm() {
             label: role.name,
           }));
         setPlatformUserRoles(filteredRoles);
-  
+
         const countriesFetched = await getCountries();
         const formattedCountries = countriesFetched.map((country) => ({
           value: country.id,
           label: country.name,
         }));
         setCountries(formattedCountries);
-  
+
         const gendersFetched = await getPlatformUserGenders();
         const sortedGenders = gendersFetched.sort((a, b) => a.id - b.id);
         const formattedGenders = sortedGenders.map((gender) => ({
@@ -86,7 +86,6 @@ export default function SignUpForm() {
     }
     fetchData();
   }, [user.user_role_id]);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,6 +139,13 @@ export default function SignUpForm() {
     setIsLoading(true);
 
     try {
+      const emailExists = await checkEmailExists(newUser.email);
+      if (emailExists) {
+        showNotification("Este correo electrónico ya está registrado. Por favor, intente con otro.", "danger");
+        setIsLoading(false);
+        return;
+      }
+
       await addPlatformUser(
         newUser.first_name,
         newUser.last_name,

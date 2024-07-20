@@ -150,3 +150,21 @@ export async function getPlatformUsersActives() {
     throw error;
   }
 }
+
+export async function checkEmailExists(email) {
+  try {
+    const { data, error } = await supabase
+      .from("platform_users")
+      .select("id")
+      .eq("email", email);
+
+    if (error) {
+      throw error;
+    }
+
+    return data.length > 0;
+  } catch (error) {
+    console.error("Error checking email:", error);
+    throw error;
+  }
+}

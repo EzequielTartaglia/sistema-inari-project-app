@@ -1,54 +1,55 @@
 "use client";
 
-import { getProductCategory } from "@/src/models/platform/product_category/product_category";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { getProductCategory } from "@/src/models/platform/product_category/product_category";
 import PageHeader from "@/components/page_formats/PageHeader";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ProductCategoryDetailsPage({ productCategoryId }) {
   const [productCategory, setProductCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const router = useRouter();
 
   useEffect(() => {
-    async function fetchProductCategory() {
+    async function fetchProductCategoryDetails() {
       try {
-        const category = await getProductCategory(productCategoryId);
-        setProductCategory(category);
+        const categoryDetails = await getProductCategory(productCategoryId);
+        setProductCategory(categoryDetails);
       } catch (error) {
         console.error("Error fetching product category:", error.message);
-        setError(error.message);
-      } finally {
-        setLoading(false);
       }
     }
 
-    fetchProductCategory();
+    fetchProductCategoryDetails();
   }, [productCategoryId]);
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
-      <PageHeader
-        title={`${productCategory?.name}`}
-        goBackRoute="/platform/product_categories"
-        goBackText="Volver a la lista de categorías"
-      />
+      {productCategory ? (
+        <>
+          <PageHeader
+            title={productCategory?.name}
+            goBackRoute="/platform/product_categories"
+            goBackText="Volver a la lista de categorías"
+          />
+          
+          <div className="box-theme p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold text-primary mb-4">
+              Detalles de la Categoría:
+            </h3>
 
-      <div className="box-theme">
-        <h2 className="text-xl font-semibold mb-4">Detalles de la Categoría</h2>
-        <div className="mb-2">
-          <strong>Nombre:</strong> {productCategory?.name}
-        </div>
-        <div className="mb-2">
-          <strong>Descripción:</strong>{" "}
-          {productCategory?.description || "No disponible"}
-        </div>
-      </div>
+
+
+            <div className="mb-4">
+              <span className="font-semibold text-primary block">
+                Descripción:
+              </span>
+              <p className="text-primary">{productCategory?.description || "No disponible"}</p>
+            </div>
+
+          </div>
+        </>
+      ) : (
+        <LoadingSpinner />
+      )}
     </>
   );
 }

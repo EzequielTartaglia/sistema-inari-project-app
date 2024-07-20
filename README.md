@@ -10,3 +10,8 @@ Crear projecto en nextjs con PostgreSQL
 
 //desarrollos.inari@gmail.com
 //sistema_inari_db_Developer.404
+
+5) Crear el archivo manifest para transformar la web a web progresiva (pwa) 
+    - Generar el manifest en https://www.simicart.com/manifest-generator.html/ (u otro generador)
+    - Descomprimir el archivo en /public
+    - Cambiar el nombre de manifest.webmaniest a manifest.json

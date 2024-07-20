@@ -34,7 +34,7 @@ export default function ProductCategoryDetailsPage({ productCategoryId }) {
   return (
     <>
       <PageHeader
-        title={`Detalles de la Categoria: ${productCategory?.name}`}
+        title={`${productCategory?.name}`}
         goBackRoute="/platform/product_categories"
         goBackText="Volver a la lista de categorías"
       />

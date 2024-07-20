@@ -1,4 +1,10 @@
-import { FaShoppingCart, FaBoxes, FaMoneyBillAlt } from "react-icons/fa";
+import InstallPWAButton from "@/components/buttons/InstallPWAButton";
+import {
+  FaShoppingCart,
+  FaBoxes,
+  FaMoneyBillAlt,
+  FaDownload,
+} from "react-icons/fa";
 
 export default function SystemInfo() {
   const systemName = process.env.NEXT_PUBLIC_SYSTEM_NAME;
@@ -10,9 +16,9 @@ export default function SystemInfo() {
       </h1>
       <p className="text-lg text-center text-primary mb-8">
         {systemName} es un sistema de gestión comercial diseñado para optimizar
-        la administración de tiendas y comercios electrónicos. Nuestra plataforma
-        ofrece herramientas avanzadas para control de inventario, gestión de
-        pedidos y manejo de transacciones financieras.
+        la administración de tiendas y comercios electrónicos. Nuestra
+        plataforma ofrece herramientas avanzadas para control de inventario,
+        gestión de pedidos y manejo de transacciones financieras.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
@@ -21,8 +27,8 @@ export default function SystemInfo() {
             Gestión de Ventas
           </h2>
           <p className="text-primary">
-            Optimiza tu proceso de ventas con herramientas avanzadas para gestionar
-            pedidos y transacciones.
+            Optimiza tu proceso de ventas con herramientas avanzadas para
+            gestionar pedidos y transacciones.
           </p>
         </div>
         <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
@@ -41,9 +47,22 @@ export default function SystemInfo() {
             Gestión Financiera
           </h2>
           <p className="text-primary">
-            Maneja eficazmente las transacciones financieras y asegura una gestión
-            contable precisa.
+            Maneja eficazmente las transacciones financieras y asegura una
+            gestión contable precisa.
           </p>
+        </div>
+        <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg shadow-md text-center border-card-detail">
+          <FaDownload className="text-primary text-6xl mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-primary mb-2">
+            Descarga de Escritorio
+          </h2>
+          <p className="text-primary">
+            Descarga la versión de escritorio para una mejor experiencia.
+          </p>
+          <span className="inline-block mr-2 mt-4">
+            {" "}
+            <InstallPWAButton />
+          </span>
         </div>
       </div>
     </div>

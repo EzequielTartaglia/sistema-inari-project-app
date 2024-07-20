@@ -30,21 +30,20 @@ export default function ProductCategoryDetailsPage({ productCategoryId }) {
             goBackRoute="/platform/product_categories"
             goBackText="Volver a la lista de categorías"
           />
-          
+
           <div className="box-theme p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-primary mb-4">
               Detalles de la Categoría:
             </h3>
 
-
-
             <div className="mb-4">
               <span className="font-semibold text-primary block">
                 Descripción:
               </span>
-              <p className="text-primary">{productCategory?.description || "No disponible"}</p>
+              <p className="text-primary">
+                {productCategory?.description || "No disponible"}
+              </p>
             </div>
-
           </div>
         </>
       ) : (

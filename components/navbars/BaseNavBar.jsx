@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginForm from "../forms/login/LoginForm";
 import ConfirmModal from "../ConfirmModal";
 import Button from "../Button";
@@ -17,8 +17,19 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
   const { isAsideOpen, toggleAside, closeAside } = useAside();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-
   const [activeSubMenu, setActiveSubMenu] = useState({});
+
+  useEffect(() => {
+    if (isAsideOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isAsideOpen]);
 
   const toggleSubMenu = (id) => {
     setActiveSubMenu((prevSubMenu) => ({
@@ -99,8 +110,6 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
           isAsideOpen ? "translate-x-0" : "-translate-x-full"
         } w-4/5 sm:w-4/5 md:w-2/6 lg:w-1/4`}
         style={{ overflowY: "auto", maxHeight: "100vh" }}
-        onMouseEnter={() => (document.body.style.overflow = "hidden")}
-        onMouseLeave={() => (document.body.style.overflow = "auto")}
       >
         <div className="relative h-full flex flex-col justify-between">
           <div>
@@ -160,7 +169,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
                   <Button
                     route={item.route}
                     text={item.text}
-                    icon={item.subMenu && <FiChevronDown size={24}/>}
+                    icon={item.subMenu && <FiChevronDown size={24} />}
                     customClasses="block text-primary py-2 px-4 shadow-none text-title border-none hover:bg-gold hover:text-primary"
                     customFunction={() => toggleSubMenu(item.id)}
                   />

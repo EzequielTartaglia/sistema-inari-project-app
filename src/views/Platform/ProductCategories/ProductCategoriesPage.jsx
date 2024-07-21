@@ -25,7 +25,7 @@ export default function ProductCategoriesPage() {
         setProductCategoriesNames(names);
       } catch (error) {
         console.error(
-          "Error al obtener los nombres de los formatos:",
+          "Error fetching product categories:",
           error.message
         );
       }

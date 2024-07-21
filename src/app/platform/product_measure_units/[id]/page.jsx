@@ -1,12 +1,12 @@
 import ConditionalSessionRender from "@/src/helpers/ConditionalSessionRender";
 import NotPermissionPage from "@/src/views/Platform/NotPermissionPage/NotPermissionPage";
-import ProductCategoryDetailsPage from "@/src/views/Platform/ProductCategories/Category/ProductCategoryDetailsPage";
+import ProductMeasureUnitDetailsPage from "@/src/views/Platform/ProductMeasureUnits/MeasureUnit/ProductMeasureUnitDetailsPage";
 
-export default function ProductCategory({params}) {
+export default function ProductMeasureUnit({params}) {
   return (
     <ConditionalSessionRender
       AuthorizedUserRoles={[1,2,3,4,6]}
-      ComponentIfUser={<ProductCategoryDetailsPage productCategoryId={params.id} />}
+      ComponentIfUser={<ProductMeasureUnitDetailsPage productMeasureUnitId={params.id} />}
       ComponentIfNoUser={<NotPermissionPage />}
     />
   );

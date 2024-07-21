@@ -1,41 +1,41 @@
 "use client";
 
-import { getProductCategory } from "@/src/models/platform/product_category/product_category";
+import { getProductMeasureUnit } from "@/src/models/platform/product_measure_unit/product_measure_unit";
 
 import { useEffect, useState } from "react";
 
 import PageHeader from "@/components/page_formats/PageHeader";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default function ProductCategoryDetailsPage({ productCategoryId }) {
-  const [productCategory, setProductCategory] = useState(null);
+export default function ProductMeasureUnitDetailsPage({ productMeasureUnitId }) {
+  const [productMeasureUnit, setProductMeasureUnit] = useState(null);
 
   useEffect(() => {
     async function fetchProductCategoryDetails() {
       try {
-        const categoryDetails = await getProductCategory(productCategoryId);
-        setProductCategory(categoryDetails);
+        const measureUnitDetails = await getProductMeasureUnit(productMeasureUnitId);
+        setProductMeasureUnit(measureUnitDetails);
       } catch (error) {
-        console.error("Error fetching product category:", error.message);
+        console.error("Error fetching product measure unit:", error.message);
       }
     }
 
     fetchProductCategoryDetails();
-  }, [productCategoryId]);
+  }, [productMeasureUnitId]);
 
   return (
     <>
-      {productCategory ? (
+      {productMeasureUnit ? (
         <>
           <PageHeader
-            title={productCategory?.name}
-            goBackRoute="/platform/product_categories"
-            goBackText="Volver a la lista de categorías"
+            title={productMeasureUnit?.name}
+            goBackRoute="/platform/product_measure_units"
+            goBackText="Volver a la lista de unidades de medida"
           />
 
           <div className="box-theme p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-primary mb-4">
-              Detalles de la Categoría:
+              Detalles de la unidad de medida:
             </h3>
 
             <div className="mb-4">
@@ -43,7 +43,7 @@ export default function ProductCategoryDetailsPage({ productCategoryId }) {
                 Descripción:
               </span>
               <p className="text-primary">
-                {productCategory?.description || "No disponible"}
+                {productMeasureUnit?.description || "No disponible"}
               </p>
             </div>
           </div>

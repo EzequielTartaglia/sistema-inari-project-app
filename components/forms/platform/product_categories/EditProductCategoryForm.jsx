@@ -103,7 +103,7 @@ export default function EditProductCategoryForm({ productCategoryId }) {
         />
 
         <SubmitLoadingButton isLoading={isLoading} type="submit">
-          Editar formato
+          Editar categoria
         </SubmitLoadingButton>
       </form>
     </>

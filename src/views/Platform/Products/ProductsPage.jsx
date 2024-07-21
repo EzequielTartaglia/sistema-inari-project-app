@@ -81,7 +81,7 @@ export default function ProductsPage() {
       id: product.id,
       name: product.name,
       product_category_id: productCategory ? productCategory.name : "N/A",
-      price: product.price,
+      price: parseFloat(product.price).toFixed(2),
       product_measure_unit_id: productMeasureUnit
         ? productMeasureUnit.name
         : "N/A",
@@ -107,7 +107,7 @@ export default function ProductsPage() {
       <PageBody>
         <Table
           title={"Productos registrados"}
-          buttonAddRoute={userHasAccess ? `/products/new` : null}
+          buttonAddRoute={userHasAccess ? `/platform/products/new` : null}
           columns={columns}
           data={filteredData}
           columnAliases={columnAliases}

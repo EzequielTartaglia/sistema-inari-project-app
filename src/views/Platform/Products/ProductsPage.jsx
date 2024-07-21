@@ -1,7 +1,126 @@
-import React from 'react'
+"use client";
+
+import {
+  getProducts,
+  deleteProduct,
+} from "@/src/models/platform/product/product";
+import { getProductCategories } from "@/src/models/platform/product_category/product_category";
+import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useNotification } from "@/contexts/NotificationContext";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
+
+import PageHeader from "@/components/page_formats/PageHeader";
+import Table from "@/components/tables/Table";
+import PageBody from "@/components/page_formats/PageBody";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [measureUnits, setMeasureUnits] = useState([]);
+
+  const { user } = useUserInfoContext();
+  const { showNotification } = useNotification();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const fetchedCategories = await getProductCategories();
+        const fetchedMeasureUnits = await getProductMeasureUnits();
+        const fetchedProducts = await getProducts();
+
+        setCategories(fetchedCategories);
+        setMeasureUnits(fetchedMeasureUnits);
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      await deleteProduct(id);
+      setProducts((prevNames) =>
+        prevNames.filter((product) => product.id !== id)
+      );
+      showNotification("¡Producto eliminado exitosamente!", "info");
+    } catch (error) {
+      console.error("Error trying to delete product:", error.message);
+    }
+  };
+
+  const columns = [
+    "name",
+    "product_category_id",
+    "price",
+    "product_measure_unit_id",
+    "quantity",
+  ];
+  const columnAliases = {
+    name: "Nombre",
+    product_category_id: "Categoria",
+    price: "Precio",
+    product_measure_unit_id: "Unidad de medida",
+    quantity: "Cantidad",
+  };
+
+  const filteredData = products.map((product) => {
+    const productCategory = categories.find(
+      (category) => category.id === product.product_category_id
+    );
+    const productMeasureUnit = measureUnits.find(
+      (measure_unit) => measure_unit.id === product.product_measure_unit_id
+    );
+    return {
+      id: product.id,
+      name: product.name,
+      product_category_id: productCategory ? productCategory.name : "N/A",
+      price: product.price,
+      product_measure_unit_id: productMeasureUnit
+        ? productMeasureUnit.name
+        : "N/A",
+      quantity: product.quantity,
+    };
+  });
+
+  const hasApprove = (item) => {
+    return;
+  };
+
+  const userHasAccess =
+    user.user_role_id === 1 ||
+    user.user_role_id === 2 ||
+    user.user_role_id === 3 ||
+    user.user_role_id === 4 ||
+    user.user_role_id === 6;
+
   return (
-    <div>ProductsPage</div>
-  )
+    <>
+      <PageHeader title={"Productos"} />
+
+      <PageBody>
+        <Table
+          title={"Productos registrados"}
+          buttonAddRoute={userHasAccess ? `/products/new` : null}
+          columns={columns}
+          data={filteredData}
+          columnAliases={columnAliases}
+          hasShow={false}
+          hasEdit={false}
+          hasDelete={true}
+          buttonDeleteRoute={handleDeleteProduct}
+          hasApprove={hasApprove}
+          confirmModalText={
+            "¿Estás seguro de que deseas eliminar este producto?"
+          }
+        />
+      </PageBody>
+    </>
+  );
 }

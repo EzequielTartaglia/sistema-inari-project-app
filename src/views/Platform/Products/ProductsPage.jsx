@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
       <PageBody>
         <Table
-          title={"Productos registrados"}
+          title={"Inventario de productos"}
           buttonAddRoute={userHasAccess ? `/platform/products/new` : null}
           columns={columns}
           data={filteredData}

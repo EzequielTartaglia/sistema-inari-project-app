@@ -37,7 +37,7 @@ export default function EditProductForm({ productId }) {
         const fetchedProduct = await getProduct(productId);
         setProduct({
           ...fetchedProduct,
-          price: parseFloat(fetchedProduct.price).toFixed(2), // Asegura que el precio tenga dos decimales
+          price: parseFloat(fetchedProduct.price).toFixed(2), 
         });
 
         const fetchedCategories = await getProductCategories();
@@ -74,7 +74,7 @@ export default function EditProductForm({ productId }) {
         product.description,
         product.image_path,
         product.product_category_id,
-        parseFloat(product.price).toFixed(2), // Asegura que el precio tenga dos decimales
+        parseFloat(product.price).toFixed(2), 
         product.product_measure_unit_id,
         product.quantity
       );
@@ -100,6 +100,7 @@ export default function EditProductForm({ productId }) {
     <>
       <PageHeader
         title="Editar Producto"
+        subtitle={product.name || "Cargando..."}
         goBackRoute="/platform/products"
         goBackText="Volver al listado de productos"
       />

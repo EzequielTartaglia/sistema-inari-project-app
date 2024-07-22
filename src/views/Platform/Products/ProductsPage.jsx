@@ -122,7 +122,7 @@ export default function ProductsPage() {
           columnAliases={columnAliases}
           hasShow={hasShow}
           hasEdit={hasEdit}
-          buttonEditRoute={(id) => `/platform/products/edit/${id}`}
+          buttonEditRoute={(id) => `/platform/products/${id}/edit`}
           hasDelete={true}
           buttonDeleteRoute={handleDeleteProduct}
           hasApprove={hasApprove}

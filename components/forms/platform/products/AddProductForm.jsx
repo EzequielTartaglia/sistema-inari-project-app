@@ -144,7 +144,7 @@ export default function AddProductForm() {
           name="price"
           value={product.price}
           required={true}
-          placeholder="Escribe el precio del producto..."
+          placeholder="999.99"
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"

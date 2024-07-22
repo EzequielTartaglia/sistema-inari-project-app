@@ -89,6 +89,15 @@ export default function ProductsPage() {
     };
   });
 
+
+  const hasShow = (item) => {
+    return;
+  };
+
+  const hasEdit = (item) => {
+    return;
+  };
+
   const hasApprove = (item) => {
     return;
   };
@@ -111,8 +120,8 @@ export default function ProductsPage() {
           columns={columns}
           data={filteredData}
           columnAliases={columnAliases}
-          hasShow={false}
-          hasEdit={false}
+          hasShow={hasShow}
+          hasEdit={hasEdit}
           hasDelete={true}
           buttonDeleteRoute={handleDeleteProduct}
           hasApprove={hasApprove}

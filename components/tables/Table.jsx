@@ -11,8 +11,8 @@ export default function Table({
   title,
   columnAliases,
   hasAdd = true,
-  hasShow = true,
-  hasEdit = true,
+  hasShow = (item) => false,
+  hasEdit = (item) => false,
   hasDelete = true,
   hasApprove = (item) => false,
   buttonAddRoute,
@@ -205,7 +205,7 @@ export default function Table({
                     <div className="flex items-center mt-4">
                       {(hasShow || hasEdit || hasDelete || hasApprove) && (
                         <>
-                          {hasShow && (
+                          {hasShow(item) && (
                             <Link href={buttonShowRoute(item.id)}>
                               <a
                                 className="text-blue-600 hover:text-blue-900 mr-4"
@@ -215,7 +215,7 @@ export default function Table({
                               </a>
                             </Link>
                           )}
-                          {hasEdit && (
+                          {hasEdit(item) && (
                             <Link href={buttonEditRoute(item.id)}>
                               <a
                                 className="text-yellow-600 hover:text-yellow-900 mr-4"
@@ -316,7 +316,7 @@ export default function Table({
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
                     <td className="border border-white border-opacity-25 px-6 py-2">
                       <div className="flex justify-center space-x-4">
-                        {hasShow && (
+                        {hasShow(item) && (
                           <Link href={buttonShowRoute(item.id)}>
                             <a
                               className="text-blue-600 hover:text-blue-900"
@@ -326,7 +326,7 @@ export default function Table({
                             </a>
                           </Link>
                         )}
-                        {hasEdit && (
+                        {hasEdit(item) && (
                           <Link href={buttonEditRoute(item.id)}>
                             <a
                               className="text-yellow-600 hover:text-yellow-900"

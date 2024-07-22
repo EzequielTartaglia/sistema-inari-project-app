@@ -112,6 +112,14 @@ export default function AdminUsersPage() {
     return;
   };
 
+  const hasShow = (item) => {
+    return;
+  };
+
+  const hasEdit = (item) => {
+    return;
+  };
+
   return (
     <>
       <PageHeader title={"Usuarios"} />
@@ -127,8 +135,8 @@ export default function AdminUsersPage() {
           columns={columns}
           data={filteredData}
           columnAliases={columnAliases}
-          hasShow={false}
-          hasEdit={false}
+          hasShow={hasShow}
+          hasEdit={hasEdit}
           hasDelete={true}
           buttonDeleteRoute={handleDeleteUser}
           hasApprove={hasApprove}

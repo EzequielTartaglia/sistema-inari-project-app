@@ -91,11 +91,11 @@ export default function ProductsPage() {
 
 
   const hasShow = (item) => {
-    return;
+    return ;
   };
 
   const hasEdit = (item) => {
-    return;
+    return true;
   };
 
   const hasApprove = (item) => {
@@ -122,6 +122,7 @@ export default function ProductsPage() {
           columnAliases={columnAliases}
           hasShow={hasShow}
           hasEdit={hasEdit}
+          buttonEditRoute={(id) => `/platform/products/edit/${id}`}
           hasDelete={true}
           buttonDeleteRoute={handleDeleteProduct}
           hasApprove={hasApprove}

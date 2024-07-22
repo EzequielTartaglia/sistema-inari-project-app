@@ -155,8 +155,8 @@ export default function EditProductForm({ productId }) {
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"
-          type="number" 
-          step="0.01"   
+          type="number"
+          step="0.01"
         />
 
         <SelectInput
@@ -181,7 +181,7 @@ export default function EditProductForm({ productId }) {
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"
-          type="number" 
+          type="number"
         />
 
         <SubmitLoadingButton isLoading={isLoading} type="submit">

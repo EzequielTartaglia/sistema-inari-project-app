@@ -206,25 +206,24 @@ export default function Table({
                       {(hasShow || hasEdit || hasDelete || hasApprove) && (
                         <>
                           {hasShow(item) && (
-                            <Link href={buttonShowRoute(item.id)}>
-                              <a
-                                className="text-blue-600 hover:text-blue-900 mr-4"
-                                title="Ver"
-                              >
-                                <FiEye className="text-lg" size={24} />
-                              </a>
+                            <Link
+                              href={buttonShowRoute(item.id)}
+                              className="text-blue-600 hover:text-blue-900 mr-4"
+                              title="Ver"
+                            >
+                              <FiEye className="text-lg" size={24} />
                             </Link>
                           )}
                           {hasEdit(item) && (
-                            <Link href={buttonEditRoute(item.id)}>
-                              <a
-                                className="text-yellow-600 hover:text-yellow-900 mr-4"
-                                title="Editar"
-                              >
-                                <FiEdit className="text-lg" size={24} />
-                              </a>
+                            <Link
+                              href={buttonEditRoute(item.id)}
+                              className="text-yellow-600 hover:text-yellow-900 mr-4"
+                              title="Editar"
+                            >
+                              <FiEdit className="text-lg" size={24} />
                             </Link>
                           )}
+
                           {hasApprove(item) && (
                             <button
                               title="Aprobar"
@@ -317,25 +316,24 @@ export default function Table({
                     <td className="border border-white border-opacity-25 px-6 py-2">
                       <div className="flex justify-center space-x-4">
                         {hasShow(item) && (
-                          <Link href={buttonShowRoute(item.id)}>
-                            <a
-                              className="text-blue-600 hover:text-blue-900"
-                              title="Ver"
-                            >
-                              <FiEye className="text-lg" size={24} />
-                            </a>
+                          <Link
+                            href={buttonShowRoute(item.id)}
+                            className="text-blue-600 hover:text-blue-900 mr-4"
+                            title="Ver"
+                          >
+                            <FiEye className="text-lg" size={24} />
                           </Link>
                         )}
                         {hasEdit(item) && (
-                          <Link href={buttonEditRoute(item.id)}>
-                            <a
-                              className="text-yellow-600 hover:text-yellow-900"
-                              title="Editar"
-                            >
-                              <FiEdit className="text-lg" size={24} />
-                            </a>
+                          <Link
+                            href={buttonEditRoute(item.id)}
+                            className="text-yellow-600 hover:text-yellow-900 mr-4"
+                            title="Editar"
+                          >
+                            <FiEdit className="text-lg" size={24} />
                           </Link>
                         )}
+
                         {hasApprove(item) && (
                           <button
                             title="Aprobar"

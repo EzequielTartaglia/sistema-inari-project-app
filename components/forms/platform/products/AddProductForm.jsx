@@ -139,7 +139,7 @@ export default function AddProductForm() {
           required={true}
         />
 
-<Input
+        <Input
           label="Precio"
           name="price"
           value={product.price}
@@ -148,8 +148,8 @@ export default function AddProductForm() {
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"
-          type="number" 
-          step="0.01"   
+          type="number"
+          step="0.01"
         />
 
         <SelectInput
@@ -174,7 +174,7 @@ export default function AddProductForm() {
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"
-          type="number" 
+          type="number"
         />
 
         <SubmitLoadingButton isLoading={isLoading} type="submit">

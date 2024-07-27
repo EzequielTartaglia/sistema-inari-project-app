@@ -4,12 +4,12 @@ import Button from "@/components/Button";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="ml-[-20%] md:ml-[-7%] mx-auto px-4 sm:px-6 lg:px-8">
       <PageHeader title="Inicio" />
       <div className="flex flex-col items-center md:items-end w-full 
-        sm:min-w-[640px] sm:max-w-[768px]   
-        md:min-w-[768px] md:max-w-[1024px] 
-        lg:min-w-[1024px] lg:max-w-[1280px] 
+        sm:min-w-[700px] sm:max-w-[700px]   
+        md:min-w-[800px] md:max-w-[800px] 
+        lg:min-w-[860px] lg:max-w-[1280px] 
         xl:min-w-[1280px] xl:max-w-[1536px]">
         <Button
           route={"/platform"}
@@ -19,6 +19,6 @@ export default function HomePage() {
         />
       </div>
       <SystemInfo />
-    </>
+    </div>
   );
 }

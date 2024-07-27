@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useAside } from "@/contexts/AsideContext";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
@@ -8,8 +8,7 @@ import ConfirmModal from "../ConfirmModal";
 import Button from "../Button";
 import Logo from "../Logo";
 import SubMenu from "./Submenu";
-import { FiChevronDown, FiUser } from "react-icons/fi";
-
+import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
 import AsidePlatformMenu from "./platform/AsidePlatformMenu";
@@ -24,12 +23,22 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
   const pathname = usePathname();
   const isPlatformRoute = pathname && pathname.includes("/platform");
 
+  const closeAsideButtonRef = useRef(null);
+
+  // Effect to handle body overflow
   useEffect(() => {
     document.body.style.overflow = isAsideOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isAsideOpen]);
+
+  // Effect to simulate click on button to close aside if route is "/platform"
+  useEffect(() => {
+    if (isPlatformRoute && closeAsideButtonRef.current) {
+      closeAsideButtonRef.current.click();
+    }
+  }, [isPlatformRoute]);
 
   const toggleSubMenu = (id) => {
     setActiveSubMenu((prevSubMenu) => ({
@@ -155,27 +164,17 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
         <div className="relative h-full flex flex-col justify-between">
           <div>
             <div className="flex justify-center items-center p-4 pb-0">
-              {user && (
+              {!isPlatformRoute && (
                 <div className="flex flex-col items-center">
-                  <Link href="/platform/user/profile" passHref>
-                    <button>
-                      <Image
-                        src="/account.png"
-                        alt="User Avatar"
-                        width={100}
-                        height={100}
-                        className="rounded-full h-16 w-16 object-cover"
-                      />
-                    </button>
-                  </Link>
-                  <div className="text-center text-primary mt-2">
-                    {getGreeting(user.platform_user_gender_id)}, <br />
-                    <span className="text-title-active-static">
-                      {user.first_name} {user.last_name}
-                    </span>
-                    !
-                  </div>
+                  <Logo />
                 </div>
+              )}
+              {isPlatformRoute && (
+                <button
+                  className="hidden"
+                  onClick={closeAside}
+                  ref={closeAsideButtonRef} // Add ref here
+                ></button>
               )}
               <button
                 className="text-primary focus:outline-none text-title px-3 py-2 absolute right-0 top-0"
@@ -198,26 +197,27 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
               </button>
             </div>
             <div className="p-4">
-              {toggleMenuItems.map((item) => (
-                <div key={item.id} className="relative">
-                  <Button
-                    route={item.route}
-                    text={item.text}
-                    icon={item.subMenu && <FiChevronDown size={24} />}
-                    customClasses="block text-primary py-2 px-4 shadow-none text-title border-none hover:bg-gold hover:text-primary"
-                    customFunction={() => toggleSubMenu(item.id)}
-                  />
-                  {item.subMenu && (
-                    <SubMenu
-                      subMenuItems={item.subMenu}
-                      isVisible={activeSubMenu[item.id]}
+              {!isPlatformRoute &&
+                toggleMenuItems.map((item) => (
+                  <div key={item.id} className="relative">
+                    <Button
+                      route={item.route}
+                      text={item.text}
+                      icon={item.subMenu && <FiChevronDown size={24} />}
+                      customClasses="block text-primary py-2 px-4 shadow-none text-title border-none hover:bg-gold hover:text-primary"
+                      customFunction={() => toggleSubMenu(item.id)}
                     />
-                  )}
-                </div>
-              ))}
+                    {item.subMenu && (
+                      <SubMenu
+                        subMenuItems={item.subMenu}
+                        isVisible={activeSubMenu[item.id]}
+                      />
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
-          {loginInfo && !user && (
+          {loginInfo && !user && isPlatformRoute && (
             <div className="p-4">
               <div className="flex justify-center items-center mb-4">
                 <button
@@ -228,26 +228,6 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
                 >
                   {loginInfo.text}
                 </button>
-              </div>
-            </div>
-          )}
-          {user && (
-            <div className="p-4">
-              <div className="flex justify-center items-center mb-4">
-                <Button
-                  customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
-                  customFunction={() =>
-                    openModal(
-                      <ConfirmModal
-                        isOpen={true}
-                        onClose={closeModal}
-                        onConfirm={handleLogout}
-                        message={"¿Estás seguro que deseas cerrar sesión?"}
-                      />
-                    )
-                  }
-                  text={"Salir"}
-                />
               </div>
             </div>
           )}

@@ -55,7 +55,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   return (
     <div className="flex">
       {/* Primer Aside */}
-      <aside className="fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30">
+      <aside className={`fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${isSecondAsideVisible ? "border-r-primary" : "border-r-transparent"}`}>
         {isPlatformRoute && !user && <div className="w-[55px] mt-2"><Logo /></div>}
         {menuItems.length > 0 &&
           menuItems.map((item) => (
@@ -118,10 +118,10 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-        className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
-          isSecondAsideVisible ? 'translate-x-0' : '-translate-x-full'
-        } w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6`}
-      >
+  className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
+    isSecondAsideVisible ? 'translate-x-0 border-r-2 border-r-primary' : '-translate-x-full'
+  } w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6`}
+>
         <button
           onClick={toggleSecondAside}
           className="text-primary text-2xl p-4 absolute top-4 right-4"
@@ -131,7 +131,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
         <div className="flex-1 overflow-y-auto p-4">
           {/* Display parent title */}
           {parentTitle && (
-            <h2 className="text-title-active-static text-xl mb-4">{parentTitle}</h2>
+            <h2 className="text-title-active-static text-xl mb-4 ml-2">{parentTitle}</h2>
           )}
           {currentSubMenuItems.length > 0 ? (
             <ul className="list-none py-2">

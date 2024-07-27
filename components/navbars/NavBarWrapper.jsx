@@ -4,9 +4,9 @@ import { usePathname } from 'next/navigation';
 import BaseNavBar from './BaseNavBar';
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import userPermissions from '@/contexts/permissionsConfig';
-import { FiBook, FiBox, FiSettings, FiUser } from 'react-icons/fi';
-import Logo from '../Logo';
 import { FaPencilAlt } from 'react-icons/fa';
+import Logo from '../Logo';
+import { FiBox, FiSettings, FiUser } from 'react-icons/fi';
 
 export default function NavBarWrapper() {
   const { user } = useUserInfoContext();
@@ -41,19 +41,18 @@ export function NavBarPlataform({ user }) {
 
     const allowedPermissions = userPermissions[user.user_role_id] || [];
 
-    // Get all routes if the user is root (user role 4)
-    if (user.user_role_id === 4) {
+    if (user.user_role_id === 6) {
       Object.values(userPermissions).forEach(routes => {
-        routes.forEach(({ group, route, name }) => {
+        routes.forEach(({ group, route, name, icon }) => {
           if (!subMenuItems.some(item => item.route === route)) {
-            subMenuItems.push({ group, route, text: name });
+            subMenuItems.push({ group, route, text: name, icon });
           }
         });
       });
     } else {
-      allowedPermissions.forEach(({ group, name, route }) => {
+      allowedPermissions.forEach(({ group, name, route, icon }) => {
         if (!subMenuItems.some(item => item.route === route)) {
-          subMenuItems.push({ group, route, text: name });
+          subMenuItems.push({ group, route, text: name, icon });
         }
       });
     }
@@ -66,19 +65,8 @@ export function NavBarPlataform({ user }) {
         id: 'stock',
         route: '#',
         text: 'Stock',
-        icon: <FiBox/>,
+        icon: <FiBox />,
         subMenu: stockSubMenu
-      });
-    }
-
-    const adminSubMenu = subMenuItems.filter(item => item.group === 'administration');
-    if (adminSubMenu.length > 0) {
-      filteredToggleMenuItems.push({
-        id: 'administration',
-        route: '#',
-        text: 'Admin.',
-        icon: <FiSettings/>,
-        subMenu: adminSubMenu,
       });
     }
 
@@ -88,14 +76,14 @@ export function NavBarPlataform({ user }) {
         id: 'users',
         route: '#',
         text: 'Datos',
-        icon: <FiUser/>,
+        icon: <FiUser />,
         subMenu: usersSubMenu,
       });
     }
 
     filteredToggleMenuItems.unshift(
-      { id: 'home', route: '/', text: '', icon: <Logo/>, },
-      { id: 'platform', route: '/platform', text: 'Inicio', icon: <FaPencilAlt/>, }
+      { id: 'home', route: '/', text: '', icon: <Logo />, },
+      { id: 'platform', route: '/platform', text: 'Inicio', icon: <FaPencilAlt />, }
     );
 
     toggleMenuItems = filteredToggleMenuItems;
@@ -103,5 +91,5 @@ export function NavBarPlataform({ user }) {
 
   const loginInfo = { route: '/platform/login', text: 'Acceder a la plataforma' };
 
-  return <BaseNavBar mainMenu={mainMenu} toggleMenuItems={toggleMenuItems} loginInfo={isLoggedIn ? null : loginInfo} />;
+  return <BaseNavBar mainMenu={mainMenu} toggleMenuItems={toggleMenuItems} loginInfo={isLoggedIn ? null : loginInfo} />; 
 }

@@ -124,7 +124,20 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
               </Link>
             </div>
           )}
-          {isPlatformRoute && !user && <Logo />}
+          {loginInfo && !user && (
+            <div className="p-0 mt-2">
+              <div className="flex justify-center items-center mb-2">
+                <button
+                  className="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+                  onClick={() =>
+                    openModal(<LoginForm onCloseModal={closeModal} />)
+                  }
+                >
+                  {loginInfo.text}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
       {isAsideOpen && (
@@ -142,7 +155,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
         <div className="relative h-full flex flex-col justify-between">
           <div>
             <div className="flex justify-center items-center p-4 pb-0">
-              {user ? (
+              {user && (
                 <div className="flex flex-col items-center">
                   <Link href="/platform/user/profile" passHref>
                     <button>
@@ -163,10 +176,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
                     !
                   </div>
                 </div>
-              ) : (
-                <Logo />
               )}
-
               <button
                 className="text-primary focus:outline-none text-title px-3 py-2 absolute right-0 top-0"
                 onClick={closeAside}
@@ -243,7 +253,12 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
           )}
         </div>
       </aside>
-      {isPlatformRoute && <AsidePlatformMenu menuItems={toggleMenuItems} />}
+      {isPlatformRoute && (
+        <AsidePlatformMenu
+          isPlatformRoute={isPlatformRoute}
+          menuItems={toggleMenuItems}
+        />
+      )}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-primary p-6 rounded-lg shadow-lg text-center">

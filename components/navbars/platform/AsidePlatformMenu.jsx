@@ -1,11 +1,17 @@
 import { useState } from "react";
 import Button from "@/components/Button";
-import { FiChevronRight, FiX } from "react-icons/fi";
+import { FiChevronRight, FiX, FiLogOut } from "react-icons/fi";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
+import ConfirmModal from "@/components/ConfirmModal";
+import Logo from "@/components/Logo";
 
-export default function AsidePlatformMenu({ menuItems }) {
+export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isSecondAsideVisible, setIsSecondAsideVisible] = useState(false);
   const [currentSubMenuItems, setCurrentSubMenuItems] = useState([]);
+  const { user, userLogout } = useUserInfoContext();
 
   const handleSubMenuClick = (id, subMenuItems) => {
     if (activeSubMenu !== id) {
@@ -28,10 +34,25 @@ export default function AsidePlatformMenu({ menuItems }) {
     document.body.style.overflow = 'auto'; // Allow body scroll
   };
 
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    userLogout();
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="flex">
       {/* Primer Aside */}
       <aside className="fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30">
+      {isPlatformRoute && !user && <div className="w-[55px] mt-2"><Logo /></div>}
         {menuItems.length > 0 &&
           menuItems.map((item) => (
             <div
@@ -57,6 +78,26 @@ export default function AsidePlatformMenu({ menuItems }) {
               </span>
             </div>
           ))}
+        
+        {user && (
+          <div className="mt-auto mb-4 flex flex-col items-center">
+            <Button
+                  customClasses="px-2 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+                  customFunction={() =>
+                    openModal(
+                      <ConfirmModal
+                        isOpen={true}
+                        onClose={closeModal}
+                        onConfirm={handleLogout}
+                        message={"¿Estás seguro que deseas cerrar sesión?"}
+                      />
+                    )
+                  }
+                  title={"Cerrar session"}
+                  text={"Salir"}
+                />
+          </div>
+        )}
       </aside>
 
       {/* Segundo Aside */}
@@ -89,6 +130,13 @@ export default function AsidePlatformMenu({ menuItems }) {
             </div>
           </aside>
         </>
+      )}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-primary p-6 rounded-lg shadow-lg text-center">
+            {modalContent}
+          </div>
+        </div>
       )}
     </div>
   );

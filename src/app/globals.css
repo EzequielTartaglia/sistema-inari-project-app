@@ -35,6 +35,10 @@ body {
   border-bottom: none;
 }
 
+.border-r-primary{
+  border-right: solid 1px var(--text-primary);
+}
+
 .border-b{
   border-bottom: solid 2px var(--text-primary);
 }

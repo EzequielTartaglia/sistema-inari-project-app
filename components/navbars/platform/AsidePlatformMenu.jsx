@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/components/Button";
-import { FiChevronRight, FiX, FiLogOut } from "react-icons/fi";
+import { FiChevronRight, FiLogOut, FiX } from "react-icons/fi";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import ConfirmModal from "@/components/ConfirmModal";
 import Logo from "@/components/Logo";
@@ -12,6 +12,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const [isSecondAsideVisible, setIsSecondAsideVisible] = useState(false);
   const [currentSubMenuItems, setCurrentSubMenuItems] = useState([]);
   const [parentTitle, setParentTitle] = useState(""); // State to store the parent menu item title
+  const [tooltip, setTooltip] = useState(""); // State for tooltip text
   const { user, userLogout } = useUserInfoContext();
 
   const handleSubMenuClick = (id, subMenuItems, title) => {
@@ -20,13 +21,13 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
       setCurrentSubMenuItems(subMenuItems);
       setParentTitle(title); // Set the parent title
       setIsSecondAsideVisible(true);
-      document.body.style.overflow = 'hidden'; // Prevent body scroll
+      document.body.style.overflow = "hidden"; // Prevent body scroll
     } else {
       setActiveSubMenu(null);
       setCurrentSubMenuItems([]);
       setParentTitle(""); // Clear the parent title
       setIsSecondAsideVisible(false);
-      document.body.style.overflow = 'auto'; // Allow body scroll
+      document.body.style.overflow = "auto"; // Allow body scroll
     }
   };
 
@@ -35,7 +36,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
     setCurrentSubMenuItems([]);
     setParentTitle(""); // Clear the parent title
     setIsSecondAsideVisible(false);
-    document.body.style.overflow = 'auto'; // Allow body scroll
+    document.body.style.overflow = "auto"; // Allow body scroll
   };
 
   const openModal = (content) => {
@@ -53,38 +54,54 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   };
 
   return (
-    <div className="flex">
+    <div className="relative flex">
       {/* Primer Aside */}
-      <aside className={`fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${isSecondAsideVisible ? "border-r-primary" : "border-r-transparent"}`}>
-        {isPlatformRoute && !user && <div className="w-[55px] mt-2"><Logo /></div>}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${
+          isSecondAsideVisible ? "border-r-primary" : "border-r-transparent"
+        }`}
+      >
+        {isPlatformRoute && !user && (
+          <div className="w-[55px] mt-2">
+            <Logo />
+          </div>
+        )}
         {menuItems.length > 0 &&
           menuItems.map((item) => (
             <div
               key={item.route}
-              className="relative mb-6 flex flex-col items-center"
+              className="relative mb-6 flex items-center group"
+              onMouseEnter={() => setTooltip(item.text)}
+              onMouseLeave={() => setTooltip("")}
             >
               {item?.icon && (
                 <div className="text-primary text-xl sm:text-2xl md:text-3xl mb-2">
                   <Button
-                    title={item.text}
                     route={item.route}
                     customClasses="p-2 text-primary shadow-none"
                     customFunction={() => {
-                      item.subMenu && handleSubMenuClick(item.id, item.subMenu, item.text);
+                      item.subMenu &&
+                        handleSubMenuClick(item.id, item.subMenu, item.text);
                     }}
                     icon={item.icon}
                   />
                 </div>
               )}
-              <span className="hidden sm:flex items-center text-primary text-sm md:text-base">
-                {item.text}
-                {item.subMenu && <FiChevronRight size={20} className="ml-0" />}
-              </span>
+              {item.subMenu && (
+                <FiChevronRight size={20} className="text-primary ml-[-10px]" />
+              )}
+              {/* Tooltip */}
+              {tooltip && (
+                <div className="relative flex items-center group">
+                  <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 w-max bg-black text-white text-xs rounded-lg py-2 px-3 shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
+                    {tooltip}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
-        
         {user && (
-          <div className="mt-auto mb-4 flex flex-col items-center">
+          <div className="mt-auto mb-4 flex flex-col items-center group relative">
             <Button
               customClasses="px-2 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
               customFunction={() =>
@@ -97,9 +114,12 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
                   />
                 )
               }
+              icon={<FiLogOut />}
               title={"Cerrar sesión"}
-              text={"Salir"}
             />
+            <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 w-max bg-black text-white text-xs rounded-lg py-2 px-3 shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
+              Cerrar sesión
+            </div>
           </div>
         )}
       </aside>
@@ -108,9 +128,9 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
       {isSecondAsideVisible && (
         <div
           className="fixed top-0 left-0 h-full bg-black transition-opacity duration-300 z-10"
-          style={{ 
-            opacity: isSecondAsideVisible ? '0.5' : '0',
-            pointerEvents: isSecondAsideVisible ? 'auto' : 'none'
+          style={{
+            opacity: isSecondAsideVisible ? "0.5" : "0",
+            pointerEvents: isSecondAsideVisible ? "auto" : "none",
           }}
           onClick={toggleSecondAside}
         ></div>
@@ -118,10 +138,12 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-  className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
-    isSecondAsideVisible ? 'translate-x-0 border-r-2 border-r-primary' : '-translate-x-full'
-  } w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6`}
->
+        className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
+          isSecondAsideVisible
+            ? "translate-x-0 border-r-2 border-r-primary"
+            : "-translate-x-full"
+        } w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6`}
+      >
         <button
           onClick={toggleSecondAside}
           className="text-primary text-2xl p-4 absolute top-4 right-4"
@@ -131,7 +153,9 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
         <div className="flex-1 overflow-y-auto p-4">
           {/* Display parent title */}
           {parentTitle && (
-            <h2 className="text-title-active-static text-xl mb-4 ml-2">{parentTitle}</h2>
+            <h2 className="text-title-active-static text-xl mb-4 ml-2">
+              {parentTitle}
+            </h2>
           )}
           {currentSubMenuItems.length > 0 ? (
             <ul className="list-none py-2">

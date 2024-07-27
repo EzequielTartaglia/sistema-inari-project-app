@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 const sharedPermissions = [
   {
     group: "stock",
-    name: "Lista de Productos",
+    name: "Productos",
     route: "/platform/products",
     icon: FiBox,
   },
@@ -17,7 +17,7 @@ const sharedPermissions = [
   },
   {
     group: "stock",
-    name: "Unidades de medida",
+    name: "Medidas (U.)",
     route: "/platform/product_measure_units",
     icon: FiList,
   },

@@ -131,7 +131,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
         <div className="flex-1 overflow-y-auto p-4">
           {/* Display parent title */}
           {parentTitle && (
-            <h2 className="text-primary text-xl mb-4">{parentTitle}</h2>
+            <h2 className="text-title-active-static text-xl mb-4">{parentTitle}</h2>
           )}
           {currentSubMenuItems.length > 0 ? (
             <ul className="list-none py-2">

@@ -4,6 +4,9 @@ import { usePathname } from 'next/navigation';
 import BaseNavBar from './BaseNavBar';
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import userPermissions from '@/contexts/permissionsConfig';
+import { FiBook, FiBox, FiSettings, FiUser } from 'react-icons/fi';
+import Logo from '../Logo';
+import { FaPencilAlt } from 'react-icons/fa';
 
 export default function NavBarWrapper() {
   const { user } = useUserInfoContext();
@@ -22,7 +25,7 @@ export function NavBar() {
 
   const toggleMenuItems = [
     { id: 'home', route: '/', text: 'Inicio' },
-    { id: 'platform', route: '/platform', text: 'Plataforma' },
+    { id: 'platform', route: '/platform', text: 'Plataforma' }
   ];
 
   return <BaseNavBar mainMenu={mainMenu} toggleMenuItems={toggleMenuItems} />;
@@ -30,15 +33,8 @@ export function NavBar() {
 
 export function NavBarPlataform({ user }) {
   const isLoggedIn = !!user;
-  const mainMenu = [
-    { id: 'home', route: '/', text: 'Inicio' },
-    { id: 'platform', route: '/platform', text: 'Plataforma' }
-  ];
-
-  let toggleMenuItems = [
-    { id: 'home', route: '/', text: 'Inicio' },
-    { id: 'platform', route: '/platform', text: 'Plataforma' }
-  ];
+  const mainMenu = [];
+  let toggleMenuItems = [];
 
   if (isLoggedIn) {
     const subMenuItems = [];
@@ -46,7 +42,7 @@ export function NavBarPlataform({ user }) {
     const allowedPermissions = userPermissions[user.user_role_id] || [];
 
     // Get all routes if the user is root (user role 4)
-    if (user.user_role_id === 6) {
+    if (user.user_role_id === 4) {
       Object.values(userPermissions).forEach(routes => {
         routes.forEach(({ group, route, name }) => {
           if (!subMenuItems.some(item => item.route === route)) {
@@ -70,7 +66,19 @@ export function NavBarPlataform({ user }) {
         id: 'stock',
         route: '#',
         text: 'Stock',
+        icon: <FiBox/>,
         subMenu: stockSubMenu
+      });
+    }
+
+    const adminSubMenu = subMenuItems.filter(item => item.group === 'administration');
+    if (adminSubMenu.length > 0) {
+      filteredToggleMenuItems.push({
+        id: 'administration',
+        route: '#',
+        text: 'Admin.',
+        icon: <FiSettings/>,
+        subMenu: adminSubMenu,
       });
     }
 
@@ -79,14 +87,15 @@ export function NavBarPlataform({ user }) {
       filteredToggleMenuItems.push({
         id: 'users',
         route: '#',
-        text: 'Usuarios',
+        text: 'Datos',
+        icon: <FiUser/>,
         subMenu: usersSubMenu,
       });
     }
 
     filteredToggleMenuItems.unshift(
-      { id: 'home', route: '/', text: 'Inicio' },
-      { id: 'platform', route: '/platform', text: 'Plataforma' }
+      { id: 'home', route: '/', text: '', icon: <Logo/>, },
+      { id: 'platform', route: '/platform', text: 'Inicio', icon: <FaPencilAlt/>, }
     );
 
     toggleMenuItems = filteredToggleMenuItems;

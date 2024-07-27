@@ -11,17 +11,20 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isSecondAsideVisible, setIsSecondAsideVisible] = useState(false);
   const [currentSubMenuItems, setCurrentSubMenuItems] = useState([]);
+  const [parentTitle, setParentTitle] = useState(""); // State to store the parent menu item title
   const { user, userLogout } = useUserInfoContext();
 
-  const handleSubMenuClick = (id, subMenuItems) => {
+  const handleSubMenuClick = (id, subMenuItems, title) => {
     if (activeSubMenu !== id) {
       setActiveSubMenu(id);
       setCurrentSubMenuItems(subMenuItems);
+      setParentTitle(title); // Set the parent title
       setIsSecondAsideVisible(true);
       document.body.style.overflow = 'hidden'; // Prevent body scroll
     } else {
       setActiveSubMenu(null);
       setCurrentSubMenuItems([]);
+      setParentTitle(""); // Clear the parent title
       setIsSecondAsideVisible(false);
       document.body.style.overflow = 'auto'; // Allow body scroll
     }
@@ -30,6 +33,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const toggleSecondAside = () => {
     setActiveSubMenu(null);
     setCurrentSubMenuItems([]);
+    setParentTitle(""); // Clear the parent title
     setIsSecondAsideVisible(false);
     document.body.style.overflow = 'auto'; // Allow body scroll
   };
@@ -66,7 +70,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
                     route={item.route}
                     customClasses="p-2 text-primary shadow-none"
                     customFunction={() => {
-                      item.subMenu && handleSubMenuClick(item.id, item.subMenu);
+                      item.subMenu && handleSubMenuClick(item.id, item.subMenu, item.text);
                     }}
                     icon={item.icon}
                   />
@@ -100,14 +104,19 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
         )}
       </aside>
 
-      {/* Segundo Aside */}
-      <div
-        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 ${
-          isSecondAsideVisible ? 'opacity-50' : 'opacity-0'
-        } z-10`}
-        onClick={toggleSecondAside}
-      ></div>
+      {/* Overlay */}
+      {isSecondAsideVisible && (
+        <div
+          className="fixed top-0 left-0 h-full bg-black transition-opacity duration-300 z-10"
+          style={{ 
+            opacity: isSecondAsideVisible ? '0.5' : '0',
+            pointerEvents: isSecondAsideVisible ? 'auto' : 'none'
+          }}
+          onClick={toggleSecondAside}
+        ></div>
+      )}
 
+      {/* Segundo Aside */}
       <aside
         className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
           isSecondAsideVisible ? 'translate-x-0' : '-translate-x-full'
@@ -120,6 +129,10 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
           <FiX />
         </button>
         <div className="flex-1 overflow-y-auto p-4">
+          {/* Display parent title */}
+          {parentTitle && (
+            <h2 className="text-primary text-xl mb-4">{parentTitle}</h2>
+          )}
           {currentSubMenuItems.length > 0 ? (
             <ul className="list-none py-2">
               {currentSubMenuItems.map((subItem) => (

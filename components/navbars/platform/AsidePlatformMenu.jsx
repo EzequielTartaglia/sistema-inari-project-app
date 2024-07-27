@@ -52,7 +52,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
     <div className="flex">
       {/* Primer Aside */}
       <aside className="fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30">
-      {isPlatformRoute && !user && <div className="w-[55px] mt-2"><Logo /></div>}
+        {isPlatformRoute && !user && <div className="w-[55px] mt-2"><Logo /></div>}
         {menuItems.length > 0 &&
           menuItems.map((item) => (
             <div
@@ -82,55 +82,60 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
         {user && (
           <div className="mt-auto mb-4 flex flex-col items-center">
             <Button
-                  customClasses="px-2 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
-                  customFunction={() =>
-                    openModal(
-                      <ConfirmModal
-                        isOpen={true}
-                        onClose={closeModal}
-                        onConfirm={handleLogout}
-                        message={"¿Estás seguro que deseas cerrar sesión?"}
-                      />
-                    )
-                  }
-                  title={"Cerrar session"}
-                  text={"Salir"}
-                />
+              customClasses="px-2 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+              customFunction={() =>
+                openModal(
+                  <ConfirmModal
+                    isOpen={true}
+                    onClose={closeModal}
+                    onConfirm={handleLogout}
+                    message={"¿Estás seguro que deseas cerrar sesión?"}
+                  />
+                )
+              }
+              title={"Cerrar sesión"}
+              text={"Salir"}
+            />
           </div>
         )}
       </aside>
 
       {/* Segundo Aside */}
-      {isSecondAsideVisible && (
-        <>
-          <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10" onClick={toggleSecondAside}></div>
-          <aside
-            className={`translate-x-0 w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6 md:left-[70px] flex flex-col fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform transform`}
-          >
-            <button
-              onClick={toggleSecondAside}
-              className="text-primary text-2xl p-4 self-end"
-            >
-              <FiX />
-            </button>
-            <div className="flex-1 overflow-y-auto p-4">
-              {currentSubMenuItems.length > 0 ? (
-                <ul className="list-none py-2">
-                  {currentSubMenuItems.map((subItem) => (
-                    <li key={subItem.route} className="mb-4">
-                      <Button
-                        route={subItem.route}
-                        text={isSecondAsideVisible && subItem.text}
-                        customClasses="block text-primary shadow-none py-2 px-4 text-title hover:bg-gold hover:text-primary"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          </aside>
-        </>
-      )}
+      <div
+        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-300 ${
+          isSecondAsideVisible ? 'opacity-50' : 'opacity-0'
+        } z-10`}
+        onClick={toggleSecondAside}
+      ></div>
+
+      <aside
+        className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
+          isSecondAsideVisible ? 'translate-x-0' : '-translate-x-full'
+        } w-3/5 sm:w-2/5 md:w-3/6 lg:w-1/6`}
+      >
+        <button
+          onClick={toggleSecondAside}
+          className="text-primary text-2xl p-4 absolute top-4 right-4"
+        >
+          <FiX />
+        </button>
+        <div className="flex-1 overflow-y-auto p-4">
+          {currentSubMenuItems.length > 0 ? (
+            <ul className="list-none py-2">
+              {currentSubMenuItems.map((subItem) => (
+                <li key={subItem.route} className="mb-4">
+                  <Button
+                    route={subItem.route}
+                    text={subItem.text}
+                    customClasses="block text-primary shadow-none py-2 px-4 text-title hover:bg-gold hover:text-primary"
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      </aside>
+
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-primary p-6 rounded-lg shadow-lg text-center">

@@ -73,3 +73,10 @@ INSERT INTO public.platform_users (
 )
 VALUES 
   ('Ezequiel', 'Tartaglia', '2216794817', 'ezequielmtartaglia@gmail.com', 'Ezequiel M. Tartaglia', '123123123', true, 6, NOW(), false, null, '12312312', 1, 1);
+
+  -- Insert user into platform_settings
+INSERT INTO public.platform_settings (
+  contact_number, developer_name, developer_contact_email
+)
+VALUES 
+  ('', 'Ezequiel M. Tartaglia', 'ezequielmtartaglia@gmail.com');

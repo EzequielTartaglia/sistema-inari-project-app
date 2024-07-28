@@ -1,6 +1,7 @@
 import PageHeader from "@/components/page_formats/PageHeader";
 import SystemInfo from "./SystemInfo";
 import Button from "@/components/Button";
+import WhatsAppButton from "@/components/buttons/WhatsAppButton";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         />
       </div>
       <SystemInfo />
+      <WhatsAppButton/>
     </div>
   );
 }

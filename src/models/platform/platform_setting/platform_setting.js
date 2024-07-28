@@ -1,11 +1,11 @@
 import supabase from "@/utils/supabase/supabaseClient";
 
-export async function getPlatformSettings(platform_setting_id) {
+export async function getPlatformSetting(platform_setting_id = 1) {
   try {
     const { data, error } = await supabase
       .from("platform_settings")
       .select("*")
-      .eq("id", parseInt(platform_setting_id))
+      .eq("id", platform_setting_id)
       .single(); 
 
     if (error) {
@@ -19,8 +19,7 @@ export async function getPlatformSettings(platform_setting_id) {
   }
 }
 
-
-export async function editPlatformSettings(platform_setting_id, contact_number) {
+export async function editPlatformSettings(contact_number, platform_setting_id = 1) {
   try {
     const { data, error } = await supabase
       .from("platform_settings")
@@ -33,6 +32,7 @@ export async function editPlatformSettings(platform_setting_id, contact_number) 
     }
     return data;
   } catch (error) {
+    console.error('Error updating platform settings:', error);
     throw error;
   }
 }

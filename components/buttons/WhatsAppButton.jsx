@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getPlatformSetting } from "@/src/models/platform/platform_setting/platform_setting";
 import { FaWhatsapp } from "react-icons/fa";
 
-const WhatsAppButton = () => {
+const WhatsAppButton = ({ message }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
@@ -21,7 +21,6 @@ const WhatsAppButton = () => {
   }, []);
 
   const handleClick = () => {
-    const message = encodeURIComponent("Hola, necesito más información.");
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, "_blank");
   };

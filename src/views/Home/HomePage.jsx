@@ -20,7 +20,7 @@ export default function HomePage() {
         />
       </div>
       <SystemInfo />
-      <WhatsAppButton/>
+      <WhatsAppButton message="Hola, necesito más información." />
     </div>
   );
 }

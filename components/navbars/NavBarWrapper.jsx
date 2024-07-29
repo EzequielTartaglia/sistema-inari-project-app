@@ -81,6 +81,17 @@ export function NavBarPlataform({ user }) {
       });
     }
 
+    const settingsSubMenu = subMenuItems.filter(item => item.group === 'settings');
+    if (settingsSubMenu.length > 0) {
+      filteredToggleMenuItems.push({
+        id: 'settings',
+        route: '#',
+        text: 'Ajustes',
+        icon: <FiSettings />,
+        subMenu: settingsSubMenu,
+      });
+    }
+
     filteredToggleMenuItems.unshift(
       { id: 'home', route: '/', text: '', icon: <Logo />, },
       { id: 'platform', route: '/platform', text: 'Inicio', icon: <FaPencilAlt />, }

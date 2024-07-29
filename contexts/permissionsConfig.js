@@ -24,8 +24,11 @@ const sharedPermissions = [
 ];
 
 const userPermissions = {
+  //Salesman
   1: [...sharedPermissions],
+  //Supervisor of Salesmen
   2: [...sharedPermissions],
+  //Administrative
   3: [
     ...sharedPermissions,
     {
@@ -34,7 +37,14 @@ const userPermissions = {
       route: "/platform/users",
       icon: FiUser,
     },
+    {
+      group: "settings",
+      name: "Ajustes",
+      route: "/platform/platform_settings",
+      icon: FiUser,
+    }
   ],
+  //Manager
   4: [
     ...sharedPermissions,
     {
@@ -43,16 +53,16 @@ const userPermissions = {
       route: "/platform/users",
       icon: FiUser,
     },
-  ],
-  5: [
-    ...sharedPermissions,
     {
-      group: "users",
-      name: "Usuarios",
-      route: "/platform/users",
-      icon: FiUser,
-    },
+      group: "settings",
+      name: "Ajustes",
+      route: "/platform/platform_settings",
+      icon: FiSettings,
+    }
   ],
+  //Provider
+  5: [],
+  //Root
   6: [], // Access to all routes
 };
 

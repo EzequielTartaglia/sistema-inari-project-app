@@ -34,7 +34,6 @@ export default function RootLayout({ children }) {
                   <PageBody>{children}</PageBody>
                 </main>
                 <FooterWrapper />
-                <Credits />
               </AsideNavBarProvider>
             </UserInfoProvider>
           </NotificationProvider>

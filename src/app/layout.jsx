@@ -4,7 +4,6 @@ import NavBarWrapper from "@/components/navbars/NavBarWrapper";
 import FooterWrapper from "@/components/footers/FooterWrapper";
 import Metadata from "@/components/page_formats/Metadata";
 import PageBody from "@/components/page_formats/PageBody";
-import Credits from "@/components/footers/Credits";
 import { AsideNavBarProvider } from "@/contexts/AsideContext";
 import { UserInfoProvider } from "@/contexts/UserInfoContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";

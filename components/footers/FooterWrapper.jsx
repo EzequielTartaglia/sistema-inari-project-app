@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import BaseFooter from './BaseFooter';
+import PlatformFooter from './platform/PlatformFooter';
 
 export default function FooterWrapper() {
   const pathname = usePathname();
@@ -29,5 +30,5 @@ export function FooterPlataform() {
     { route: '/terms', text: 'Terminos y condiciones' },
   ];
 
-  return <BaseFooter items={items} />;
+  return <PlatformFooter items={items} />;
 }

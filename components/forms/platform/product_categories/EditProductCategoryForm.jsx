@@ -56,7 +56,7 @@ export default function EditProductCategoryForm({ productCategoryId }) {
         productCategory.description
       );
 
-      showNotification("¡Cateogia editada exitosamente!", "success");
+      showNotification("¡Categoria editada exitosamente!", "success");
 
       setTimeout(() => {
         setIsLoading(false);

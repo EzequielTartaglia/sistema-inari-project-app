@@ -156,7 +156,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
         />
       )}
       <aside
-        className={`fixed top-0 left-0 h-full bg-primary bg-opacity-90 z-20 transition-transform transform ${
+        className={`fixed top-0 left-0 h-full nav-bg-primary bg-opacity-90 z-20 transition-transform transform ${
           isAsideOpen ? "translate-x-0" : "-translate-x-full"
         } w-4/5 sm:w-4/5 md:w-2/6 lg:w-1/4`}
         style={{ overflowY: "auto", maxHeight: "100vh" }}

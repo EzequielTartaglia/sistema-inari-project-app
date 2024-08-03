@@ -11,32 +11,32 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isSecondAsideVisible, setIsSecondAsideVisible] = useState(false);
   const [currentSubMenuItems, setCurrentSubMenuItems] = useState([]);
-  const [parentTitle, setParentTitle] = useState(""); // State to store the parent menu item title
-  const [tooltip, setTooltip] = useState(""); // State for tooltip text
+  const [parentTitle, setParentTitle] = useState(""); 
+  const [tooltip, setTooltip] = useState(""); 
   const { user, userLogout } = useUserInfoContext();
 
   const handleSubMenuClick = (id, subMenuItems, title) => {
     if (activeSubMenu !== id) {
       setActiveSubMenu(id);
       setCurrentSubMenuItems(subMenuItems);
-      setParentTitle(title); // Set the parent title
+      setParentTitle(title); 
       setIsSecondAsideVisible(true);
-      document.body.style.overflow = "hidden"; // Prevent body scroll
+      document.body.style.overflow = "hidden"; 
     } else {
       setActiveSubMenu(null);
       setCurrentSubMenuItems([]);
-      setParentTitle(""); // Clear the parent title
+      setParentTitle(""); 
       setIsSecondAsideVisible(false);
-      document.body.style.overflow = "auto"; // Allow body scroll
+      document.body.style.overflow = "auto";
     }
   };
 
   const toggleSecondAside = () => {
     setActiveSubMenu(null);
     setCurrentSubMenuItems([]);
-    setParentTitle(""); // Clear the parent title
+    setParentTitle(""); 
     setIsSecondAsideVisible(false);
-    document.body.style.overflow = "auto"; // Allow body scroll
+    document.body.style.overflow = "auto"; 
   };
 
   const openModal = (content) => {
@@ -54,10 +54,10 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   };
 
   return (
-    <div className="relative flex">
+    <div className="relative flex" >
       {/* Primer Aside */}
       <aside
-        className={`fixed top-0 left-0 h-full bg-primary transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${
+        className={`fixed top-0 left-0 h-full nav-bg-primary-light transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${
           isSecondAsideVisible ? "border-r-primary" : "border-r-transparent"
         }`}
       >
@@ -138,7 +138,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-        className={`fixed top-0 left-16 h-full bg-primary bg-opacity-90 z-20 transition-transform duration-300 ${
+        className={`fixed top-0 left-16 h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
           isSecondAsideVisible
             ? "translate-x-0 border-r-2 border-r-primary"
             : "-translate-x-full"

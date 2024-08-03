@@ -167,6 +167,15 @@ body {
   border: solid 1px var(--text-title-active);
 }
 
+.nav-bg-primary{
+  background-image: linear-gradient(to right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+}
+.nav-bg-primary-highlight{
+  background-image: linear-gradient(to right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+}
+.nav-bg-primary-light{
+  background-image: linear-gradient(to top, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+}
 
 .box-theme {
   box-shadow: 0 4px 14px rgba(var(--foreground-rgb), 0.15);

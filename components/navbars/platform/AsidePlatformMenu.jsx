@@ -138,7 +138,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-        className={`fixed top-0 left-16 h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
+        className={`fixed top-0 left-16 sm:left-20 md:left-20 lg:left-20 xl:left-20 h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
           isSecondAsideVisible
             ? "translate-x-0 border-r-2 border-r-primary"
             : "-translate-x-full"

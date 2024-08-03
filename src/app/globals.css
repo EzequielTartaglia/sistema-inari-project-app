@@ -167,11 +167,17 @@ body {
   border: solid 1px var(--text-title-active);
 }
 
+.footer-bg-primary-main{
+  background-image: linear-gradient(to left, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+  border-bottom: 1px solid  rgba(var(--foreground-rgb), 0.15);
+}
+
 .nav-bg-primary{
   background-image: linear-gradient(to right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
 }
-.nav-bg-primary-highlight{
-  background-image: linear-gradient(to right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+.nav-bg-primary-main{
+  background-image: linear-gradient(to left, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+  border-bottom: 1px solid  rgba(var(--foreground-rgb), 0.15);
 }
 .nav-bg-primary-light{
   background-image: linear-gradient(to top, var(--bg-primary), var(--bg-secondary), var(--bg-primary));

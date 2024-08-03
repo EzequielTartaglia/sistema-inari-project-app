@@ -8,7 +8,7 @@ import { FiFacebook, FiInstagram, FiX, FiYoutube } from "react-icons/fi";
 export default function PlatformFooter({ items }) {
     return (
       <div className="ml-[50px]">
-        <footer className="bg-primary text-primary p-4 pt-0 font-semibold">
+        <footer className="footer-bg-primary-main text-primary p-4 pt-0 font-semibold">
           <div className="grid grid-cols-1 lg:grid-cols-2 justify-center gap-4 max-w-[1140px] mx-auto py-[25px] px-5 gap-6">
             <div className="lg:col-span-1">
               <div className="logo-container" style={{ textAlign: "-webkit-center" }}>

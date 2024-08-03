@@ -73,7 +73,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
 
   return (
     <div className="header font-semibold">
-      <nav className="bg-primary p-2 flex items-center justify-between z-20">
+      <nav className="nav-bg-primary-main p-2 flex items-center justify-between z-20">
         <div className="p-2 ml-3">{!isPlatformRoute && <Logo />}</div>
         <div className="flex items-center space-x-4">
           {mainMenu.map((item) => (

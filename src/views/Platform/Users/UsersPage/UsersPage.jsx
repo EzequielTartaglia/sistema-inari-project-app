@@ -124,7 +124,6 @@ export default function AdminUsersPage() {
     <>
       <PageHeader title={"Usuarios"} />
 
-      <PageBody>
         <Table
           title={"Usuarios registrados"}
           buttonAddRoute={
@@ -144,7 +143,6 @@ export default function AdminUsersPage() {
             "¿Estás seguro de que deseas eliminar este usuario?"
           }
         />
-      </PageBody>
     </>
   );
 }

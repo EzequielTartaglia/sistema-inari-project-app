@@ -4,7 +4,6 @@ import { useAside } from "@/contexts/AsideContext";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import LoginForm from "../forms/login/LoginForm";
-import ConfirmModal from "../ConfirmModal";
 import Button from "../Button";
 import Logo from "../Logo";
 import SubMenu from "./Submenu";
@@ -12,6 +11,7 @@ import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
 import AsidePlatformMenu from "./platform/AsidePlatformMenu";
+import Carousel from "../Carousel";
 
 export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
   const { user, userLogout } = useUserInfoContext();
@@ -70,6 +70,24 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
       return "Hola";
     }
   };
+
+  const carouselItems = [
+    {
+      text: "Contamos con una vision global basada en el concepto de (Integrated Project Delivery)",
+      image: "/images/construction3.jpg",
+      alt: "Imagen de herramientas avanzadas",
+    },
+    {
+      text: "Nos especializamos en arquitectura, construccion y desarrollo inmobiliario",
+      image: "/images/construction1.jpg",
+      alt: "Imagen de optimización de gestión de construcción",
+    },
+    {
+      text: "Hacemos obras con pasion, compromiso e innovación ",
+      image: "/images/construction2.jpg",
+      alt: "Imagen de control de proyectos",
+    },
+  ];
 
   return (
     <div className="header font-semibold">
@@ -246,6 +264,10 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
           </div>
         </div>
       )}
+      
+      {/* Carousel Section */}
+      {!isPlatformRoute && <Carousel items={carouselItems} />}
+
     </div>
   );
 }

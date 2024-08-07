@@ -80,6 +80,10 @@ body {
 .border-primary {
   border: solid 3px var(--border-primary);
 }
+.border-primary-light-main {
+  border: solid 1px var(--border-primary);
+}
+
 .border-secondary {
   border: solid 3px var(--border-secondary);
 }
@@ -97,6 +101,9 @@ body {
 .text-primary,.text-title {
   color: var(--text-primary);
 }
+.text-title-primary{
+  color: var(--text-title-primary);
+}
 
 .text-title-active-static,
 .text-title-active,
@@ -106,6 +113,10 @@ body {
   color: var(--text-title-active-static);
 }
 .text-title-active:hover {
+  color: var(--text-title-active-hover);
+}
+
+.text-title-active-hover{
   color: var(--text-title-active-hover);
 }
 

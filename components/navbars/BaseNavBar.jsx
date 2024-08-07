@@ -73,19 +73,19 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
 
   const carouselItems = [
     {
-      text: "Contamos con una vision global basada en el concepto de (Integrated Project Delivery)",
-      image: "/images/construction3.jpg",
-      alt: "Imagen de herramientas avanzadas",
+      text: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_1_TEXT,
+      image: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_1_IMAGE,
+      alt: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_1_ALT,
     },
     {
-      text: "Nos especializamos en arquitectura, construccion y desarrollo inmobiliario",
-      image: "/images/construction1.jpg",
-      alt: "Imagen de optimización de gestión de construcción",
+      text: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_2_TEXT,
+      image: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_2_IMAGE,
+      alt: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_2_ALT,
     },
     {
-      text: "Hacemos obras con pasion, compromiso e innovación ",
-      image: "/images/construction2.jpg",
-      alt: "Imagen de control de proyectos",
+      text: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_3_TEXT,
+      image: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_3_IMAGE,
+      alt: process.env.NEXT_PUBLIC_CAROUSEL_ITEM_3_ALT,
     },
   ];
 

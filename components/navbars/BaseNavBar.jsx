@@ -21,6 +21,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
   const [activeSubMenu, setActiveSubMenu] = useState({});
 
   const pathname = usePathname();
+  const isHomeRoute = pathname && pathname === "/";
   const isPlatformRoute = pathname && pathname.includes("/platform");
 
   const closeAsideButtonRef = useRef(null);
@@ -266,7 +267,7 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
       )}
       
       {/* Carousel Section */}
-      {!isPlatformRoute && <Carousel items={carouselItems} />}
+      {isHomeRoute && <Carousel items={carouselItems} />}
 
     </div>
   );

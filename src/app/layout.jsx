@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
               <AsideNavBarProvider>
                 <NavBarWrapper />
                 <main
-                  className={`${inter.className} block sm:block md:flex justify-center mx-auto mb-[70px] lg:ml-[7%] ml-[17%]`}
+                  className={`${inter.className} block sm:block md:flex justify-center mx-auto mb-[70px]`}
                   style={{ minHeight: "calc(100vh - 100px)" }}
                 >
                   <PageBody>{children}</PageBody>

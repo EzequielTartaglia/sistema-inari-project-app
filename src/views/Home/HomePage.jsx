@@ -4,7 +4,7 @@ import WhatsAppButton from "@/components/buttons/WhatsAppButton";
 
 export default function HomePage() {
   return (
-    <div className="ml-[-20%] md:ml-[-7%] mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center md:items-end w-full 
         sm:min-w-[700px] sm:max-w-[700px]   
         md:min-w-[800px] md:max-w-[800px] 

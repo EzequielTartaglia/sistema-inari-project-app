@@ -1,6 +1,12 @@
 import { useState } from "react";
 import Button from "@/components/Button";
-import { FiChevronRight, FiLogOut, FiX, FiMenu, FiChevronLeft } from "react-icons/fi";
+import {
+  FiChevronRight,
+  FiLogOut,
+  FiX,
+  FiMenu,
+  FiChevronLeft,
+} from "react-icons/fi";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import ConfirmModal from "@/components/ConfirmModal";
 import Logo from "@/components/Logo";
@@ -60,13 +66,18 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
   return (
     <div className="relative flex">
-      {/* Botón para abrir/cerrar el Aside */}
-      <button
-        onClick={toggleAside}
-        className={`fixed ${isAsideOpen ? "ml-[60px] sm:ml-[60px] md:ml-[70px] left-4" : "left-2"} top-2  z-40 text-primary text-2xl p-3 nav-bg-primary-light rounded-full shadow-md`
-  }>
-        {isAsideOpen ? <FiChevronLeft size={24} /> : <FiMenu size={24}/>}
-      </button>
+      {!isSecondAsideVisible && (
+        <button
+          onClick={toggleAside}
+          className={`fixed ${
+            isAsideOpen
+              ? "ml-[60px] sm:ml-[60px] md:ml-[70px] left-4"
+              : "left-2"
+          } top-2  z-40 text-primary text-2xl p-3 nav-bg-primary-light rounded-full shadow-md`}
+        >
+          {isAsideOpen ? <FiChevronLeft size={24} /> : <FiMenu size={24} />}
+        </button>
+      )}
 
       {/* Primer Aside */}
       <aside
@@ -151,7 +162,11 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-        className={`fixed top-0 ${isAsideOpen ? "left-16 sm:left-20 md:left-20 lg:left-20 xl:left-20" : ""}  h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
+        className={`fixed top-0 ${
+          isAsideOpen
+            ? "left-16 sm:left-20 md:left-20 lg:left-20 xl:left-20"
+            : ""
+        }  h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
           isSecondAsideVisible
             ? "translate-x-0 border-r-2 border-r-primary"
             : "-translate-x-full"

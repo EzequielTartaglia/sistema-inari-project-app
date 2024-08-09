@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/components/Button";
-import { FiChevronRight, FiLogOut, FiX } from "react-icons/fi";
+import { FiChevronRight, FiLogOut, FiX, FiMenu, FiChevronLeft } from "react-icons/fi";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import ConfirmModal from "@/components/ConfirmModal";
 import Logo from "@/components/Logo";
@@ -11,21 +11,22 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isSecondAsideVisible, setIsSecondAsideVisible] = useState(false);
   const [currentSubMenuItems, setCurrentSubMenuItems] = useState([]);
-  const [parentTitle, setParentTitle] = useState(""); 
-  const [tooltip, setTooltip] = useState(""); 
+  const [parentTitle, setParentTitle] = useState("");
+  const [tooltip, setTooltip] = useState("");
+  const [isAsideOpen, setIsAsideOpen] = useState(true); // Nuevo estado para manejar la visibilidad del aside
   const { user, userLogout } = useUserInfoContext();
 
   const handleSubMenuClick = (id, subMenuItems, title) => {
     if (activeSubMenu !== id) {
       setActiveSubMenu(id);
       setCurrentSubMenuItems(subMenuItems);
-      setParentTitle(title); 
+      setParentTitle(title);
       setIsSecondAsideVisible(true);
-      document.body.style.overflow = "hidden"; 
+      document.body.style.overflow = "hidden";
     } else {
       setActiveSubMenu(null);
       setCurrentSubMenuItems([]);
-      setParentTitle(""); 
+      setParentTitle("");
       setIsSecondAsideVisible(false);
       document.body.style.overflow = "auto";
     }
@@ -34,9 +35,9 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
   const toggleSecondAside = () => {
     setActiveSubMenu(null);
     setCurrentSubMenuItems([]);
-    setParentTitle(""); 
+    setParentTitle("");
     setIsSecondAsideVisible(false);
-    document.body.style.overflow = "auto"; 
+    document.body.style.overflow = "auto";
   };
 
   const openModal = (content) => {
@@ -53,12 +54,24 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
     setIsModalOpen(false);
   };
 
+  const toggleAside = () => {
+    setIsAsideOpen(!isAsideOpen); // Alternar la visibilidad del aside
+  };
+
   return (
-    <div className="relative flex" >
+    <div className="relative flex">
+      {/* Botón para abrir/cerrar el Aside */}
+      <button
+        onClick={toggleAside}
+        className={`fixed ${isAsideOpen ? "ml-[70px] left-4" : "left-2"} top-2  z-40 text-primary text-2xl p-2 nav-bg-primary-light rounded-full shadow-md`
+  }>
+        {isAsideOpen ? <FiChevronLeft /> : <FiChevronRight />}
+      </button>
+
       {/* Primer Aside */}
       <aside
-        className={`fixed top-0 left-0 h-full nav-bg-primary-light transition-transform transform translate-x-0 w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${
-          isSecondAsideVisible ? "border-r-primary" : "border-r-transparent"
+        className={`fixed top-0 left-0 h-full nav-bg-primary-light transition-transform transform w-16 sm:w-20 md:w-20 lg:w-20 xl:w-20 flex flex-col items-center pt-0 z-30 ${
+          isAsideOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {isPlatformRoute && !user && (
@@ -138,7 +151,7 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
 
       {/* Segundo Aside */}
       <aside
-        className={`fixed top-0 left-16 sm:left-20 md:left-20 lg:left-20 xl:left-20 h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
+        className={`fixed top-0 ${isAsideOpen ? "left-16 sm:left-20 md:left-20 lg:left-20 xl:left-20" : ""}  h-full nav-bg-primary-light z-20 transition-transform duration-300 ${
           isSecondAsideVisible
             ? "translate-x-0 border-r-2 border-r-primary"
             : "-translate-x-full"

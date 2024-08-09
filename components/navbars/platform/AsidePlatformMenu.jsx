@@ -63,9 +63,9 @@ export default function AsidePlatformMenu({ menuItems, isPlatformRoute }) {
       {/* Botón para abrir/cerrar el Aside */}
       <button
         onClick={toggleAside}
-        className={`fixed ${isAsideOpen ? "ml-[70px] left-4" : "left-2"} top-2  z-40 text-primary text-2xl p-2 nav-bg-primary-light rounded-full shadow-md`
+        className={`fixed ${isAsideOpen ? "ml-[60px] sm:ml-[60px] md:ml-[70px] left-4" : "left-2"} top-2  z-40 text-primary text-2xl p-3 nav-bg-primary-light rounded-full shadow-md`
   }>
-        {isAsideOpen ? <FiChevronLeft /> : <FiChevronRight />}
+        {isAsideOpen ? <FiChevronLeft size={24} /> : <FiMenu size={24}/>}
       </button>
 
       {/* Primer Aside */}

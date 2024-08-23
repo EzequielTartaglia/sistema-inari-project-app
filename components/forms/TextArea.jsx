@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { FaEye, FaQuestionCircle } from "react-icons/fa";
 import parseTextWithColor from "@/src/helpers/parseTextWithColor";
 
-
 const TextArea = ({
   label,
   name,
@@ -16,6 +15,7 @@ const TextArea = ({
   required,
   rows = 4,
   note,
+  hasHightlightTexts = false,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTipVisible, setIsTipVisible] = useState(false);
@@ -34,43 +34,61 @@ const TextArea = ({
         {required && <span className="text-title-active-static">*</span>}
       </label>
 
-      <div className="flex items-start">
-        <textarea
-          id={name}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-          className={`w-full rounded-[5px] p-1 text-black focus-visible:outline-none resize-none border-2 ${
-            isSubmitted && required && !value
-              ? "border-red-500"
-              : "border-transparent focus:border-primary"
-          }`}
-          rows={rows}
-        />
-        <div className="flex flex-col items-end ml-2">
-          <button
-            type="button"
-            className="mt-4 mb-4 text-primary border border-transparent rounded-full bg-white p-2"
-            onClick={toggleTip}
-            title="Formato"
-          >
-            <FaQuestionCircle size={16} />
-          </button>
-          <button
-            type="button"
-            className="mb-2 text-primary border border-transparent rounded-full bg-white p-2"
-            onClick={openModal}
-            title="Ver previsualizacion con formato"
-          >
-            <FaEye size={16} />
-          </button>
+      {hasHightlightTexts ? (
+        <div className="flex items-start">
+          <textarea
+            id={name}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange}
+            className={`w-full rounded-[5px] p-1 text-black focus-visible:outline-none resize-none border-2 ${
+              isSubmitted && required && !value
+                ? "border-red-500"
+                : "border-transparent focus:border-primary"
+            }`}
+            rows={rows}
+          />
+          <div className="flex flex-col items-end ml-2">
+            <button
+              type="button"
+              className="mt-4 mb-4 text-primary border border-transparent rounded-full bg-white p-2"
+              onClick={toggleTip}
+              title="Formato"
+            >
+              <FaQuestionCircle size={16} />
+            </button>
+            <button
+              type="button"
+              className="mb-2 text-primary border border-transparent rounded-full bg-white p-2"
+              onClick={openModal}
+              title="Ver previsualizacion con formato"
+            >
+              <FaEye size={16} />
+            </button>
+          </div>
         </div>
-      </div>
-
+      ) : (
+        <div className="flex items-start">
+          <textarea
+            id={name}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange}
+            className={`w-full rounded-[5px] p-1 text-black focus-visible:outline-none resize-none border-2 ${
+              isSubmitted && required && !value
+                ? "border-red-500"
+                : "border-transparent focus:border-primary"
+            }`}
+            rows={rows}
+          />
+        </div>
+      )}
       {isTipVisible && (
         <div className="mt-2 bg-gray-100 p-2 rounded border border-gray-300 text-sm">
-          Formato: Para resaltar palabras escribir el formato <strong>**texto a resaltar**</strong>
+          Formato: Para resaltar palabras escribir el formato{" "}
+          <strong>**texto a resaltar**</strong>
         </div>
       )}
 

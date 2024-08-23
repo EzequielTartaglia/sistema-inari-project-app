@@ -28,7 +28,7 @@ const TextArea = ({
     <div className="flex flex-col relative mt-2">
       <label
         htmlFor={name}
-        className="flex gap-1 mt-2 mb-4 text-primary font-semibold"
+        className="flex gap-1 my-2 text-primary font-semibold"
       >
         <span>{label}</span>
         {required && <span className="text-title-active-static">*</span>}
@@ -52,7 +52,7 @@ const TextArea = ({
           <div className="flex flex-col items-end ml-2">
             <button
               type="button"
-              className="mt-4 mb-4 text-primary border border-transparent rounded-full bg-white p-2"
+              className="mt-4 mb-2 text-primary border border-transparent rounded-full bg-white p-2"
               onClick={toggleTip}
               title="Formato"
             >

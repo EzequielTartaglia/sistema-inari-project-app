@@ -23,7 +23,7 @@ const Carousel = ({ items }) => {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {items.map((item, index) => (
-          <div key={index} className="flex-shrink-0 relative w-full h-[600px]">
+          <div key={index} className="flex-shrink-0 relative w-full h-[400px] md:h-[800px]">
             <Image
               src={item.image}
               alt={item.text}
@@ -31,8 +31,8 @@ const Carousel = ({ items }) => {
               objectFit="cover"
               className="w-full h-full"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <p className="text-white text-2xl md:text-3xl font-bold text-center px-4">
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
+              <p className="text-white text-3xl md:text-4xl font-bold text-center max-w-[50%]">
                 {item.text}
               </p>
             </div>

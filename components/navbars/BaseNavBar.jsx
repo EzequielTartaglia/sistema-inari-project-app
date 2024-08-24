@@ -8,10 +8,10 @@ import Button from "../Button";
 import Logo from "../Logo";
 import SubMenu from "./Submenu";
 import { FiChevronDown } from "react-icons/fi";
-import Link from "next/link";
-import Image from "next/image";
 import AsidePlatformMenu from "./platform/AsidePlatformMenu";
 import Carousel from "../Carousel";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
   const { user, userLogout } = useUserInfoContext();
@@ -94,7 +94,8 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
     <div className="header font-semibold">
       <nav className="nav-bg-primary-main p-2 flex items-center justify-between z-20">
         <div className="p-2 ml-3">{!isPlatformRoute && <Logo />}</div>
-        <div className="flex items-center space-x-4">
+
+        <div className="flex-grow flex justify-center items-center hidden lg:flex">
           {mainMenu.map((item) => (
             <Button
               key={item.id}
@@ -103,28 +104,39 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
               customClasses="block text-primary shadow-none py-2 px-4 text-title hover:bg-gold hover:text-primary"
             />
           ))}
+        </div>
+
+        <div className="flex items-center space-x-4">
           {!isPlatformRoute && (
-            <button
-              id="hamburger-btn"
-              className="text-primary focus:outline-none text-title px-3 py-2"
-              onClick={toggleAside}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <>
+              <Button
+                route="/platform"
+                text="Plataforma"
+                customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+              />
+              <button
+                id="hamburger-btn"
+                className="text-primary focus:outline-none text-title px-3 py-2"
+                onClick={toggleAside}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </button>
+            </>
           )}
+
           {isPlatformRoute && user && (
             <div className="flex items-center space-x-2">
               <span className="hidden sm:flex text-primary">
@@ -265,10 +277,9 @@ export default function BaseNavBar({ mainMenu, toggleMenuItems, loginInfo }) {
           </div>
         </div>
       )}
-      
+
       {/* Carousel Section */}
       {isHomeRoute && <Carousel items={carouselItems} />}
-
     </div>
   );
 }

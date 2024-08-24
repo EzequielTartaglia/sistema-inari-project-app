@@ -19,8 +19,7 @@ export default function NavBarWrapper() {
 
 export function NavBar() {
   const mainMenu = [
-    { id: 'home', route: '/', text: 'Inicio' },
-    { id: 'platform', route: '/platform', text: 'Plataforma' }
+    { id: 'home', route: '/', text: 'Inicio' }
   ];
 
   const toggleMenuItems = [

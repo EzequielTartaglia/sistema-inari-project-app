@@ -28,6 +28,10 @@ export default function Table({
   const [currentId, setCurrentId] = useState(null);
   const [isLoading, setIsLoading] = useState(data.length === 0);
 
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
+
   useEffect(() => {
     let timer;
     if (isLoading) {
@@ -72,6 +76,40 @@ export default function Table({
     };
   }, []);
 
+  // Paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const PageNumbers = () => {
+    if (data.length <= itemsPerPage) return null;
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-center my-4">
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`mx-1 px-3 py-1 rounded ${
+              currentPage === number
+                ? "bg-disabled text-title-active-static border-secondary-light"
+                : " bg-disabled  border-primary-light"
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="table-box font-semibold">
@@ -112,9 +150,9 @@ export default function Table({
 
   if (data.length === 0) {
     return (
-      <div className={`${title ? "box-theme" : ""}`}>
+      <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-primary">
+          <h3 className="text-lg font-semibold text-title-active-static">
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
@@ -167,9 +205,9 @@ export default function Table({
 
   if (isSmallScreen || isMediumScreen) {
     return (
-      <div className={`${title ? "box-theme" : ""}`}>
+      <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-primary">
+          <h3 className="text-lg font-semibold text-title-active-static">
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
@@ -186,7 +224,7 @@ export default function Table({
         <div className="border table-box font-semibold mt-4">
           <table className="min-w-full divide-y divide-gray-200">
             <tbody className="">
-              {data.map((item, rowIndex) => (
+              {currentItems.map((item, rowIndex) => (
                 <tr key={rowIndex}>
                   <td className="text-center p-2 text-primary border border-white border-opacity-25 px-6 py-2">
                     {columns.map((column, colIndex) => (
@@ -230,16 +268,14 @@ export default function Table({
                               onClick={() => buttonApproveRoute(item.id)}
                               className="text-green-500 hover:text-green-700"
                             >
-                              <FiCheck
-                                className="ml-2 text-edit-link"
-                                size={24}
-                              />
+                              <FiCheck className="text-lg" size={24} />
                             </button>
                           )}
+
                           {hasDelete && (
                             <button
                               onClick={() => handleDelete(item.id)}
-                              className="text-red-600 hover:text-red-900"
+                              className="text-red-500 hover:text-red-700"
                               title="Eliminar"
                             >
                               <FiTrash2 className="text-lg" size={24} />
@@ -253,123 +289,119 @@ export default function Table({
               ))}
             </tbody>
           </table>
-          <ConfirmModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            onConfirm={confirmDelete}
-            message={confirmModalText}
-          />
+          <PageNumbers />
         </div>
+
+        <ConfirmModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onConfirm={confirmDelete}
+          message={confirmModalText}
+        />
       </div>
     );
   }
 
   return (
-    <>
-      <div className={`${title ? "box-theme" : ""}`}>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-primary">
-            {title && title}
-          </h3>
-          {hasAdd && buttonAddRoute && (
-            <Link href={buttonAddRoute}>
-              <button
-                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-                title="Agregar"
-              >
-                <FiPlus size={24} />
-              </button>
-            </Link>
-          )}
-        </div>
-        <div className="table-box font-semibold">
-          <table className="min-w-full border border-gray-200">
-            <thead>
-              <tr className="box-theme">
-                {columns.map((column, index) => (
-                  <th
-                    key={index}
+    <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-title-active-static">{title && title}</h3>
+        {hasAdd && buttonAddRoute && (
+          <Link href={buttonAddRoute}>
+            <button
+              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+              title="Agregar"
+            >
+              <FiPlus size={24} />
+            </button>
+          </Link>
+        )}
+      </div>
+      <div className="border table-box font-semibold mt-4">
+        <table className="min-w-full border border-gray-200">
+          <thead>
+            <tr className="box-theme">
+              {columns.map((column, index) => (
+                <th
+                  key={index}
+                  className="border border-white border-opacity-25 px-6 py-2"
+                >
+                  {columnAliases[column] || column}
+                </th>
+              ))}
+              {(hasShow || hasEdit || hasDelete || hasApprove) && (
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Acciones
+                </th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems.map((item, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((column, colIndex) => (
+                  <td
+                    key={colIndex}
                     className="border border-white border-opacity-25 px-6 py-2"
                   >
-                    {columnAliases[column] || column}
-                  </th>
+                    {item[column]}
+                  </td>
                 ))}
-                {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                  <th className="border border-white border-opacity-25 px-6 py-2">
-                    Acciones
-                  </th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, rowIndex) => (
-                <tr key={rowIndex}>
-                  {columns.map((column, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className="border border-white border-opacity-25 px-6 py-2 text-center"
-                    >
-                      {item[column]}
-                    </td>
-                  ))}
+                <td className="border border-white border-opacity-25 px-6 py-2">
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                    <td className="border border-white border-opacity-25 px-6 py-2">
-                      <div className="flex justify-center space-x-4">
-                        {hasShow(item) && (
-                          <Link
-                            href={buttonShowRoute(item.id)}
-                            className="text-blue-600 hover:text-blue-900 mr-4"
-                            title="Ver"
-                          >
-                            <FiEye className="text-lg" size={24} />
-                          </Link>
-                        )}
-                        {hasEdit(item) && (
-                          <Link
-                            href={buttonEditRoute(item.id)}
-                            className="text-yellow-600 hover:text-yellow-900 mr-4"
-                            title="Editar"
-                          >
-                            <FiEdit className="text-lg" size={24} />
-                          </Link>
-                        )}
-
-                        {hasApprove(item) && (
-                          <button
-                            title="Aprobar"
-                            onClick={() => buttonApproveRoute(item.id)}
-                            className="text-green-500 hover:text-green-700"
-                          >
-                            <FiCheck
-                              className="ml-2 text-edit-link"
-                              size={24}
-                            />
-                          </button>
-                        )}
-                        {hasDelete && (
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="text-red-600 hover:text-red-900"
-                            title="Eliminar"
-                          >
-                            <FiTrash2 className="text-lg" size={24} />
-                          </button>
-                        )}
-                      </div>
-                    </td>
+                    <>
+                      {hasShow(item) && (
+                        <Link
+                          href={buttonShowRoute(item.id)}
+                          className="text-blue-600 hover:text-blue-900 mr-4"
+                          title="Ver"
+                        >
+                          <FiEye className="text-lg" size={24} />
+                        </Link>
+                      )}
+                      {hasEdit(item) && (
+                        <Link
+                          href={buttonEditRoute(item.id)}
+                          className="text-yellow-600 hover:text-yellow-900 mr-4"
+                          title="Editar"
+                        >
+                          <FiEdit className="text-lg" size={24} />
+                        </Link>
+                      )}
+                      {hasApprove(item) && (
+                        <button
+                          title="Aprobar"
+                          onClick={() => buttonApproveRoute(item.id)}
+                          className="text-green-500 hover:text-green-700 mr-4"
+                        >
+                          <FiCheck className="text-lg" size={24} />
+                        </button>
+                      )}
+                      {hasDelete && (
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                          title="Eliminar"
+                        >
+                          <FiTrash2 className="text-lg" size={24} />
+                        </button>
+                      )}
+                    </>
                   )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <PageNumbers />
       </div>
+
       <ConfirmModal
         isOpen={isModalOpen}
         onClose={closeModal}
         onConfirm={confirmDelete}
         message={confirmModalText}
       />
-    </>
+    </div>
   );
 }

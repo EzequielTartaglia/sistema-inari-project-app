@@ -96,7 +96,7 @@ export default function ChangePasswordForm() {
 
       <form onSubmit={handleSubmit} className="box-theme">
         <Input
-          label="Contraseña Actual"
+          label="Contraseña actual"
           name="currentPassword"
           type="password"
           value={currentPassword}
@@ -108,7 +108,7 @@ export default function ChangePasswordForm() {
         />
 
         <Input
-          label="Nueva Contraseña"
+          label="Nueva contraseña"
           name="newPassword"
           type="password"
           value={newPassword}
@@ -120,7 +120,7 @@ export default function ChangePasswordForm() {
         />
 
         <Input
-          label="Confirmar Nueva Contraseña"
+          label="Confirmar nueva contraseña"
           name="confirmNewPassword"
           type="password"
           value={confirmNewPassword}

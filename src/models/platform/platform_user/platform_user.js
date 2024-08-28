@@ -76,7 +76,7 @@ export async function editPlatformUser(
   dni_ssn,
   username,
   password,
-  user_role_id,
+  user_role_id
 ) {
   try {
     const { data, error } = await supabase
@@ -165,6 +165,44 @@ export async function checkEmailExists(email) {
     return data.length > 0;
   } catch (error) {
     console.error("Error checking email:", error);
+    throw error;
+  }
+}
+
+export async function changeUserPassword(
+  user_id,
+  currentPassword,
+  newPassword
+) {
+  try {
+    const { data: user, error: fetchError } = await supabase
+      .from("platform_users")
+      .select("id, password")
+      .eq("id", user_id)
+      .eq("password", currentPassword)
+      .single();
+
+    if (fetchError) {
+      throw fetchError;
+    }
+
+    // Si el usuario no existe
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const { error: updateError } = await supabase
+      .from("platform_users")
+      .update({ password: newPassword })
+      .eq("id", user_id);
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error al cambiar la contraseña:", error.message);
     throw error;
   }
 }

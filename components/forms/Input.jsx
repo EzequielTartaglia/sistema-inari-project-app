@@ -20,10 +20,9 @@ const Input = ({ label, type = 'text', name, value, placeholder, onChange, isSub
         style={{ marginBottom: '2px' }}
       />
 
-      {isSubmitted && !value && (
-        <span className="text-danger">{errorMessage}</span>
-      )}
-
+      {(isSubmitted && !value) || errorMessage ? (
+        <span className="text-delete-link-active mt-2 font-semibold">{errorMessage}</span>
+      ) : null}
     </div>
   );
 };

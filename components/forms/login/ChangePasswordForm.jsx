@@ -27,6 +27,8 @@ export default function ChangePasswordForm() {
 
     if (!currentPassword) {
       errors.currentPassword = "Campo obligatorio";
+    } else if (currentPassword !== user.password) {
+      errors.currentPassword = "Contraseña actual incorrecta.";
     }
 
     if (!newPassword) {
@@ -34,7 +36,7 @@ export default function ChangePasswordForm() {
     }
 
     if (newPassword !== confirmNewPassword) {
-      errors.confirmNewPassword = "Las nuevas contraseñas no coinciden";
+      errors.confirmNewPassword = "Las nuevas contraseñas no coinciden.";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -57,14 +59,7 @@ export default function ChangePasswordForm() {
       }, 2000);
     } catch (error) {
       console.error("Error al cambiar la contraseña:", error.message);
-
-      if (error.message.includes("Contraseña actual incorrecta")) {
-        setFormErrors({ currentPassword: "Contraseña actual incorrecta." });
-      } else {
-        setFormErrors({
-          general: "Error al cambiar la contraseña. Inténtalo de nuevo.",
-        });
-      }
+      setFormErrors({ general: "Hubo un problema al cambiar la contraseña. Inténtalo de nuevo." });
       setIsLoading(false);
     }
   };
@@ -80,6 +75,7 @@ export default function ChangePasswordForm() {
       setConfirmNewPassword(value);
     }
 
+    // Clear specific field errors on input change
     setFormErrors({
       ...formErrors,
       [name]: undefined,
@@ -97,14 +93,13 @@ export default function ChangePasswordForm() {
       <form onSubmit={handleSubmit} className="box-theme">
         <Input
           label="Contraseña actual"
-          name="currentPassword"
           type="password"
+          name="currentPassword"
           value={currentPassword}
-          required={true}
-          placeholder=""
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage={formErrors.currentPassword}
+          required={true}
         />
 
         <Input
@@ -112,11 +107,10 @@ export default function ChangePasswordForm() {
           name="newPassword"
           type="password"
           value={newPassword}
-          required={true}
-          placeholder=""
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage={formErrors.newPassword}
+          required={true}
         />
 
         <Input
@@ -124,15 +118,14 @@ export default function ChangePasswordForm() {
           name="confirmNewPassword"
           type="password"
           value={confirmNewPassword}
-          required={true}
-          placeholder=""
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage={formErrors.confirmNewPassword}
+          required={true}
         />
 
         {formErrors.general && (
-          <p className="text-delete-link-active mt-2 font-semibold">
+          <p className="text-red-500 mt-2 font-semibold">
             {formErrors.general}
           </p>
         )}

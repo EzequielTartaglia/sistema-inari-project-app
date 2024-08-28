@@ -13,16 +13,17 @@ const Input = ({ label, type = 'text', name, value, placeholder, onChange, isSub
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        className={`w-full rounded-[5px] p-1 h-[35px] text-black focus-visible:outline-none border-2 ${isSubmitted && !value
-          ? "border-red-500"
-          : "border-transparent focus:border-primary"
+        className={`w-full rounded-[5px] p-1 h-[35px] text-black focus-visible:outline-none border-2 ${
+          isSubmitted && errorMessage
+            ? "border-red-500"
+            : "border-transparent focus:border-primary"
         }`}
         style={{ marginBottom: '2px' }}
       />
 
-      {(isSubmitted && !value) || errorMessage ? (
-        <span className="text-delete-link-active mt-2 font-semibold">{errorMessage}</span>
-      ) : null}
+      {isSubmitted && errorMessage && (
+        <span className="text-red-500 mt-1 font-semibold">{errorMessage}</span>
+      )}
     </div>
   );
 };

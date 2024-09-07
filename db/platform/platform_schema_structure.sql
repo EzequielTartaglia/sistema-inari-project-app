@@ -106,6 +106,7 @@ CREATE TABLE public.platform_users (
     dni_ssn TEXT NULL,
     platform_user_gender_id BIGINT NULL default '4'::BIGINT,
     country_id BIGINT NULL,
+    birthdate DATE NULL,
     CONSTRAINT platform_users_pkey PRIMARY KEY (id),
     CONSTRAINT platform_users_email_key unique (email),
     CONSTRAINT platform_users_country_id_fkey FOREIGN KEY (country_id) REFERENCES countries (id) ON UPDATE CASCADE ON DELETE SET NULL,

@@ -1,6 +1,9 @@
 "use client";
 
-import { addPlatformUser, checkEmailExists } from "@/src/models/platform/platform_user/platform_user";
+import {
+  addPlatformUser,
+  checkEmailExists,
+} from "@/src/models/platform/platform_user/platform_user";
 import { getPlatformUserRoles } from "@/src/models/platform/platform_user_role/platform_user_role";
 import { getCountries } from "@/src/models/platform/country/country";
 import { getPlatformUserGenders } from "@/src/models/platform/platform_user_gender/platform_user_gender";
@@ -27,6 +30,7 @@ export default function SignUpForm() {
     password: "",
     username: "",
     user_role_id: "",
+    birthdate: null,
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -100,6 +104,10 @@ export default function SignUpForm() {
       errors.last_name = "Campo obligatorio";
     }
 
+    if (!newUser.birthdate) {
+      errors.birthdate = "Campo obligatorio";
+    }
+
     if (!newUser.email) {
       errors.email = "Campo obligatorio";
     }
@@ -141,7 +149,10 @@ export default function SignUpForm() {
     try {
       const emailExists = await checkEmailExists(newUser.email);
       if (emailExists) {
-        showNotification("Este correo electrónico ya está registrado. Por favor, intente con otro.", "danger");
+        showNotification(
+          "Este correo electrónico ya está registrado. Por favor, intente con otro.",
+          "danger"
+        );
         setIsLoading(false);
         return;
       }
@@ -156,7 +167,8 @@ export default function SignUpForm() {
         newUser.dni_ssn,
         newUser.username,
         newUser.password,
-        newUser.user_role_id
+        newUser.user_role_id,
+        newUser.birthdate
       );
 
       showNotification("¡Usuario registrado exitosamente!", "success");
@@ -211,6 +223,17 @@ export default function SignUpForm() {
           onChange={handleInputChange}
           isSubmitted={isSubmitted && !newUser.last_name}
           errorMessage={formErrors.last_name}
+        />
+
+        <Input
+          label="Fecha de nacimiento"
+          name="birthdate"
+          type="date"
+          value={newUser.birthdate}
+          required={true}
+          onChange={handleInputChange}
+          isSubmitted={isSubmitted && !newUser.birthdate}
+          errorMessage={formErrors.birthdate}
         />
 
         <SelectInput

@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import PageHeader from "@/components/page_formats/PageHeader";
-import { useNotification } from "@/contexts/NotificationContext";
-import { useRouter } from "next/navigation";
-import { useUserInfoContext } from "@/contexts/UserInfoContext";
-import Input from "@/components/forms/Input";
-import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
-import SelectInput from "@/components/forms/SelectInput";
 import { editPlatformUser } from "@/src/models/platform/platform_user/platform_user";
 import { getPlatformUserRoles } from "@/src/models/platform/platform_user_role/platform_user_role";
 import { getCountries } from "@/src/models/platform/country/country";
 import { getPlatformUserGenders } from "@/src/models/platform/platform_user_gender/platform_user_gender";
+
+import { useState, useEffect } from "react";
+import { useNotification } from "@/contexts/NotificationContext";
+import { useRouter } from "next/navigation";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
+
+import PageHeader from "@/components/page_formats/PageHeader";
+import Input from "@/components/forms/Input";
+import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
+import SelectInput from "@/components/forms/SelectInput";
 
 export default function EditUserForm() {
   const { user } = useUserInfoContext();
@@ -30,6 +32,7 @@ export default function EditUserForm() {
     username: user.username,
     password: user.password || "",
     user_role_id: user.user_role_id,
+    birthdate: user.birthdate,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -88,6 +91,10 @@ export default function EditUserForm() {
       errors.last_name = "Campo obligatorio";
     }
 
+    if (!userData.birthdate) {
+      errors.birthdate = "Campo obligatorio";
+    }
+
     if (!userData.email) {
       errors.email = "Campo obligatorio";
     }
@@ -132,7 +139,8 @@ export default function EditUserForm() {
         userData.dni_ssn,
         userData.username,
         user.password,
-        userData.user_role_id
+        userData.user_role_id,
+        userData.birthdate
       );
 
       showNotification("¡Usuario actualizado exitosamente!", "success");
@@ -199,6 +207,17 @@ export default function EditUserForm() {
           onChange={handleInputChange}
           isSubmitted={isSubmitted && !userData.last_name}
           errorMessage={formErrors.last_name}
+        />
+
+        <Input
+          label="Fecha de nacimiento"
+          name="birthdate"
+          type="date"
+          value={userData.birthdate}
+          required={true}
+          onChange={handleInputChange}
+          isSubmitted={isSubmitted && !userData.birthdate}
+          errorMessage={formErrors.birthdate}
         />
 
         <SelectInput
@@ -269,7 +288,15 @@ export default function EditUserForm() {
           errorMessage={formErrors.username}
         />
 
-        <SubmitLoadingButton type="submit" isLoading={isLoading || !hasChanged()}  submitText={!hasChanged() ? "Datos personales actualizados" : "Actualizando informacion personal"}>
+        <SubmitLoadingButton
+          type="submit"
+          isLoading={isLoading || !hasChanged()}
+          submitText={
+            !hasChanged()
+              ? "Datos personales actualizados"
+              : "Actualizando informacion personal"
+          }
+        >
           Actualizar informacion personal
         </SubmitLoadingButton>
       </form>

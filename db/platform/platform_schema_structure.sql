@@ -102,6 +102,8 @@ CREATE TABLE public.platform_users (
     user_role_id BIGINT NULL,
     created_at TIMESTAMP with time zone NOT NULL default now(),
     is_active BOOLEAN NULL default false,
+    is_banned BOOLEAN NULL default false,
+    is_blocked BOOLEAN NULL default false,
     token TEXT NULL,
     dni_ssn TEXT NULL,
     platform_user_gender_id BIGINT NULL default '4'::BIGINT,

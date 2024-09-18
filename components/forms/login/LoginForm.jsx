@@ -45,9 +45,26 @@ export default function LoginForm({ onCloseModal }) {
         setIsLoading(false);
         return;
       }
+
+      // Verificar si el usuario está baneado o bloqueado
+      if (foundUser.is_banned) {
+        setErrorMessage("Acceso restringido de manera permanente,para más información comunicate con soporte.");
+        setIsLoading(false);
+        return;
+      }
+
+      if (foundUser.is_blocked) {
+        setErrorMessage("Acceso restringido de manera temporal, para más información comunicate con soporte.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Marcar al usuario como activo
       await editPlatformUserStatus(foundUser.id, true);
-      //console.log("Inicio de sesión exitoso");
+
+      // Realizar el inicio de sesión con axios
       const loginResponse = await axios.post(`/api/auth/login`, foundUser);
+
       setTimeout(() => {
         setIsLoading(false);
         window.location.reload();
@@ -93,7 +110,8 @@ export default function LoginForm({ onCloseModal }) {
             isLoading={isLoading}
             submitText={
               isLoading
-                && "Iniciando sesión"
+                ? "Iniciando sesión"
+                : "Iniciar sesión"
             }
           >
             Iniciar sesión

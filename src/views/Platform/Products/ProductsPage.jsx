@@ -15,6 +15,9 @@ import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import PageHeader from "@/components/page_formats/PageHeader";
 import Table from "@/components/tables/Table";
 import PageBody from "@/components/page_formats/PageBody";
+import UserRoleFilter from "@/components/filters/users_filters/UserRoleFilter";
+import UserStatusFilter from "@/components/filters/users_filters/UserStatusFilter";
+import SearchInput from "@/components/SearchInput";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -23,6 +26,7 @@ export default function ProductsPage() {
 
   const { user } = useUserInfoContext();
   const { showNotification } = useNotification();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
 
@@ -55,6 +59,10 @@ export default function ProductsPage() {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   const columns = [
     "name",
     "product_category_id",
@@ -70,28 +78,32 @@ export default function ProductsPage() {
     quantity: "Cantidad",
   };
 
-  const filteredData = products.map((product) => {
-    const productCategory = categories.find(
-      (category) => category.id === product.product_category_id
-    );
-    const productMeasureUnit = measureUnits.find(
-      (measure_unit) => measure_unit.id === product.product_measure_unit_id
-    );
-    return {
-      id: product.id,
-      name: product.name,
-      product_category_id: productCategory ? productCategory.name : "N/A",
-      price: parseFloat(product.price).toFixed(2),
-      product_measure_unit_id: productMeasureUnit
-        ? productMeasureUnit.name
-        : "N/A",
-      quantity: product.quantity,
-    };
-  });
-
+  // Filtros para buscar productos por nombre
+  const filteredData = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((product) => {
+      const productCategory = categories.find(
+        (category) => category.id === product.product_category_id
+      );
+      const productMeasureUnit = measureUnits.find(
+        (measure_unit) => measure_unit.id === product.product_measure_unit_id
+      );
+      return {
+        id: product.id,
+        name: product.name,
+        product_category_id: productCategory ? productCategory.name : "N/A",
+        price: parseFloat(product.price).toFixed(2),
+        product_measure_unit_id: productMeasureUnit
+          ? productMeasureUnit.name
+          : "N/A",
+        quantity: product.quantity,
+      };
+    });
 
   const hasShow = (item) => {
-    return ;
+    return;
   };
 
   const hasEdit = (item) => {
@@ -113,24 +125,26 @@ export default function ProductsPage() {
     <>
       <PageHeader title={"Productos"} />
 
-      <PageBody>
-        <Table
-          title={"Inventario"}
-          buttonAddRoute={userHasAccess ? `/platform/products/new` : null}
-          columns={columns}
-          data={filteredData}
-          columnAliases={columnAliases}
-          hasShow={hasShow}
-          hasEdit={hasEdit}
-          buttonEditRoute={(id) => `/platform/products/${id}/edit`}
-          hasDelete={true}
-          buttonDeleteRoute={handleDeleteProduct}
-          hasApprove={hasApprove}
-          confirmModalText={
-            "¿Estás seguro de que deseas eliminar este producto?"
-          }
-        />
-      </PageBody>
+      <SearchInput
+        placeholder="Buscar producto..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+
+      <Table
+        title={"Inventario"}
+        buttonAddRoute={userHasAccess ? `/platform/products/new` : null}
+        columns={columns}
+        data={filteredData}
+        columnAliases={columnAliases}
+        hasShow={hasShow}
+        hasEdit={hasEdit}
+        buttonEditRoute={(id) => `/platform/products/${id}/edit`}
+        hasDelete={true}
+        buttonDeleteRoute={handleDeleteProduct}
+        hasApprove={hasApprove}
+        confirmModalText={"¿Estás seguro de que deseas eliminar este producto?"}
+      />
     </>
   );
 }

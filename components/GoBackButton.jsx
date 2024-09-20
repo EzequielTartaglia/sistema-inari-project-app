@@ -20,7 +20,7 @@ export default function GoBackButton({ route, text, customFunction, customClasse
 
     return (
         <div className="flex items-center justify-between w-full mb-2">
-            <button className={`flex items-center py-2 px-4 text-title shadow-none transition duration-300 hover:-translate-y-1 mb-4 md:mb-0 md:mr-4 ${customClasses}`} type='button' onClick={handleOnClick}>
+            <button className={`flex items-center py-2 px-4 text-white shadow-none transition duration-300 hover:-translate-y-1 mb-4 md:mb-0 md:mr-4 ${customClasses}`} type='button' onClick={handleOnClick}>
                 <FiChevronLeft className="mr-1" size={24} />{text}
             </button>
             {children}

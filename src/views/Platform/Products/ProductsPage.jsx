@@ -14,9 +14,6 @@ import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import PageHeader from "@/components/page_formats/PageHeader";
 import Table from "@/components/tables/Table";
-import PageBody from "@/components/page_formats/PageBody";
-import UserRoleFilter from "@/components/filters/users_filters/UserRoleFilter";
-import UserStatusFilter from "@/components/filters/users_filters/UserStatusFilter";
 import SearchInput from "@/components/SearchInput";
 
 export default function ProductsPage() {

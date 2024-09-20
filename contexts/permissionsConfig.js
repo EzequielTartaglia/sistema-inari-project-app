@@ -1,6 +1,10 @@
-import { FiBox, FiList, FiUser, FiSettings } from "react-icons/fi";
-import { FaPencilAlt } from "react-icons/fa";
-import Logo from "@/components/Logo";
+import {
+  FiBox,
+  FiList,
+  FiUser,
+  FiSettings,
+  FiShoppingCart,
+} from "react-icons/fi";
 
 const sharedPermissions = [
   {
@@ -25,9 +29,25 @@ const sharedPermissions = [
 
 const userPermissions = {
   //Salesman
-  1: [...sharedPermissions],
+  1: [
+    ...sharedPermissions,
+    {
+      group: "sales",
+      name: "Ventas",
+      route: "/platform/sales",
+      icon: FiShoppingCart,
+    },
+  ],
   //Supervisor of Salesmen
-  2: [...sharedPermissions],
+  2: [
+    ...sharedPermissions,
+    {
+      group: "sales",
+      name: "Ventas",
+      route: "/platform/sales",
+      icon: FiShoppingCart,
+    },
+  ],
   //Administrative
   3: [
     ...sharedPermissions,
@@ -42,11 +62,17 @@ const userPermissions = {
       name: "Ajustes",
       route: "/platform/platform_settings",
       icon: FiUser,
-    }
+    },
   ],
   //Manager
   4: [
     ...sharedPermissions,
+    {
+      group: "sales",
+      name: "Ventas",
+      route: "/platform/sales",
+      icon: FiShoppingCart,
+    },
     {
       group: "users",
       name: "Usuarios",
@@ -58,7 +84,7 @@ const userPermissions = {
       name: "Ajustes",
       route: "/platform/platform_settings",
       icon: FiSettings,
-    }
+    },
   ],
   //Provider
   5: [],

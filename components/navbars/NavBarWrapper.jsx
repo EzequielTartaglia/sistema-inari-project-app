@@ -6,7 +6,7 @@ import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import userPermissions from '@/contexts/permissionsConfig';
 import { FaPencilAlt } from 'react-icons/fa';
 import Logo from '../Logo';
-import { FiBox, FiSettings, FiUser } from 'react-icons/fi';
+import { FiBox, FiDollarSign, FiSettings, FiShoppingCart, FiUser } from 'react-icons/fi';
 
 export default function NavBarWrapper() {
   const { user } = useUserInfoContext();
@@ -66,6 +66,17 @@ export function NavBarPlataform({ user }) {
         text: 'Stock',
         icon: <FiBox />,
         subMenu: stockSubMenu
+      });
+    }
+
+    const salesSubMenu = subMenuItems.filter(item => item.group === 'sales');
+    if (salesSubMenu.length > 0) {
+      filteredToggleMenuItems.push({
+        id: 'sales',
+        route: '#',
+        text: 'Ventas',
+        icon: <FiShoppingCart />,
+        subMenu: salesSubMenu
       });
     }
 

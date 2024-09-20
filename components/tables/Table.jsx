@@ -305,7 +305,9 @@ export default function Table({
   return (
     <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-title-active-static">{title && title}</h3>
+        <h3 className="text-lg font-semibold text-title-active-static">
+          {title && title}
+        </h3>
         {hasAdd && buttonAddRoute && (
           <Link href={buttonAddRoute}>
             <button
@@ -347,7 +349,7 @@ export default function Table({
                     {item[column]}
                   </td>
                 ))}
-                <td className="border border-white border-opacity-25 px-6 py-2">
+                <td className=" border-white border-opacity-25 px-6 py-2 flex items-center ">
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
                     <>
                       {hasShow(item) && (

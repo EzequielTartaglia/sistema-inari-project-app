@@ -28,7 +28,7 @@ export default function SalesPage() {
       try {
         const [fetchedSales, fetchedUsers] = await Promise.all([
           getSales(),
-          getPlatformUsers(), 
+          getPlatformUsers(),
         ]);
 
         const sortedSales = fetchedSales.sort(
@@ -58,8 +58,8 @@ export default function SalesPage() {
     setSearchTerm(event.target.value);
   };
 
-  const columns = ["id","sale_date", "user_name", "sale_total", "is_closed"];
-  
+  const columns = ["id", "sale_date", "user_name", "sale_total", "is_closed"];
+
   const columnAliases = {
     id: "ID Venta",
     sale_date: "Fecha de venta",
@@ -71,23 +71,24 @@ export default function SalesPage() {
   const filteredData = sales
     .filter((sale) => {
       const saleUser = users.find((user) => user.id === sale.user_id);
-      if (!saleUser) return false; 
+      if (!saleUser) return false;
 
-      const fullName = `${saleUser.first_name} ${saleUser.last_name}`.toLowerCase();
+      const fullName =
+        `${saleUser.first_name} ${saleUser.last_name}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
     })
     .map((sale) => {
       const saleUser = users.find((user) => user.id === sale.user_id);
       const fullName = saleUser
         ? `${saleUser.first_name} ${saleUser.last_name}`
-        : "N/A"; 
+        : "N/A";
 
       return {
         ...sale,
-        user_name: fullName, 
+        user_name: fullName,
         sale_date: formatDate(sale.sale_date),
-        is_closed: sale.is_closed ? "Sí" : "No", 
-        sale_total: `$ ${sale.sale_total.toFixed(2)}`
+        is_closed: sale.is_closed ? "Sí" : "No",
+        sale_total: `$ ${sale.sale_total.toFixed(2)}`,
       };
     });
 
@@ -111,7 +112,11 @@ export default function SalesPage() {
 
   return (
     <>
-      <PageHeader title={"Ventas"} />
+      <PageHeader
+        title={"Ventas"}
+        goBackRoute={"/platform"}
+        goBackText={"Volver al inicio"}
+      />
 
       <SearchInput
         placeholder="Buscar venta por nombre del vendedor..."

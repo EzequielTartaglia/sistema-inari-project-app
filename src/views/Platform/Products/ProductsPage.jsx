@@ -75,7 +75,6 @@ export default function ProductsPage() {
     quantity: "Cantidad",
   };
 
-  // Filtros para buscar productos por nombre
   const filteredData = products
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -120,7 +119,11 @@ export default function ProductsPage() {
 
   return (
     <>
-      <PageHeader title={"Productos"} />
+      <PageHeader
+        title={"Productos"}
+        goBackRoute={"/platform"}
+        goBackText={"Volver al inicio"}
+      />
 
       <SearchInput
         placeholder="Buscar producto..."

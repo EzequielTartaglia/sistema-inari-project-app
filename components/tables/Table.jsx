@@ -86,30 +86,62 @@ export default function Table({
 
   const PageNumbers = () => {
     if (data.length <= itemsPerPage) return null;
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-
+  
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+    
     return (
       <div className="flex justify-center my-4">
-        {pageNumbers.map((number) => (
-          <button
-            key={number}
-            onClick={() => paginate(number)}
-            className={`mx-1 px-3 py-1 rounded ${
-              currentPage === number
-                ? "bg-disabled text-title-active-static border-secondary-light"
-                : " bg-disabled  border-primary-light"
-            }`}
-          >
-            {number}
-          </button>
-        ))}
+        <button
+          onClick={() => paginate(1)}
+          disabled={currentPage === 1}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === 1
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
+        >
+          Primero
+        </button>
+  
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === 1
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
+        >
+          Anterior
+        </button>
+  
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === totalPages
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
+        >
+          Siguiente
+        </button>
+  
+        <button
+          onClick={() => paginate(totalPages)}
+          disabled={currentPage === totalPages}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === totalPages
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
+        >
+          Último
+        </button>
       </div>
     );
   };
+  
 
   if (isLoading) {
     return (

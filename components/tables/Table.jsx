@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FiCheck, FiEdit, FiEye, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiCheck, FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight, FiEdit, FiEye, FiPlus, FiTrash2 } from "react-icons/fi";
 import ConfirmModal from "../ConfirmModal";
 
 export default function Table({
@@ -100,7 +100,7 @@ export default function Table({
               : "bg-disabled border-primary-light"
           }`}
         >
-          Primero
+          <FiChevronsLeft />
         </button>
   
         <button
@@ -112,7 +112,7 @@ export default function Table({
               : "bg-disabled border-primary-light"
           }`}
         >
-          Anterior
+          <FiChevronLeft />
         </button>
   
         <button
@@ -124,7 +124,7 @@ export default function Table({
               : "bg-disabled border-primary-light"
           }`}
         >
-          Siguiente
+          <FiChevronRight />
         </button>
   
         <button
@@ -136,12 +136,11 @@ export default function Table({
               : "bg-disabled border-primary-light"
           }`}
         >
-          Último
+          <FiChevronsRight />
         </button>
       </div>
     );
   };
-  
 
   if (isLoading) {
     return (

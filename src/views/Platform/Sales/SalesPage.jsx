@@ -99,10 +99,10 @@ export default function SalesPage() {
 
   const hasEdit = (item) => {
     if (item.is_closed === "No") {
-      return true
+      return true;
     } else {
-      return false
-    };
+      return false;
+    }
   };
 
   const hasApprove = (item) => {
@@ -129,8 +129,6 @@ export default function SalesPage() {
         onChange={handleSearchChange}
       />
 
-      
-
       <Table
         title={"Ventas"}
         columns={columns}
@@ -143,7 +141,7 @@ export default function SalesPage() {
         buttonDeleteRoute={handleDeleteSale}
         hasApprove={hasApprove}
         confirmModalText={"¿Estás seguro de que deseas eliminar esta venta?"}
-        customButton={<CreateSaleButton/>}
+        customButton={<CreateSaleButton />}
       />
     </>
   );

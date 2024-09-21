@@ -98,7 +98,11 @@ export default function SalesPage() {
   };
 
   const hasEdit = (item) => {
-    return true;
+    if (item.is_closed === "No") {
+      return true
+    } else {
+      return false
+    };
   };
 
   const hasApprove = (item) => {

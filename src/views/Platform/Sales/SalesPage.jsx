@@ -12,6 +12,7 @@ import PageHeader from "@/components/page_formats/PageHeader";
 import Table from "@/components/tables/Table";
 import SearchInput from "@/components/SearchInput";
 import formatDate from "@/src/helpers/formatDate";
+import CreateSaleButton from "./CreateSaleButton";
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
@@ -124,9 +125,10 @@ export default function SalesPage() {
         onChange={handleSearchChange}
       />
 
+      
+
       <Table
         title={"Ventas"}
-        buttonAddRoute={userHasAccess ? `/platform/sales/new` : null}
         columns={columns}
         data={filteredData}
         columnAliases={columnAliases}
@@ -137,6 +139,7 @@ export default function SalesPage() {
         buttonDeleteRoute={handleDeleteSale}
         hasApprove={hasApprove}
         confirmModalText={"¿Estás seguro de que deseas eliminar esta venta?"}
+        customButton={<CreateSaleButton/>}
       />
     </>
   );

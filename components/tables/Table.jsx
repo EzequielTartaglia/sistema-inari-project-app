@@ -21,6 +21,7 @@ export default function Table({
   buttonDeleteRoute,
   buttonApproveRoute,
   confirmModalText,
+  customButton,
 }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -156,15 +157,16 @@ export default function Table({
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
-            <Link href={buttonAddRoute}>
-              <button
-                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-                title="Agregar"
-              >
-                <FiPlus size={24} />
-              </button>
-            </Link>
-          )}
+          <Link href={buttonAddRoute}>
+            <button
+              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+              title="Agregar"
+            >
+              <FiPlus size={24} />
+            </button>
+          </Link>
+        )}
+        {customButton && <>{customButton}</>}
         </div>
         <div className="table-box font-semibold">
           <table className="min-w-full border border-gray-200">
@@ -211,15 +213,17 @@ export default function Table({
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
-            <Link href={buttonAddRoute}>
-              <button
-                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-                title="Agregar"
-              >
-                <FiPlus size={24} />
-              </button>
-            </Link>
-          )}
+          <Link href={buttonAddRoute}>
+            <button
+              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+              title="Agregar"
+            >
+              <FiPlus size={24} />
+            </button>
+          </Link>
+        )}
+        {customButton && <>{customButton}</>}
+        {customButton && <>{customButton}</>}
         </div>
         <div className="border table-box font-semibold mt-4">
           <table className="min-w-full divide-y divide-gray-200">
@@ -318,6 +322,7 @@ export default function Table({
             </button>
           </Link>
         )}
+        {customButton && <>{customButton}</>}
       </div>
       <div className="border table-box font-semibold mt-4">
         <table className="min-w-full border border-gray-200">

@@ -47,6 +47,7 @@ export async function getSale(sale_id) {
   }
 }
 
+
 export async function editSale(
   sale_id,
   user_id,
@@ -84,6 +85,25 @@ export async function deleteSale(sale_id) {
       throw error;
     }
     return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getLastSale(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("sales")
+      .select("*")
+      .eq("user_id", user_id)
+      .order("sale_date", { ascending: false }) 
+      .limit(1) 
+      .single(); 
+
+    if (error) {
+      throw error;
+    }
+    return data; 
   } catch (error) {
     throw error;
   }

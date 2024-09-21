@@ -254,7 +254,6 @@ export default function Table({
           </Link>
         )}
         {customButton && <>{customButton}</>}
-        {customButton && <>{customButton}</>}
         </div>
         <div className="border table-box font-semibold mt-4">
           <table className="min-w-full divide-y divide-gray-200">

@@ -14,14 +14,12 @@ export async function getSales() {
 
 export async function addSale(user_id, sale_date, sale_total, is_closed) {
   try {
-    const { data, error } = await supabase
-      .from("sales")
-      .insert({
-        user_id: user_id,
-        sale_date: sale_date,
-        sale_total: sale_total,
-        is_closed: is_closed,
-      });
+    const { data, error } = await supabase.from("sales").insert({
+      user_id: user_id,
+      sale_date: sale_date,
+      sale_total: sale_total,
+      is_closed: is_closed,
+    });
     if (error) {
       throw error;
     }
@@ -46,7 +44,6 @@ export async function getSale(sale_id) {
     throw error;
   }
 }
-
 
 export async function editSale(
   sale_id,
@@ -96,14 +93,14 @@ export async function getLastSale(user_id) {
       .from("sales")
       .select("*")
       .eq("user_id", user_id)
-      .order("sale_date", { ascending: false }) 
-      .limit(1) 
-      .single(); 
+      .order("sale_date", { ascending: false })
+      .limit(1)
+      .single();
 
     if (error) {
       throw error;
     }
-    return data; 
+    return data;
   } catch (error) {
     throw error;
   }

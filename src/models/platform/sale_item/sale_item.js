@@ -91,3 +91,18 @@ export async function deleteSaleItem(sale_item_id) {
     throw error;
   }
 }
+
+export async function getSaleItemsFromSale(sale_id) {
+  try {
+    const { data, error } = await supabase
+      .from("sale_items")
+      .select("*")
+      .eq("sale_id", sale_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

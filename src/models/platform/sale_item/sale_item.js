@@ -106,3 +106,25 @@ export async function getSaleItemsFromSale(sale_id) {
     throw error;
   }
 }
+
+export async function changeSaleItemQuantity(
+  sale_item_id,
+  quantity,
+  sale_item_total
+) {
+  try {
+    const { data, error } = await supabase
+      .from("sale_items")
+      .update({
+        quantity: quantity,
+        sale_item_total: sale_item_total
+      })
+      .eq("id", sale_item_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

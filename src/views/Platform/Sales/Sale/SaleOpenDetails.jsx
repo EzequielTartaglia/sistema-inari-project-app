@@ -1,9 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { getProducts } from '@/src/models/platform/product/product';
-import { getSaleItemsFromSale, addSaleItem } from '@/src/models/platform/sale_item/sale_item';
-import { FaSearch, FaTimes } from 'react-icons/fa';
+import React, { useState, useEffect, useMemo } from "react";
+import { getProducts } from "@/src/models/platform/product/product";
+import {
+  getSaleItemsFromSale,
+  addSaleItem,
+  deleteSaleItem,
+} from "@/src/models/platform/sale_item/sale_item";
+import { changeSaleItemQuantity } from "@/src/models/platform/sale_item/sale_item";
+import { FaSearch, FaTimes } from "react-icons/fa";
+import SearchInput from "@/components/SearchInput";
+import { FiTrash2 } from "react-icons/fi";
 
 export default function SaleOpenDetails({ saleId }) {
   const [saleItems, setSaleItems] = useState([]);
@@ -12,7 +19,7 @@ export default function SaleOpenDetails({ saleId }) {
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -26,7 +33,7 @@ export default function SaleOpenDetails({ saleId }) {
         setSaleItems(saleItemsData);
         setProducts(productsData);
       } catch (err) {
-        setError('Error al cargar los items o productos.');
+        setError("Error al cargar los items o productos.");
       } finally {
         setLoading(false);
       }
@@ -35,7 +42,7 @@ export default function SaleOpenDetails({ saleId }) {
   }, [saleId]);
 
   const filteredProducts = useMemo(() => {
-    return searchTerm === ''
+    return searchTerm === ""
       ? products
       : products.filter((product) =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,24 +51,52 @@ export default function SaleOpenDetails({ saleId }) {
 
   const handleAddProductToSale = async () => {
     if (!selectedProduct) {
-      setError('Por favor selecciona un producto.');
+      setError("Por favor selecciona un producto.");
       return;
     }
+
+    const existingItem = saleItems.find(
+      (item) => item.product_id === selectedProduct.id
+    );
     const saleItemTotal = selectedProduct.price * quantity;
 
     try {
-      await addSaleItem(saleId, selectedProduct.id, quantity, saleItemTotal);
+      if (existingItem) {
+        const newQuantity = existingItem.quantity + quantity;
+        const newSaleItemTotal = selectedProduct.price * newQuantity;
+        await changeSaleItemQuantity(
+          existingItem.id,
+          newQuantity,
+          newSaleItemTotal
+        );
+      } else {
+        await addSaleItem(saleId, selectedProduct.id, quantity, saleItemTotal);
+      }
+
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
       setSaleItems(updatedSaleItems);
       setSelectedProduct(null);
       setQuantity(1);
     } catch (error) {
-      setError('Error al agregar el producto a la venta.');
+      setError("Error al agregar el producto a la venta.");
+    }
+  };
+
+  const handleDeleteItem = async (itemId) => {
+    try {
+      await deleteSaleItem(itemId);
+      const updatedSaleItems = await getSaleItemsFromSale(saleId);
+      setSaleItems(updatedSaleItems);
+    } catch (error) {
+      setError("Error al eliminar el producto de la venta.");
     }
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleSaleItems = saleItems.slice(startIndex, startIndex + itemsPerPage);
+  const visibleSaleItems = saleItems.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
   const totalPages = Math.ceil(saleItems.length / itemsPerPage);
 
   if (loading) {
@@ -73,40 +108,70 @@ export default function SaleOpenDetails({ saleId }) {
   }
 
   return (
-    <div className="p-4">
+    <div className="box-theme text-title-active-static">
       <h2 className="text-xl font-bold mb-4">Detalles de la Venta #{saleId}</h2>
 
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">Productos en la Venta</h3>
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 mt-4">
-            <thead className="bg-blue-500 text-white font-bold">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-title-active-static">
+          Productos en la Venta
+        </h3>
+      </div>
+      <div className="border table-box font-semibold mt-4">
+        <table className="min-w-full border border-gray-200">
+          <thead>
+            <tr className="box-theme">
+              <th className="border border-white border-opacity-25 px-6 py-2">
+                Nombre
+              </th>
+              <th className="border border-white border-opacity-25 px-6 py-2">
+                Cantidad
+              </th>
+              <th className="border border-white border-opacity-25 px-6 py-2">
+                Precio
+              </th>
+              <th className="border border-white border-opacity-25 px-6 py-2">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {visibleSaleItems.length > 0 ? (
+              visibleSaleItems.map((item) => {
+                const product = products.find(
+                  (prod) => prod.id === item.product_id
+                );
+                return (
+                  <tr key={item.id} className="">
+                    <td className="border border-white border-opacity-25 px-6 py-2">
+                      {product ? product.name : "N/A"}
+                    </td>
+                    <td className="border border-white border-opacity-25 px-6 py-2">
+                      {item.quantity}
+                    </td>
+                    <td className="border border-white border-opacity-25 px-6 py-2">
+                      ${item.sale_item_total.toFixed(2)}
+                    </td>
+                    <td className="border border-white border-opacity-25 px-6 py-2">
+                      <button
+                        onClick={() => handleDeleteItem(item.id)}
+                        className="ml-2 flex-shrink-0"
+                        title="Eliminar"
+                      >
+                        <FiTrash2 className="text-delete-link" size={24} />
+                      </button>{" "}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
               <tr>
-                <th className="py-2 px-4 border-b">Nombre</th>
-                <th className="py-2 px-4 border-b">Cantidad</th>
-                <th className="py-2 px-4 border-b">Precio</th>
+                <td colSpan="4" className="text-center py-4">
+                  No hay productos en la venta actualmente.
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {visibleSaleItems.length > 0 ? (
-                visibleSaleItems.map((item) => {
-                  const product = products.find((prod) => prod.id === item.product_id); 
-                  return (
-                    <tr key={item.id} className="hover:bg-gray-100">
-                      <td className="py-2 px-4 border-b text-center">{product ? product.name : 'N/A'}</td>
-                      <td className="py-2 px-4 border-b text-center">{item.quantity}</td>
-                      <td className="py-2 px-4 border-b text-center">${item.sale_item_total.toFixed(2)}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="3" className="text-center py-4">No hay productos en la venta actualmente.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            )}
+          </tbody>
+        </table>
 
         {/* Pagination Controls */}
         {saleItems.length > itemsPerPage && (
@@ -146,8 +211,10 @@ export default function SaleOpenDetails({ saleId }) {
         )}
       </div>
 
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">Agregar Producto a la Venta</h3>
+      <div className="my-6">
+        <h3 className="text-lg font-semibold mb-2">
+          Agregar Producto a la Venta
+        </h3>
         <SearchInput
           placeholder="Buscar producto"
           value={searchTerm}
@@ -156,9 +223,13 @@ export default function SaleOpenDetails({ saleId }) {
 
         <div className="flex items-center space-x-4 mt-2">
           <select
-            value={selectedProduct ? selectedProduct.id : ''}
+            value={selectedProduct ? selectedProduct.id : ""}
             onChange={(e) =>
-              setSelectedProduct(filteredProducts.find((product) => product.id === Number(e.target.value)))
+              setSelectedProduct(
+                filteredProducts.find(
+                  (product) => product.id === Number(e.target.value)
+                )
+              )
             }
             className="p-2 border rounded-md w-full text-primary"
           >
@@ -190,31 +261,12 @@ export default function SaleOpenDetails({ saleId }) {
 
         {selectedProduct && (
           <p className="mt-2 text-sm">
-            Producto seleccionado: <strong>{selectedProduct.name}</strong> - Precio unitario: <strong>${selectedProduct.price.toFixed(2)}</strong>
+            Producto seleccionado: <strong>{selectedProduct.name}</strong> -
+            Precio unitario:{" "}
+            <strong>${selectedProduct.price.toFixed(2)}</strong>
           </p>
         )}
       </div>
-    </div>
-  );
-}
-
-function SearchInput({ placeholder, value, onChange }) {
-  return (
-    <div className="relative w-full lg:w-1/2">
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className="w-full p-3 pl-10 pr-10 border rounded text-primary"
-      />
-      <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-      {value && (
-        <FaTimes
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-500 cursor-pointer"
-          onClick={() => onChange({ target: { value: '' } })}
-        />
-      )}
     </div>
   );
 }

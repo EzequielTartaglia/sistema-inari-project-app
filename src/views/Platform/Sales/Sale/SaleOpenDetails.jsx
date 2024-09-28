@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { getProducts } from "@/src/models/platform/product/product";
+import { changeSaleTotal } from "@/src/models/platform/sale/sale";
 import {
   getSaleItemsFromSale,
   addSaleItem,
@@ -13,6 +14,7 @@ import {
 import { FaSearch, FaTimes } from "react-icons/fa";
 import SearchInput from "@/components/SearchInput";
 import { FiTrash2 } from "react-icons/fi";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function SaleOpenDetails({ saleId }) {
   const [saleItems, setSaleItems] = useState([]);
@@ -108,8 +110,20 @@ export default function SaleOpenDetails({ saleId }) {
   );
   const totalPages = Math.ceil(saleItems.length / itemsPerPage);
 
+  useEffect(() => {
+    const updateTotalSale = async () => {
+      try {
+        await changeSaleTotal(saleId, totalSale);
+      } catch (error) {
+        console.error("Error updating sale total:", error);
+      }
+    };
+
+    updateTotalSale();
+  }, [totalSale, saleId]);
+
   if (loading) {
-    return <div>Cargando datos de la venta...</div>;
+    return LoadingSpinner;
   }
 
   if (error) {

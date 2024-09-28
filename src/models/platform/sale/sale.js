@@ -105,3 +105,23 @@ export async function getLastSale(user_id) {
     throw error;
   }
 }
+
+export async function changeSaleTotal(
+  sale_id,
+  sale_total,
+) {
+  try {
+    const { data, error } = await supabase
+      .from("sales")
+      .update({
+        sale_total: sale_total,
+      })
+      .eq("id", sale_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

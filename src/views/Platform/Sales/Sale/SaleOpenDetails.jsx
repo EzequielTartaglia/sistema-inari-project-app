@@ -8,8 +8,8 @@ import {
   deleteSaleItem,
   increaseSaleItemQuantity,
   decreaseSaleItemQuantity,
+  changeSaleItemQuantity,
 } from "@/src/models/platform/sale_item/sale_item";
-import { changeSaleItemQuantity } from "@/src/models/platform/sale_item/sale_item";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import SearchInput from "@/components/SearchInput";
 import { FiTrash2 } from "react-icons/fi";
@@ -24,6 +24,11 @@ export default function SaleOpenDetails({ saleId }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const totalSale = saleItems.reduce(
+    (total, item) => total + item.sale_item_total,
+    0
+  );
 
   useEffect(() => {
     const loadSaleData = async () => {
@@ -76,11 +81,12 @@ export default function SaleOpenDetails({ saleId }) {
       }
 
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
-      setSaleItems(updatedSaleItems);
+      const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
+      setSaleItems(sortedSaleItems);
       setSelectedProduct(null);
       setQuantity(1);
     } catch (error) {
-      setError("Error al agregar el producto a la venta.");
+      setError("Error trying to add product to the sale.");
     }
   };
 
@@ -88,9 +94,10 @@ export default function SaleOpenDetails({ saleId }) {
     try {
       await deleteSaleItem(itemId);
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
-      setSaleItems(updatedSaleItems);
+      const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
+      setSaleItems(sortedSaleItems);
     } catch (error) {
-      setError("Error al eliminar el producto de la venta.");
+      setError("Error trying to delete product to the sale.");
     }
   };
 
@@ -118,6 +125,7 @@ export default function SaleOpenDetails({ saleId }) {
           Productos en la Venta
         </h3>
       </div>
+
       <div className="border table-box font-semibold mt-4">
         <table className="min-w-full border border-gray-200">
           <thead>
@@ -143,7 +151,7 @@ export default function SaleOpenDetails({ saleId }) {
                   (prod) => prod.id === item.product_id
                 );
                 return (
-                  <tr key={item.id} className="">
+                  <tr key={item.id}>
                     <td className="border border-white border-opacity-25 px-6 py-2">
                       {product ? product.name : "N/A"}
                     </td>
@@ -159,9 +167,14 @@ export default function SaleOpenDetails({ saleId }) {
                             const updatedSaleItems = await getSaleItemsFromSale(
                               saleId
                             );
-                            setSaleItems(updatedSaleItems);
+                            const sortedSaleItems = updatedSaleItems.sort(
+                              (a, b) => a.id - b.id
+                            );
+                            setSaleItems(sortedSaleItems);
                           } catch (error) {
-                            setError("Error decreasing sale_item quantity.");
+                            setError(
+                              "Error al reducir la cantidad del producto."
+                            );
                           }
                         }}
                         className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
@@ -181,9 +194,14 @@ export default function SaleOpenDetails({ saleId }) {
                             const updatedSaleItems = await getSaleItemsFromSale(
                               saleId
                             );
-                            setSaleItems(updatedSaleItems);
+                            const sortedSaleItems = updatedSaleItems.sort(
+                              (a, b) => a.id - b.id
+                            );
+                            setSaleItems(sortedSaleItems);
                           } catch (error) {
-                            setError("Error increasing sale_item quantity.");
+                            setError(
+                              "Error al aumentar la cantidad del producto."
+                            );
                           }
                         }}
                         className="ml-2 text-primary hover:text-green-500 px-3 py-1 rounded"
@@ -193,7 +211,7 @@ export default function SaleOpenDetails({ saleId }) {
                       </button>
                     </td>
                     <td className="border border-white border-opacity-25 px-6 py-2">
-                      ${item.sale_item_total.toFixed(2)}
+                      $ {item.sale_item_total.toFixed(2)}
                     </td>
                     <td className="border border-white border-opacity-25 px-6 py-2">
                       <button
@@ -215,6 +233,21 @@ export default function SaleOpenDetails({ saleId }) {
               </tr>
             )}
           </tbody>
+          {/* Retrieve the sale's total */}
+          <tfoot>
+            <tr>
+              <td
+                colSpan="2"
+                className="border border-white border-opacity-25 px-6 py-2 text-right font-bold"
+              >
+                Total
+              </td>
+              <td className="border border-white border-opacity-25 px-6 py-2">
+                $ {totalSale.toFixed(2)}
+              </td>
+              <td className="border border-white border-opacity-25 px-6 py-2"></td>
+            </tr>
+          </tfoot>
         </table>
 
         {/* Pagination Controls */}
@@ -255,61 +288,54 @@ export default function SaleOpenDetails({ saleId }) {
         )}
       </div>
 
-      <div className="my-6">
-        <h3 className="text-lg font-semibold mb-2">
-          Agregar Producto a la Venta
-        </h3>
+      {/* Section to add products */}
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">Agregar Producto</h3>
         <SearchInput
-          placeholder="Buscar producto"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onClear={() => setSearchTerm("")}
+          clearIcon={<FaTimes />}
+          searchIcon={<FaSearch />}
         />
-
-        <div className="flex items-center space-x-4 mt-2">
+        {selectedProduct && (
+          <div className="mt-2">
+            Producto seleccionado: {selectedProduct.name}
+          </div>
+        )}
+        <div className="flex mt-4">
           <select
             value={selectedProduct ? selectedProduct.id : ""}
-            onChange={(e) =>
-              setSelectedProduct(
-                filteredProducts.find(
-                  (product) => product.id === Number(e.target.value)
-                )
-              )
-            }
-            className="p-2 border rounded-md w-full text-primary"
+            onChange={(e) => {
+              const product = products.find(
+                (prod) => prod.id === parseInt(e.target.value)
+              );
+              setSelectedProduct(product);
+            }}
+            className="border rounded px-2 py-1"
           >
-            <option value="" disabled>
-              Selecciona un producto
-            </option>
+            <option value="">Seleccionar producto</option>
             {filteredProducts.map((product) => (
               <option key={product.id} value={product.id}>
-                {product.name} - ${product.price.toFixed(2)}
+                {product.name} - ${product.price}
               </option>
             ))}
           </select>
-
           <input
             type="number"
             min="1"
             value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="p-2 border rounded-md w-20 text-primary"
+            onChange={(e) => setQuantity(Math.max(1, e.target.value))}
+            className="border rounded px-2 py-1 ml-2 w-16"
           />
-
           <button
             onClick={handleAddProductToSale}
-            className="bg-blue-500 text-white p-2 rounded-md"
+            className="bg-blue-500 text-white rounded px-4 py-1 ml-2"
           >
             Agregar
           </button>
         </div>
-
-        {selectedProduct && (
-          <p className="mt-2 text-sm">
-            Producto seleccionado: <strong>{selectedProduct.name}</strong> -
-            Precio unitario:{" "}
-            <strong>${selectedProduct.price.toFixed(2)}</strong>
-          </p>
-        )}
+        {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
     </div>
   );

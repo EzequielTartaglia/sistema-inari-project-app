@@ -15,6 +15,7 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import SearchInput from "@/components/SearchInput";
 import { FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import PageHeader from "@/components/page_formats/PageHeader";
 
 export default function SaleOpenDetails({ saleId }) {
   const [saleItems, setSaleItems] = useState([]);
@@ -131,180 +132,179 @@ export default function SaleOpenDetails({ saleId }) {
   }
 
   return (
-    <div className="box-theme text-title-active-static">
-      <h2 className="text-xl font-bold mb-4">Detalles de la Venta #{saleId}</h2>
+    <>
+      <PageHeader title={`Detalles de venta`} />
 
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-title-active-static">
-          Productos en la Venta
-        </h3>
-      </div>
+      <div className="box-theme text-title-active-static">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-title-active-static">
+            Carrito
+          </h3>
+        </div>
 
-      <div className="border table-box font-semibold mt-4">
-        <table className="min-w-full border border-gray-200">
-          <thead>
-            <tr className="box-theme">
-              <th className="border border-white border-opacity-25 px-6 py-2">
-                Nombre
-              </th>
-              <th className="border border-white border-opacity-25 px-6 py-2">
-                Cantidad
-              </th>
-              <th className="border border-white border-opacity-25 px-6 py-2">
-                Precio
-              </th>
-              <th className="border border-white border-opacity-25 px-6 py-2">
-                Acciones
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {visibleSaleItems.length > 0 ? (
-              visibleSaleItems.map((item) => {
-                const product = products.find(
-                  (prod) => prod.id === item.product_id
-                );
-                return (
-                  <tr key={item.id}>
-                    <td className="border border-white border-opacity-25 px-6 py-2">
-                      {product ? product.name : "N/A"}
-                    </td>
-                    <td className="border border-white border-opacity-25 px-6 py-2">
-                      <button
-                        onClick={async () => {
-                          try {
-                            await decreaseSaleItemQuantity(
-                              item.id,
-                              product.price,
-                              item.quantity
-                            );
-                            const updatedSaleItems = await getSaleItemsFromSale(
-                              saleId
-                            );
-                            const sortedSaleItems = updatedSaleItems.sort(
-                              (a, b) => a.id - b.id
-                            );
-                            setSaleItems(sortedSaleItems);
-                          } catch (error) {
-                            setError(
-                              "Error al reducir la cantidad del producto."
-                            );
-                          }
-                        }}
-                        className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
-                        title="Reducir Cantidad"
-                      >
-                        -
-                      </button>
-                      {item.quantity}
-                      <button
-                        onClick={async () => {
-                          try {
-                            await increaseSaleItemQuantity(
-                              item.id,
-                              product.price,
-                              item.quantity
-                            );
-                            const updatedSaleItems = await getSaleItemsFromSale(
-                              saleId
-                            );
-                            const sortedSaleItems = updatedSaleItems.sort(
-                              (a, b) => a.id - b.id
-                            );
-                            setSaleItems(sortedSaleItems);
-                          } catch (error) {
-                            setError(
-                              "Error al aumentar la cantidad del producto."
-                            );
-                          }
-                        }}
-                        className="ml-2 text-primary hover:text-green-500 px-3 py-1 rounded"
-                        title="Aumentar Cantidad"
-                      >
-                        +
-                      </button>
-                    </td>
-                    <td className="border border-white border-opacity-25 px-6 py-2">
-                      $ {item.sale_item_total.toFixed(2)}
-                    </td>
-                    <td className="border border-white border-opacity-25 px-6 py-2">
-                      <button
-                        onClick={() => handleDeleteItem(item.id)}
-                        className="ml-2 flex-shrink-0"
-                        title="Eliminar"
-                      >
-                        <FiTrash2 className="text-delete-link" size={24} />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center py-4">
-                  No hay productos en la venta actualmente.
-                </td>
+        <div className="border table-box font-semibold mt-4">
+          <table className="min-w-full border border-gray-200">
+            <thead>
+              <tr className="box-theme">
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Nombre
+                </th>
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Cantidad
+                </th>
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Precio
+                </th>
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Acciones
+                </th>
               </tr>
-            )}
-          </tbody>
-          {/* Retrieve the sale's total */}
-          <tfoot>
-            <tr>
-              <td
-                colSpan="2"
-                className="border border-white border-opacity-25 px-6 py-2 text-right font-bold"
+            </thead>
+            <tbody>
+              {visibleSaleItems.length > 0 ? (
+                visibleSaleItems.map((item) => {
+                  const product = products.find(
+                    (prod) => prod.id === item.product_id
+                  );
+                  return (
+                    <tr key={item.id}>
+                      <td className="border border-white border-opacity-25 px-6 py-2">
+                        {product ? product.name : "N/A"}
+                      </td>
+                      <td className="border border-white border-opacity-25 px-6 py-2">
+                        <button
+                          onClick={async () => {
+                            try {
+                              await decreaseSaleItemQuantity(
+                                item.id,
+                                product.price,
+                                item.quantity
+                              );
+                              const updatedSaleItems =
+                                await getSaleItemsFromSale(saleId);
+                              const sortedSaleItems = updatedSaleItems.sort(
+                                (a, b) => a.id - b.id
+                              );
+                              setSaleItems(sortedSaleItems);
+                            } catch (error) {
+                              setError(
+                                "Error al reducir la cantidad del producto."
+                              );
+                            }
+                          }}
+                          className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
+                          title="Reducir Cantidad"
+                        >
+                          -
+                        </button>
+                        {item.quantity}
+                        <button
+                          onClick={async () => {
+                            try {
+                              await increaseSaleItemQuantity(
+                                item.id,
+                                product.price,
+                                item.quantity
+                              );
+                              const updatedSaleItems =
+                                await getSaleItemsFromSale(saleId);
+                              const sortedSaleItems = updatedSaleItems.sort(
+                                (a, b) => a.id - b.id
+                              );
+                              setSaleItems(sortedSaleItems);
+                            } catch (error) {
+                              setError(
+                                "Error al aumentar la cantidad del producto."
+                              );
+                            }
+                          }}
+                          className="ml-2 text-primary hover:text-green-500 px-3 py-1 rounded"
+                          title="Aumentar Cantidad"
+                        >
+                          +
+                        </button>
+                      </td>
+                      <td className="border border-white border-opacity-25 px-6 py-2">
+                        $ {item.sale_item_total.toFixed(2)}
+                      </td>
+                      <td className="border border-white border-opacity-25 px-6 py-2">
+                        <button
+                          onClick={() => handleDeleteItem(item.id)}
+                          className="ml-2 flex-shrink-0"
+                          title="Eliminar"
+                        >
+                          <FiTrash2 className="text-delete-link" size={24} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center py-4">
+                    No hay productos en la venta actualmente.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            {/* Retrieve the sale's total */}
+            <tfoot>
+              <tr>
+                <td
+                  colSpan="2"
+                  className="border border-white border-opacity-25 px-6 py-2 text-right font-bold"
+                >
+                  Total
+                </td>
+                <td className="border border-white border-opacity-25 px-6 py-2">
+                  $ {totalSale.toFixed(2)}
+                </td>
+                <td className="border border-white border-opacity-25 px-6 py-2"></td>
+              </tr>
+            </tfoot>
+          </table>
+
+          {/* Pagination Controls */}
+          {saleItems.length > itemsPerPage && (
+            <div className="flex justify-between items-center mt-4">
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="py-1 px-2 bg-blue-500 text-white rounded"
               >
-                Total
-              </td>
-              <td className="border border-white border-opacity-25 px-6 py-2">
-                $ {totalSale.toFixed(2)}
-              </td>
-              <td className="border border-white border-opacity-25 px-6 py-2"></td>
-            </tr>
-          </tfoot>
-        </table>
-
-        {/* Pagination Controls */}
-        {saleItems.length > itemsPerPage && (
-          <div className="flex justify-between items-center mt-4">
-            <button
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-              className="py-1 px-2 bg-blue-500 text-white rounded"
-            >
-              Primera
-            </button>
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="py-1 px-2 bg-blue-500 text-white rounded"
-            >
-              Anterior
-            </button>
-            <span>
-              Página {currentPage} de {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="py-1 px-2 bg-blue-500 text-white rounded"
-            >
-              Siguiente
-            </button>
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-              className="py-1 px-2 bg-blue-500 text-white rounded"
-            >
-              Última
-            </button>
-          </div>
-        )}
+                Primera
+              </button>
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="py-1 px-2 bg-blue-500 text-white rounded"
+              >
+                Anterior
+              </button>
+              <span>
+                Página {currentPage} de {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="py-1 px-2 bg-blue-500 text-white rounded"
+              >
+                Siguiente
+              </button>
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                className="py-1 px-2 bg-blue-500 text-white rounded"
+              >
+                Última
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-
       {/* Section to add products */}
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold">Agregar Producto</h3>
+      <div className="box-theme text-title-active-static">
+      <h3 className="text-lg font-semibold text-title-active-static">Listado de productos</h3>
         <SearchInput
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -351,6 +351,6 @@ export default function SaleOpenDetails({ saleId }) {
         </div>
         {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
-    </div>
+    </>
   );
 }

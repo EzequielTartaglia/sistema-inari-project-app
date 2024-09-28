@@ -62,7 +62,7 @@ export default function SalesPage() {
   const columns = ["id", "sale_date", "user_name", "sale_total", "is_closed"];
 
   const columnAliases = {
-    id: "ID Venta",
+    id: "Venta",
     sale_date: "Fecha de venta",
     user_name: "Vendedor",
     sale_total: "Total de venta",

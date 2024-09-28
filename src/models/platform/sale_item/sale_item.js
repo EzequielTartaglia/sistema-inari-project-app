@@ -128,3 +128,51 @@ export async function changeSaleItemQuantity(
     throw error;
   }
 }
+
+export async function increaseSaleItemQuantity(sale_item_id, product_price, current_quantity) {
+  try {
+    const newQuantity = current_quantity + 1;
+    const newSaleItemTotal = product_price * newQuantity;
+    
+    const { data, error } = await supabase
+      .from("sale_items")
+      .update({
+        quantity: newQuantity,
+        sale_item_total: newSaleItemTotal
+      })
+      .eq("id", sale_item_id);
+      
+    if (error) {
+      throw error;
+    }
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function decreaseSaleItemQuantity(sale_item_id, product_price, current_quantity) {
+  try {
+    const newQuantity = current_quantity - 1;
+    const newSaleItemTotal = product_price * newQuantity;
+    
+    const { data, error } = await supabase
+      .from("sale_items")
+      .update({
+        quantity: newQuantity,
+        sale_item_total: newSaleItemTotal
+      })
+      .eq("id", sale_item_id);
+      
+    if (error) {
+      throw error;
+    }
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+

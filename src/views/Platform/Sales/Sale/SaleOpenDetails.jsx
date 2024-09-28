@@ -6,6 +6,8 @@ import {
   getSaleItemsFromSale,
   addSaleItem,
   deleteSaleItem,
+  increaseSaleItemQuantity,
+  decreaseSaleItemQuantity,
 } from "@/src/models/platform/sale_item/sale_item";
 import { changeSaleItemQuantity } from "@/src/models/platform/sale_item/sale_item";
 import { FaSearch, FaTimes } from "react-icons/fa";
@@ -146,7 +148,49 @@ export default function SaleOpenDetails({ saleId }) {
                       {product ? product.name : "N/A"}
                     </td>
                     <td className="border border-white border-opacity-25 px-6 py-2">
+                      <button
+                        onClick={async () => {
+                          try {
+                            await decreaseSaleItemQuantity(
+                              item.id,
+                              product.price,
+                              item.quantity
+                            );
+                            const updatedSaleItems = await getSaleItemsFromSale(
+                              saleId
+                            );
+                            setSaleItems(updatedSaleItems);
+                          } catch (error) {
+                            setError("Error decreasing sale_item quantity.");
+                          }
+                        }}
+                        className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
+                        title="Reducir Cantidad"
+                      >
+                        -
+                      </button>
                       {item.quantity}
+                      <button
+                        onClick={async () => {
+                          try {
+                            await increaseSaleItemQuantity(
+                              item.id,
+                              product.price,
+                              item.quantity
+                            );
+                            const updatedSaleItems = await getSaleItemsFromSale(
+                              saleId
+                            );
+                            setSaleItems(updatedSaleItems);
+                          } catch (error) {
+                            setError("Error increasing sale_item quantity.");
+                          }
+                        }}
+                        className="ml-2 text-primary hover:text-green-500 px-3 py-1 rounded"
+                        title="Aumentar Cantidad"
+                      >
+                        +
+                      </button>
                     </td>
                     <td className="border border-white border-opacity-25 px-6 py-2">
                       ${item.sale_item_total.toFixed(2)}
@@ -158,7 +202,7 @@ export default function SaleOpenDetails({ saleId }) {
                         title="Eliminar"
                       >
                         <FiTrash2 className="text-delete-link" size={24} />
-                      </button>{" "}
+                      </button>
                     </td>
                   </tr>
                 );

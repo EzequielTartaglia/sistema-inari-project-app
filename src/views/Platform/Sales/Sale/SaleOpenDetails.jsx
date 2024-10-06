@@ -138,7 +138,7 @@ export default function SaleOpenDetails({ saleId }) {
       <div className="box-theme text-title-active-static">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-title-active-static">
-            Carrito
+          Productos seleccionados
           </h3>
         </div>
 
@@ -302,6 +302,7 @@ export default function SaleOpenDetails({ saleId }) {
           )}
         </div>
       </div>
+
       {/* Section to add products */}
       <div className="box-theme text-title-active-static">
       <h3 className="text-lg font-semibold text-title-active-static">Listado de productos</h3>

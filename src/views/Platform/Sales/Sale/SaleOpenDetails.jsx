@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
 import { getProducts } from "@/src/models/platform/product/product";
+import { getProductCategories } from "@/src/models/platform/product_category/product_category";
+import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
 import { changeSaleTotal } from "@/src/models/platform/sale/sale";
 import {
   getSaleItemsFromSale,
@@ -11,18 +12,26 @@ import {
   decreaseSaleItemQuantity,
   changeSaleItemQuantity,
 } from "@/src/models/platform/sale_item/sale_item";
-import { FaSearch, FaTimes } from "react-icons/fa";
+
+import { useState, useEffect, useMemo } from "react";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
+
 import SearchInput from "@/components/SearchInput";
-import { FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
+import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
 
 export default function SaleOpenDetails({ saleId }) {
+  const [categories, setCategories] = useState([]);
+  const [measureUnits, setMeasureUnits] = useState([]);
   const [saleItems, setSaleItems] = useState([]);
   const [products, setProducts] = useState([]);
+
+  const { user } = useUserInfoContext();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,39 +68,35 @@ export default function SaleOpenDetails({ saleId }) {
         );
   }, [searchTerm, products]);
 
-  const handleAddProductToSale = async () => {
-    if (!selectedProduct) {
-      setError("Por favor selecciona un producto.");
-      return;
-    }
-
+  const handleAddProductToSale = async (productId) => {
+    const product = products.find((product) => product.id === productId);
+  
     const existingItem = saleItems.find(
-      (item) => item.product_id === selectedProduct.id
+      (item) => item.product_id === product.id
     );
-    const saleItemTotal = selectedProduct.price * quantity;
-
+  
+    const saleItemTotal = product.price * quantity;
+  
     try {
       if (existingItem) {
         const newQuantity = existingItem.quantity + quantity;
-        const newSaleItemTotal = selectedProduct.price * newQuantity;
-        await changeSaleItemQuantity(
-          existingItem.id,
-          newQuantity,
-          newSaleItemTotal
-        );
+        const newSaleItemTotal = product.price * newQuantity;
+  
+        await changeSaleItemQuantity(existingItem.id, newQuantity, newSaleItemTotal);
       } else {
-        await addSaleItem(saleId, selectedProduct.id, quantity, saleItemTotal);
+        await addSaleItem(saleId, product.id, quantity, saleItemTotal);
       }
-
+  
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
       const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
+  
       setSaleItems(sortedSaleItems);
-      setSelectedProduct(null);
       setQuantity(1);
     } catch (error) {
       setError("Error trying to add product to the sale.");
     }
   };
+  
 
   const handleDeleteItem = async (itemId) => {
     try {
@@ -112,15 +117,23 @@ export default function SaleOpenDetails({ saleId }) {
   const totalPages = Math.ceil(saleItems.length / itemsPerPage);
 
   useEffect(() => {
-    const updateTotalSale = async () => {
+    const updateTotalSaleAndProducts = async () => {
       try {
+        const fetchedCategories = await getProductCategories();
+        const fetchedMeasureUnits = await getProductMeasureUnits();
+        const fetchedProducts = await getProducts();
+
+        setCategories(fetchedCategories);
+        setMeasureUnits(fetchedMeasureUnits);
+        setProducts(fetchedProducts);
+
         await changeSaleTotal(saleId, totalSale);
       } catch (error) {
         console.error("Error updating sale total:", error);
       }
     };
 
-    updateTotalSale();
+    updateTotalSaleAndProducts();
   }, [totalSale, saleId]);
 
   if (loading) {
@@ -131,6 +144,55 @@ export default function SaleOpenDetails({ saleId }) {
     return <div>{error}</div>;
   }
 
+  const columns = [
+    "name",
+    "product_category_id",
+    "price",
+    "product_measure_unit_id",
+    "quantity",
+  ];
+  const columnAliases = {
+    name: "Nombre",
+    product_category_id: "Categoria",
+    price: "Precio",
+    product_measure_unit_id: "Unidad de medida",
+    quantity: "Cantidad",
+  };
+
+  const filteredData = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((product) => {
+      const productCategory = categories.find(
+        (category) => category.id === product.product_category_id
+      );
+      const productMeasureUnit = measureUnits.find(
+        (measure_unit) => measure_unit.id === product.product_measure_unit_id
+      );
+      return {
+        id: product.id,
+        name: product.name,
+        product_category_id: productCategory ? productCategory.name : "N/A",
+        price: parseFloat(product.price).toFixed(2),
+        product_measure_unit_id: productMeasureUnit
+          ? productMeasureUnit.name
+          : "N/A",
+        quantity: product.quantity,
+      };
+    });
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const userHasAccess =
+  user.user_role_id === 1 ||
+  user.user_role_id === 2 ||
+  user.user_role_id === 3 ||
+  user.user_role_id === 4 ||
+  user.user_role_id === 6;
+
   return (
     <>
       <PageHeader title={`Detalles de venta`} />
@@ -138,7 +200,7 @@ export default function SaleOpenDetails({ saleId }) {
       <div className="box-theme text-title-active-static">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-title-active-static">
-          Productos seleccionados
+            Productos seleccionados
           </h3>
         </div>
 
@@ -305,51 +367,28 @@ export default function SaleOpenDetails({ saleId }) {
 
       {/* Section to add products */}
       <div className="box-theme text-title-active-static">
-      <h3 className="text-lg font-semibold text-title-active-static">Listado de productos</h3>
+        <h3 className="text-lg font-semibold text-title-active-static">
+          Listado de productos
+        </h3>
         <SearchInput
+          placeholder="Buscar producto..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onClear={() => setSearchTerm("")}
-          clearIcon={<FaTimes />}
-          searchIcon={<FaSearch />}
+          onChange={handleSearchChange}
         />
-        {selectedProduct && (
-          <div className="mt-2">
-            Producto seleccionado: {selectedProduct.name}
-          </div>
-        )}
-        <div className="flex mt-4">
-          <select
-            value={selectedProduct ? selectedProduct.id : ""}
-            onChange={(e) => {
-              const product = products.find(
-                (prod) => prod.id === parseInt(e.target.value)
-              );
-              setSelectedProduct(product);
-            }}
-            className="border rounded px-2 py-1"
-          >
-            <option value="">Seleccionar producto</option>
-            {filteredProducts.map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.name} - ${product.price}
-              </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            min="1"
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, e.target.value))}
-            className="border rounded px-2 py-1 ml-2 w-16"
-          />
-          <button
-            onClick={handleAddProductToSale}
-            className="bg-blue-500 text-white rounded px-4 py-1 ml-2"
-          >
-            Agregar
-          </button>
-        </div>
+
+        <TableOfProductsInSale
+          columns={columns}
+          data={filteredData}
+          columnAliases={columnAliases}
+          hasDelete={false}
+          hasCustomButton={() => userHasAccess} 
+          buttonCustomRoute={(id) => handleAddProductToSale(id)}
+          buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
+          quantityChangeEvent={(e) => setQuantity(Math.max(1, e.target.value))}
+        />
+
+
+
         {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
     </>

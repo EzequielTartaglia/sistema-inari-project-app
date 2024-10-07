@@ -240,7 +240,9 @@ export default function SaleOpenDetails({ saleId }) {
                               await decreaseSaleItemQuantity(
                                 item.id,
                                 product.price,
-                                item.quantity
+                                item.quantity,
+                                product.id,
+                                product.quantity
                               );
                               const updatedSaleItems =
                                 await getSaleItemsFromSale(saleId);
@@ -266,7 +268,9 @@ export default function SaleOpenDetails({ saleId }) {
                               await increaseSaleItemQuantity(
                                 item.id,
                                 product.price,
-                                item.quantity
+                                item.quantity,
+                                product.id,
+                                product.quantity
                               );
                               const updatedSaleItems =
                                 await getSaleItemsFromSale(saleId);
@@ -382,6 +386,7 @@ export default function SaleOpenDetails({ saleId }) {
           columnAliases={columnAliases}
           hasDelete={false}
           hasCustomButton={() => userHasAccess} 
+          quantityToAdd={quantity}
           buttonCustomRoute={(id) => handleAddProductToSale(id)}
           buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
           quantityChangeEvent={(e) => setQuantity(Math.max(1, e.target.value))}

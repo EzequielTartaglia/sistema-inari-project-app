@@ -129,50 +129,72 @@ export async function changeSaleItemQuantity(
   }
 }
 
-export async function increaseSaleItemQuantity(sale_item_id, product_price, current_quantity) {
+export async function increaseSaleItemQuantity(sale_item_id, product_price, current_quantity, product_id, product_quantity) {
   try {
     const newQuantity = current_quantity + 1;
     const newSaleItemTotal = product_price * newQuantity;
-    
-    const { data, error } = await supabase
+
+    const { data: saleItemData, error: saleItemError } = await supabase
       .from("sale_items")
       .update({
         quantity: newQuantity,
-        sale_item_total: newSaleItemTotal
+        sale_item_total: newSaleItemTotal,
       })
       .eq("id", sale_item_id);
-      
-    if (error) {
-      throw error;
+
+    if (saleItemError) {
+      throw saleItemError;
     }
-    
-    return data;
+
+    const { data: productData, error: productError } = await supabase
+      .from("products")
+      .update({
+        quantity: product_quantity - 1 
+      })
+      .eq("id", product_id);
+
+    if (productError) {
+      throw productError;
+    }
+
+    return saleItemData; 
   } catch (error) {
     throw error;
   }
 }
 
-export async function decreaseSaleItemQuantity(sale_item_id, product_price, current_quantity) {
+
+export async function decreaseSaleItemQuantity(sale_item_id, product_price, current_quantity, product_id, product_quantity) {
   try {
     const newQuantity = current_quantity - 1;
     const newSaleItemTotal = product_price * newQuantity;
-    
-    const { data, error } = await supabase
+
+    const { data: saleItemData, error: saleItemError } = await supabase
       .from("sale_items")
       .update({
         quantity: newQuantity,
-        sale_item_total: newSaleItemTotal
+        sale_item_total: newSaleItemTotal,
       })
       .eq("id", sale_item_id);
-      
-    if (error) {
-      throw error;
+
+    if (saleItemError) {
+      throw saleItemError;
     }
-    
-    return data;
+
+    const { data: productData, error: productError } = await supabase
+      .from("products")
+      .update({
+        quantity: product_quantity + 1 
+      })
+      .eq("id", product_id);
+
+    if (productError) {
+      throw productError;
+    }
+
+    return saleItemData; 
   } catch (error) {
     throw error;
   }
 }
-
 

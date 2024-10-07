@@ -14,7 +14,7 @@ export default function TableOfProductsInSale({
   data,
   title,
   columnAliases,
-  quantityToAdd = 1,
+  quantityToAdd,
   hasCustomButton = (item) => false,
   buttonCustomRoute,
   buttonCustomIcon = <FiCheck className="text-lg" size={24} />,
@@ -23,8 +23,6 @@ export default function TableOfProductsInSale({
 }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentId, setCurrentId] = useState(null);
   const [isLoading, setIsLoading] = useState(data.length === 0);
 
   // Paginación
@@ -245,6 +243,7 @@ export default function TableOfProductsInSale({
                                 value={quantityToAdd}
                                 onChange={quantityChangeEvent}
                                 className="border rounded px-2 py-1 ml-2 w-16 text-primary"
+                                placeholder="1"
                                 />
 
                               <button
@@ -317,6 +316,7 @@ export default function TableOfProductsInSale({
                         value={quantityToAdd}
                         onChange={quantityChangeEvent}
                         className="border rounded px-2 py-1 ml-2 w-16 text-primary"
+                        placeholder="1"
                       />
 
                       <button

@@ -13,6 +13,7 @@ export default function Table({
   hasAdd = true,
   hasShow = (item) => false,
   hasEdit = (item) => false,
+  hasEditTitleText = 'Editar',
   hasDelete = true,
   hasApprove = (item) => false,
   buttonAddRoute,
@@ -290,7 +291,7 @@ export default function Table({
                             <Link
                               href={buttonEditRoute(item.id)}
                               className="text-yellow-600 hover:text-yellow-900 mr-4"
-                              title="Editar"
+                              title={hasEditTitleText}
                             >
                               <FiEdit className="text-lg" size={24} />
                             </Link>
@@ -384,7 +385,7 @@ export default function Table({
                     {item[column]}
                   </td>
                 ))}
-                <td className=" border-white border border-opacity-25 px-6 py-2">
+                <td className=" border-white border border-opacity-25 px-6 py-2 flex items-center ">
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
                     <>
                       {hasShow(item) && (
@@ -400,7 +401,7 @@ export default function Table({
                         <Link
                           href={buttonEditRoute(item.id)}
                           className="text-yellow-600 hover:text-yellow-900 mr-4"
-                          title="Editar"
+                          title={hasEditTitleText}
                         >
                           <FiEdit className="text-lg" size={24} />
                         </Link>

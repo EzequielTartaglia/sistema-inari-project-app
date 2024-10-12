@@ -70,33 +70,36 @@ export default function SaleOpenDetails({ saleId }) {
 
   const handleAddProductToSale = async (productId) => {
     const product = products.find((product) => product.id === productId);
-  
+
     const existingItem = saleItems.find(
       (item) => item.product_id === product.id
     );
-  
+
     const saleItemTotal = product.price * quantity;
-  
+
     try {
       if (existingItem) {
         const newQuantity = existingItem.quantity + quantity;
         const newSaleItemTotal = product.price * newQuantity;
-  
-        await changeSaleItemQuantity(existingItem.id, newQuantity, newSaleItemTotal);
+
+        await changeSaleItemQuantity(
+          existingItem.id,
+          newQuantity,
+          newSaleItemTotal
+        );
       } else {
         await addSaleItem(saleId, product.id, quantity, saleItemTotal);
       }
-  
+
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
       const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
-  
+
       setSaleItems(sortedSaleItems);
       setQuantity(1);
     } catch (error) {
       setError("Error trying to add product to the sale.");
     }
   };
-  
 
   const handleDeleteItem = async (itemId) => {
     try {
@@ -187,11 +190,11 @@ export default function SaleOpenDetails({ saleId }) {
   };
 
   const userHasAccess =
-  user.user_role_id === 1 ||
-  user.user_role_id === 2 ||
-  user.user_role_id === 3 ||
-  user.user_role_id === 4 ||
-  user.user_role_id === 6;
+    user.user_role_id === 1 ||
+    user.user_role_id === 2 ||
+    user.user_role_id === 3 ||
+    user.user_role_id === 4 ||
+    user.user_role_id === 6;
 
   return (
     <>
@@ -234,33 +237,37 @@ export default function SaleOpenDetails({ saleId }) {
                         {product ? product.name : "N/A"}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
-                        <button
-                          onClick={async () => {
-                            try {
-                              await decreaseSaleItemQuantity(
-                                item.id,
-                                product.price,
-                                item.quantity,
-                                product.id,
-                                product.quantity
-                              );
-                              const updatedSaleItems =
-                                await getSaleItemsFromSale(saleId);
-                              const sortedSaleItems = updatedSaleItems.sort(
-                                (a, b) => a.id - b.id
-                              );
-                              setSaleItems(sortedSaleItems);
-                            } catch (error) {
-                              setError(
-                                "Error al reducir la cantidad del producto."
-                              );
-                            }
-                          }}
-                          className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
-                          title="Reducir Cantidad"
-                        >
-                          -
-                        </button>
+                        {item.quantity > 1 ? (
+                          <button
+                            onClick={async () => {
+                              try {
+                                await decreaseSaleItemQuantity(
+                                  item.id,
+                                  product.price,
+                                  item.quantity,
+                                  product.id,
+                                  product.quantity
+                                );
+                                const updatedSaleItems =
+                                  await getSaleItemsFromSale(saleId);
+                                const sortedSaleItems = updatedSaleItems.sort(
+                                  (a, b) => a.id - b.id
+                                );
+                                setSaleItems(sortedSaleItems);
+                              } catch (error) {
+                                setError(
+                                  "Error al reducir la cantidad del producto."
+                                );
+                              }
+                            }}
+                            className="mr-2 text-primary hover:text-red-500 px-3 py-1 rounded"
+                            title="Reducir Cantidad"
+                          >
+                            -
+                          </button>
+                        ) : (
+                          <button className="mr-4 text-primary hover:text-red-500 px-3 py-1 rounded"></button>
+                        )}
                         {item.quantity}
                         <button
                           onClick={async () => {
@@ -385,14 +392,12 @@ export default function SaleOpenDetails({ saleId }) {
           data={filteredData}
           columnAliases={columnAliases}
           hasDelete={false}
-          hasCustomButton={() => userHasAccess} 
+          hasCustomButton={() => userHasAccess}
           quantityToAdd={quantity}
           buttonCustomRoute={(id) => handleAddProductToSale(id)}
           buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
           quantityChangeEvent={(e) => setQuantity(Math.max(1, e.target.value))}
         />
-
-
 
         {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>

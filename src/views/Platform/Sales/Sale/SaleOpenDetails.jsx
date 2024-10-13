@@ -293,7 +293,7 @@ export default function SaleOpenDetails({ saleId }) {
                         </button>
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
-                        {item.sale_item_total.toFixed(2)}
+                        $ {item.sale_item_total.toFixed(2)}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
                         <button

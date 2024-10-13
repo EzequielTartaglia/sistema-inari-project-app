@@ -398,14 +398,14 @@ export default function SaleOpenDetails({ saleId }) {
                 <Button
                   isAnimated={false}
                   customFunction={handleClosesale}
-                  customClasses="px-2 py-1 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold mr-2 gradient-button"
+                  customClasses="px-4 py-2 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold mr-2 gradient-button"
                   icon={<FiCheckCircle size={20} />}
                   title={"Finalizar y volver al listado de ventas"}
                 />
 
                 <ClosePreviusSaleAndCreateNewOneButton
                   saleId={saleId}
-                  customClasses="px-2 py-1 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold  gradient-button"
+                  customClasses="px-4 py-2 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold  gradient-button"
                   Icon={FaShoppingBag}
                   title="Finalizar y crear nueva venta"
                 />

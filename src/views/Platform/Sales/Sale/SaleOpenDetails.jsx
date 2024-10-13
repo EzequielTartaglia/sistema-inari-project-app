@@ -33,7 +33,7 @@ export default function SaleOpenDetails({ saleId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [quantityToAdd, setQuantityToAdd] = useState(1); 
+  const [quantityToAdd, setQuantityToAdd] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -84,9 +84,8 @@ export default function SaleOpenDetails({ saleId }) {
           quantity: product.quantity,
         };
       })
-      .sort((a, b) => a.id - b.id); 
+      .sort((a, b) => a.id - b.id);
   }, [searchTerm, products, categories, measureUnits]);
-  
 
   const handleAddProductToSale = async (productId) => {
     const product = products.find((product) => product.id === productId);
@@ -94,7 +93,7 @@ export default function SaleOpenDetails({ saleId }) {
       (item) => item.product_id === product.id
     );
 
-    const saleItemTotal = product.price * quantityToAdd; 
+    const saleItemTotal = product.price * quantityToAdd;
 
     try {
       if (existingItem) {
@@ -340,6 +339,7 @@ export default function SaleOpenDetails({ saleId }) {
             Agregar productos a la venta
           </h3>
           <SearchInput
+            placeholder="Buscar producto..."
             searchTerm={searchTerm}
             onChange={handleSearchChange}
           />
@@ -352,7 +352,7 @@ export default function SaleOpenDetails({ saleId }) {
           hasDelete={false}
           hasCustomButton={() => userHasAccess}
           quantityToAdd={quantityToAdd}
-          setQuantityToAdd={setQuantityToAdd} 
+          setQuantityToAdd={setQuantityToAdd}
           buttonCustomRoute={handleAddProductToSale}
           buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
         />

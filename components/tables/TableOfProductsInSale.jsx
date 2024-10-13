@@ -250,6 +250,7 @@ export default function TableOfProductsInSale({
                         onChange={quantityChangeEvent}
                         className="border border-gray-300 rounded p-1 w-16 mr-2"
                         disabled={selectedProductId !== item.id}
+                        placeholder="1"
                       />
                         <button
                           onClick={() => buttonCustomRoute(item.id, quantityToAdd)}

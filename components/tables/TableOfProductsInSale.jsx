@@ -254,7 +254,7 @@ export default function TableOfProductsInSale({
                       />
                         <button
                           onClick={() => buttonCustomRoute(item.id, quantityToAdd)}
-                          className="bg-green-500 text-white px-1 py-1 rounded"
+                          className="px-2 py-1 rounded-md shadow-md  transition duration-300 bg-primary border-primary-light hover:border-green-500 text-show-link font-semibold gradient-button"
                         >
                           {buttonCustomIcon}
                         </button>

@@ -24,6 +24,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
 import Button from "@/components/Button";
+import { FaBatteryEmpty, FaCartArrowDown, FaCartPlus } from "react-icons/fa";
 
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
@@ -203,7 +204,6 @@ export default function SaleOpenDetails({ saleId }) {
       setTimeout(() => {
         router.push(`/platform/sales/`);
       }, 2000);
-
     } catch (error) {
       setError("Error trying to close sale.");
     }
@@ -367,14 +367,14 @@ export default function SaleOpenDetails({ saleId }) {
               <Button
                 isAnimated={false}
                 customFunction={handleEmptyCart}
-                customClasses="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                text={"Vaciar carrito"}
+                icon={<FaCartArrowDown size={20} />}
+                customClasses="px-4 py-2 bg-red-300 rounded-md shadow-md hover:bg-secondary transition duration-300  border-secondary-light text-title-active-static font-semibold gradient-button"
                 title={"Vaciar carrito"}
               />
               <Button
                 isAnimated={false}
                 customFunction={handleClosesale}
-                customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+                customClasses="px-4 py-2 rounded-md shadow-md  transition duration-300 bg-primary border-primary-light hover:border-green-500 text-show-link font-semibold gradient-button"
                 icon={<FiCheckCircle size={20} />}
                 title={"Finalizar y volver al listado de ventas"}
               />
@@ -404,7 +404,7 @@ export default function SaleOpenDetails({ saleId }) {
           quantityToAdd={quantityToAdd}
           setQuantityToAdd={setQuantityToAdd}
           buttonCustomRoute={handleAddProductToSale}
-          buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
+          buttonCustomIcon={<FaCartPlus className="text-lg mr-1" size={20} />}
         />
       </div>
     </>

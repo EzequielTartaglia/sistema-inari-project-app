@@ -11,6 +11,7 @@ import {
   increaseSaleItemQuantity,
   decreaseSaleItemQuantity,
   changeSaleItemQuantity,
+  emptyCart,
 } from "@/src/models/platform/sale_item/sale_item";
 
 import { useState, useEffect, useMemo } from "react";
@@ -21,6 +22,7 @@ import { FiPlus, FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
+import Button from "@/components/Button";
 
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
@@ -184,6 +186,15 @@ export default function SaleOpenDetails({ saleId }) {
     setSearchTerm(event.target.value);
   };
 
+  const handleEmptyCart = async () => {
+    try {
+      await emptyCart(saleId);
+      setSaleItems([]);
+    } catch (error) {
+      setError("Error al vaciar el carrito.");
+    }
+  };
+
   const userHasAccess =
     user.user_role_id === 1 ||
     user.user_role_id === 2 ||
@@ -292,7 +303,9 @@ export default function SaleOpenDetails({ saleId }) {
                           >
                             +
                           </button>
-                        ) : <button className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"></button>}
+                        ) : (
+                          <button className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"></button>
+                        )}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
                         $ {item.sale_item_total.toFixed(2)}
@@ -333,12 +346,24 @@ export default function SaleOpenDetails({ saleId }) {
             </tfoot>
           </table>
         </div>
+
+        {totalSale.toFixed(2) > 0 && (
+          <div className="flex justify-start my-4">
+            <Button
+              isAnimated={false}
+              customFunction={handleEmptyCart}
+              customClasses="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              text={"Vaciar carrito"}
+              title={"Vaciar carrito"}
+            />
+          </div>
+        )}
       </div>
 
       <div className="box-theme text-title-active-static">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-title-active-static">
-            Agregar productos a la venta
+            Productos disponibles
           </h3>
           <SearchInput
             placeholder="Buscar producto..."

@@ -300,3 +300,65 @@ export async function decreaseSaleItemQuantity(
     throw error;
   }
 }
+
+export async function emptyCart(sale_id) {
+  try {
+    // Paso 1: Obtener todos los sale_items para la venta
+    const { data: saleItems, error: saleItemsError } = await supabase
+      .from("sale_items")
+      .select("product_id, quantity")
+      .eq("sale_id", sale_id);
+
+    if (saleItemsError) {
+      throw saleItemsError;
+    }
+
+    // Paso 2: Actualizar las cantidades de los productos
+    for (const saleItem of saleItems) {
+      const { data: productData, error: productError } = await supabase
+        .from("products")
+        .select("quantity")
+        .eq("id", saleItem.product_id)
+        .single();
+
+      if (productError) {
+        throw productError;
+      }
+
+      const newQuantity = productData.quantity + saleItem.quantity;
+
+      const { error: updateProductError } = await supabase
+        .from("products")
+        .update({ quantity: newQuantity })
+        .eq("id", saleItem.product_id);
+
+      if (updateProductError) {
+        throw updateProductError;
+      }
+    }
+
+    // Paso 3: Eliminar todos los sale_items para la venta
+    const { error: deleteError } = await supabase
+      .from("sale_items")
+      .delete()
+      .eq("sale_id", sale_id);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    // Paso 4: Actualizar el total de la venta a 0
+    const { error: updateSaleError } = await supabase
+      .from("sales") // Asumiendo que tienes una tabla llamada "sales" donde se guarda la venta
+      .update({ sale_total: 0 }) // Cambia "total" por el nombre real de la columna si es diferente
+      .eq("id", sale_id);
+
+    if (updateSaleError) {
+      throw updateSaleError;
+    }
+
+    return { message: "El carrito ha sido vaciado y los productos actualizados." };
+  } catch (error) {
+    throw error;
+  }
+}

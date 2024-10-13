@@ -371,10 +371,11 @@ export default function SaleOpenDetails({ saleId }) {
                 customClasses="px-4 py-2 bg-red-300 rounded-md shadow-md hover:bg-secondary transition duration-300  border-secondary-light text-title-active-static font-semibold gradient-button"
                 title={"Vaciar carrito"}
               />
+              
               <Button
                 isAnimated={false}
                 customFunction={handleClosesale}
-                customClasses="px-4 py-2 rounded-md shadow-md  transition duration-300 bg-primary border-primary-light hover:border-green-500 text-show-link font-semibold gradient-button"
+                customClasses="px-4 py-2 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold gradient-button"
                 icon={<FiCheckCircle size={20} />}
                 title={"Finalizar y volver al listado de ventas"}
               />

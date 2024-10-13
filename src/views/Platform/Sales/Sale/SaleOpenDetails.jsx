@@ -33,6 +33,7 @@ export default function SaleOpenDetails({ saleId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [quantityToAdd, setQuantityToAdd] = useState(1); // Estado para cantidad a agregar
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -60,26 +61,44 @@ export default function SaleOpenDetails({ saleId }) {
     loadSaleData();
   }, [saleId]);
 
-  const filteredProducts = useMemo(() => {
-    return searchTerm === ""
-      ? products
-      : products.filter((product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = useMemo(() => {
+    return products
+      .filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .map((product) => {
+        const productCategory = categories.find(
+          (category) => category.id === product.product_category_id
         );
-  }, [searchTerm, products]);
+        const productMeasureUnit = measureUnits.find(
+          (measure_unit) => measure_unit.id === product.product_measure_unit_id
+        );
+        return {
+          id: product.id,
+          name: product.name,
+          product_category_id: productCategory ? productCategory.name : "N/A",
+          price: parseFloat(product.price).toFixed(2),
+          product_measure_unit_id: productMeasureUnit
+            ? productMeasureUnit.name
+            : "N/A",
+          quantity: product.quantity,
+        };
+      })
+      .sort((a, b) => a.id - b.id); // Ordena por id aquí
+  }, [searchTerm, products, categories, measureUnits]);
+  
 
   const handleAddProductToSale = async (productId) => {
     const product = products.find((product) => product.id === productId);
-
     const existingItem = saleItems.find(
       (item) => item.product_id === product.id
     );
 
-    const saleItemTotal = product.price * quantity;
+    const saleItemTotal = product.price * quantityToAdd; // Usa quantityToAdd
 
     try {
       if (existingItem) {
-        const newQuantity = existingItem.quantity + quantity;
+        const newQuantity = existingItem.quantity + quantityToAdd;
         const newSaleItemTotal = product.price * newQuantity;
 
         await changeSaleItemQuantity(
@@ -88,14 +107,14 @@ export default function SaleOpenDetails({ saleId }) {
           newSaleItemTotal
         );
       } else {
-        await addSaleItem(saleId, product.id, quantity, saleItemTotal);
+        await addSaleItem(saleId, product.id, quantityToAdd, saleItemTotal);
       }
 
       const updatedSaleItems = await getSaleItemsFromSale(saleId);
       const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
 
       setSaleItems(sortedSaleItems);
-      setQuantity(1);
+      setQuantityToAdd(1); // Resetea cantidad a 1
     } catch (error) {
       setError("Error trying to add product to the sale.");
     }
@@ -140,7 +159,7 @@ export default function SaleOpenDetails({ saleId }) {
   }, [totalSale, saleId]);
 
   if (loading) {
-    return LoadingSpinner;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -161,29 +180,6 @@ export default function SaleOpenDetails({ saleId }) {
     product_measure_unit_id: "Unidad de medida",
     quantity: "Cantidad",
   };
-
-  const filteredData = products
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .map((product) => {
-      const productCategory = categories.find(
-        (category) => category.id === product.product_category_id
-      );
-      const productMeasureUnit = measureUnits.find(
-        (measure_unit) => measure_unit.id === product.product_measure_unit_id
-      );
-      return {
-        id: product.id,
-        name: product.name,
-        product_category_id: productCategory ? productCategory.name : "N/A",
-        price: parseFloat(product.price).toFixed(2),
-        product_measure_unit_id: productMeasureUnit
-          ? productMeasureUnit.name
-          : "N/A",
-        quantity: product.quantity,
-      };
-    });
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -291,22 +287,22 @@ export default function SaleOpenDetails({ saleId }) {
                               );
                             }
                           }}
-                          className="ml-2 text-primary hover:text-green-500 px-3 py-1 rounded"
+                          className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"
                           title="Aumentar Cantidad"
                         >
                           +
                         </button>
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
-                        $ {item.sale_item_total.toFixed(2)}
+                        {item.sale_item_total.toFixed(2)}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
                         <button
                           onClick={() => handleDeleteItem(item.id)}
-                          className="ml-2 flex-shrink-0"
-                          title="Eliminar"
+                          className="text-red-500 hover:text-red-700"
+                          title="Eliminar Producto"
                         >
-                          <FiTrash2 className="text-delete-link" size={24} />
+                          <FiTrash2 size={20} />
                         </button>
                       </td>
                     </tr>
@@ -314,78 +310,30 @@ export default function SaleOpenDetails({ saleId }) {
                 })
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center py-4">
-                    No hay productos en la venta actualmente.
+                  <td colSpan={4} className="text-center">
+                    No hay productos en la venta.
                   </td>
                 </tr>
               )}
             </tbody>
-            {/* Retrieve the sale's total */}
-            <tfoot>
-              <tr>
-                <td
-                  colSpan="2"
-                  className="border border-white border-opacity-25 px-6 py-2 text-right font-bold"
-                >
-                  Total
-                </td>
-                <td className="border border-white border-opacity-25 px-6 py-2">
-                  $ {totalSale.toFixed(2)}
-                </td>
-                <td className="border border-white border-opacity-25 px-6 py-2"></td>
-              </tr>
-            </tfoot>
           </table>
-
-          {/* Pagination Controls */}
-          {saleItems.length > itemsPerPage && (
-            <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-                className="py-1 px-2 bg-blue-500 text-white rounded"
-              >
-                Primera
-              </button>
-              <button
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="py-1 px-2 bg-blue-500 text-white rounded"
-              >
-                Anterior
-              </button>
-              <span>
-                Página {currentPage} de {totalPages}
-              </span>
-              <button
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="py-1 px-2 bg-blue-500 text-white rounded"
-              >
-                Siguiente
-              </button>
-              <button
-                onClick={() => setCurrentPage(totalPages)}
-                disabled={currentPage === totalPages}
-                className="py-1 px-2 bg-blue-500 text-white rounded"
-              >
-                Última
-              </button>
-            </div>
-          )}
+          <div className="mt-4">
+            <span className="font-semibold">Total: </span>
+            <span>${totalSale.toFixed(2)}</span>
+          </div>
         </div>
       </div>
 
-      {/* Section to add products */}
       <div className="box-theme text-title-active-static">
-        <h3 className="text-lg font-semibold text-title-active-static">
-          Listado de productos
-        </h3>
-        <SearchInput
-          placeholder="Buscar producto..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-title-active-static">
+            Agregar productos a la venta
+          </h3>
+          <SearchInput
+            searchTerm={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
 
         <TableOfProductsInSale
           columns={columns}
@@ -393,13 +341,11 @@ export default function SaleOpenDetails({ saleId }) {
           columnAliases={columnAliases}
           hasDelete={false}
           hasCustomButton={() => userHasAccess}
-          quantityToAdd={quantity}
-          buttonCustomRoute={(id) => handleAddProductToSale(id)}
+          quantityToAdd={quantityToAdd}
+          setQuantityToAdd={setQuantityToAdd} 
+          buttonCustomRoute={handleAddProductToSale}
           buttonCustomIcon={<FiPlus className="text-lg" size={24} />}
-          quantityChangeEvent={(e) => setQuantity(Math.max(1, e.target.value))}
         />
-
-        {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
     </>
   );

@@ -3,7 +3,7 @@
 import { getProducts } from "@/src/models/platform/product/product";
 import { getProductCategories } from "@/src/models/platform/product_category/product_category";
 import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
-import { changeSaleTotal } from "@/src/models/platform/sale/sale";
+import { changeSaleTotal, closeSale } from "@/src/models/platform/sale/sale";
 import {
   getSaleItemsFromSale,
   addSaleItem,
@@ -15,10 +15,11 @@ import {
 } from "@/src/models/platform/sale_item/sale_item";
 
 import { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import SearchInput from "@/components/SearchInput";
-import { FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiCheckCircle, FiPlus, FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
@@ -31,10 +32,10 @@ export default function SaleOpenDetails({ saleId }) {
   const [products, setProducts] = useState([]);
 
   const { user } = useUserInfoContext();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [quantityToAdd, setQuantityToAdd] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -191,7 +192,20 @@ export default function SaleOpenDetails({ saleId }) {
       await emptyCart(saleId);
       setSaleItems([]);
     } catch (error) {
-      setError("Error al vaciar el carrito.");
+      setError("Error trying to empty cart.");
+    }
+  };
+
+  const handleClosesale = async () => {
+    try {
+      await closeSale(saleId);
+
+      setTimeout(() => {
+        router.push(`/platform/sales/`);
+      }, 2000);
+
+    } catch (error) {
+      setError("Error trying to close sale.");
     }
   };
 
@@ -348,15 +362,24 @@ export default function SaleOpenDetails({ saleId }) {
         </div>
 
         {totalSale.toFixed(2) > 0 && (
-          <div className="flex justify-start my-4">
-            <Button
-              isAnimated={false}
-              customFunction={handleEmptyCart}
-              customClasses="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              text={"Vaciar carrito"}
-              title={"Vaciar carrito"}
-            />
-          </div>
+          <>
+            <div className="flex my-4 justify-between">
+              <Button
+                isAnimated={false}
+                customFunction={handleEmptyCart}
+                customClasses="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                text={"Vaciar carrito"}
+                title={"Vaciar carrito"}
+              />
+              <Button
+                isAnimated={false}
+                customFunction={handleClosesale}
+                customClasses="px-4 py-2 bg-primary text-title-active-static rounded-md shadow-md hover:bg-secondary transition duration-300 bg-primary border-secondary-light text-title-active-static font-semibold gradient-button"
+                icon={<FiCheckCircle size={20} />}
+                title={"Finalizar y volver al listado de ventas"}
+              />
+            </div>
+          </>
         )}
       </div>
 

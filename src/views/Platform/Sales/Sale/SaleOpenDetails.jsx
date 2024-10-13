@@ -33,7 +33,7 @@ export default function SaleOpenDetails({ saleId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [quantityToAdd, setQuantityToAdd] = useState(1); // Estado para cantidad a agregar
+  const [quantityToAdd, setQuantityToAdd] = useState(1); 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -77,14 +77,14 @@ export default function SaleOpenDetails({ saleId }) {
           id: product.id,
           name: product.name,
           product_category_id: productCategory ? productCategory.name : "N/A",
-          price: parseFloat(product.price).toFixed(2),
+          price: `$ ${parseFloat(product.price).toFixed(2)}`,
           product_measure_unit_id: productMeasureUnit
             ? productMeasureUnit.name
             : "N/A",
           quantity: product.quantity,
         };
       })
-      .sort((a, b) => a.id - b.id); // Ordena por id aquí
+      .sort((a, b) => a.id - b.id); 
   }, [searchTerm, products, categories, measureUnits]);
   
 
@@ -94,7 +94,7 @@ export default function SaleOpenDetails({ saleId }) {
       (item) => item.product_id === product.id
     );
 
-    const saleItemTotal = product.price * quantityToAdd; // Usa quantityToAdd
+    const saleItemTotal = product.price * quantityToAdd; 
 
     try {
       if (existingItem) {
@@ -114,7 +114,7 @@ export default function SaleOpenDetails({ saleId }) {
       const sortedSaleItems = updatedSaleItems.sort((a, b) => a.id - b.id);
 
       setSaleItems(sortedSaleItems);
-      setQuantityToAdd(1); // Resetea cantidad a 1
+      setQuantityToAdd(1);
     } catch (error) {
       setError("Error trying to add product to the sale.");
     }

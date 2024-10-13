@@ -227,7 +227,7 @@ export default function TableOfProductsInSale({
                     </span>
                   </td>
                 ))}
-                {(hasCustomButton && item.quantity > 0) &&(
+                {hasCustomButton && item.quantity > 0 && (
                   <td className="border border-white border-opacity-25 px-6 py-2">
                     <div className="flex items-center">
                       <input
@@ -244,20 +244,30 @@ export default function TableOfProductsInSale({
                       <input
                         type="number"
                         min="1"
+                        max={item.quantity} 
                         value={
                           selectedProductId === item.id ? quantityToAdd : ""
                         }
-                        onChange={quantityChangeEvent}
+                        onChange={(e) => {
+                          const value = Math.max(1, e.target.value);
+                          if (value <= item.quantity) {
+                            setQuantityToAdd(value);
+                          } else {
+                            setQuantityToAdd(item.quantity);
+                          }
+                        }}
                         className="border border-gray-300 rounded p-1 w-16 mr-2"
                         disabled={selectedProductId !== item.id}
                         placeholder="1"
                       />
-                        <button
-                          onClick={() => buttonCustomRoute(item.id, quantityToAdd)}
-                          className="px-2 py-1 rounded-md shadow-md  transition duration-300 bg-primary border-primary-light hover:border-green-500 text-show-link font-semibold gradient-button"
-                        >
-                          {buttonCustomIcon}
-                        </button>
+                      <button
+                        onClick={() =>
+                          buttonCustomRoute(item.id, quantityToAdd)
+                        }
+                        className="px-2 py-1 rounded-md shadow-md  transition duration-300 bg-primary border-primary-light hover:border-green-500 text-show-link font-semibold gradient-button"
+                      >
+                        {buttonCustomIcon}
+                      </button>
                     </div>
                   </td>
                 )}

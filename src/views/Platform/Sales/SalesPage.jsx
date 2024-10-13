@@ -141,7 +141,7 @@ export default function SalesPage() {
         hasShow={hasShow}
         buttonShowRoute={(id) => `/platform/sales/${id}`}
         hasEdit={hasEdit}
-        buttonEditRoute={(id) => `/platform/sales/${id}/edit`}
+        buttonEditRoute={(id) => `/platform/sales/${id}`}
         hasDelete={true}
         buttonDeleteRoute={handleDeleteSale}
         hasApprove={hasApprove}

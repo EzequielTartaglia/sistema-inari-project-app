@@ -94,7 +94,11 @@ export default function SalesPage() {
     });
 
   const hasShow = (item) => {
-    return;
+    if (item.is_closed === "No") {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const hasEdit = (item) => {
@@ -135,6 +139,7 @@ export default function SalesPage() {
         data={filteredData}
         columnAliases={columnAliases}
         hasShow={hasShow}
+        buttonShowRoute={(id) => `/platform/sales/${id}`}
         hasEdit={hasEdit}
         buttonEditRoute={(id) => `/platform/sales/${id}/edit`}
         hasDelete={true}

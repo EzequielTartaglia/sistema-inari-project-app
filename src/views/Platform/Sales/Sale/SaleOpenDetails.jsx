@@ -3,7 +3,11 @@
 import { getProducts } from "@/src/models/platform/product/product";
 import { getProductCategories } from "@/src/models/platform/product_category/product_category";
 import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
-import { changeSaleTotal, closeSale } from "@/src/models/platform/sale/sale";
+import {
+  changeSaleTotal,
+  closeSale,
+  getSale,
+} from "@/src/models/platform/sale/sale";
 import {
   getSaleItemsFromSale,
   addSaleItem,
@@ -30,6 +34,7 @@ import ClosePreviusSaleAndCreateNewOneButton from "../ClosePreviusSaleAndCreateN
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
+  const [isClosed, setIsClosed] = useState(false);
   const [saleItems, setSaleItems] = useState([]);
   const [products, setProducts] = useState([]);
 
@@ -51,12 +56,14 @@ export default function SaleOpenDetails({ saleId }) {
   useEffect(() => {
     const loadSaleData = async () => {
       try {
-        const [saleItemsData, productsData] = await Promise.all([
+        const [saleItemsData, productsData, saleData] = await Promise.all([
           getSaleItemsFromSale(saleId),
           getProducts(),
+          getSale(saleId),
         ]);
         setSaleItems(saleItemsData);
         setProducts(productsData);
+        setIsClosed(saleData.is_closed);
       } catch (err) {
         setError("Error al cargar los items o productos.");
       } finally {
@@ -241,9 +248,9 @@ export default function SaleOpenDetails({ saleId }) {
                 <th className="border border-white border-opacity-25 px-6 py-2">
                   Precio
                 </th>
-                <th className="border border-white border-opacity-25 px-6 py-2">
-                  Acciones
-                </th>
+                  <th className="border border-white border-opacity-25 px-6 py-2">
+                    Acciones
+                  </th>
               </tr>
             </thead>
             <tbody>
@@ -258,7 +265,7 @@ export default function SaleOpenDetails({ saleId }) {
                         {product ? product.name : "N/A"}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
-                        {item.quantity > 1 ? (
+                        {(item.quantity > 1 && !isClosed) ? (
                           <button
                             onClick={async () => {
                               try {
@@ -290,7 +297,7 @@ export default function SaleOpenDetails({ saleId }) {
                           <button className="mr-4 text-primary hover:text-red-500 px-3 py-1 rounded"></button>
                         )}
                         {item.quantity}
-                        {product.quantity > 0 ? (
+                        {(product.quantity > 0  && !isClosed) ? (
                           <button
                             onClick={async () => {
                               try {
@@ -325,15 +332,21 @@ export default function SaleOpenDetails({ saleId }) {
                       <td className="border border-white border-opacity-25 px-6 py-2">
                         $ {item.sale_item_total.toFixed(2)}
                       </td>
-                      <td className="border border-white border-opacity-25 px-6 py-2">
-                        <button
-                          onClick={() => handleDeleteItem(item.id)}
-                          className="text-red-500 hover:text-red-700"
-                          title="Eliminar Producto"
-                        >
-                          <FiTrash2 size={20} />
-                        </button>
-                      </td>
+                      {!isClosed ? (
+                        <td className="border border-white border-opacity-25 px-6 py-2">
+                          <button
+                            onClick={() => handleDeleteItem(item.id)}
+                            className="text-red-500 hover:text-red-700"
+                            title="Eliminar Producto"
+                          >
+                            <FiTrash2 size={20} />
+                          </button>
+                        </td>
+                      ) : (
+                        <td className="border border-white border-opacity-25 px-6 py-2">
+                          <button>No aplica</button>
+                        </td>
+                      )}
                     </tr>
                   );
                 })
@@ -362,7 +375,7 @@ export default function SaleOpenDetails({ saleId }) {
           </table>
         </div>
 
-        {totalSale.toFixed(2) > 0 && (
+        {totalSale.toFixed(2) > 0 && !isClosed && (
           <>
             <div className="flex my-4">
               <Button
@@ -394,30 +407,32 @@ export default function SaleOpenDetails({ saleId }) {
         )}
       </div>
 
-      <div className="box-theme text-title-active-static">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-title-active-static">
-            Productos disponibles
-          </h3>
-          <SearchInput
-            placeholder="Buscar producto..."
-            searchTerm={searchTerm}
-            onChange={handleSearchChange}
+      {!isClosed && (
+        <div className="box-theme text-title-active-static">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-title-active-static">
+              Productos disponibles
+            </h3>
+            <SearchInput
+              placeholder="Buscar producto..."
+              searchTerm={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+
+          <TableOfProductsInSale
+            columns={columns}
+            data={filteredData}
+            columnAliases={columnAliases}
+            hasDelete={false}
+            hasCustomButton={() => userHasAccess}
+            quantityToAdd={quantityToAdd}
+            setQuantityToAdd={setQuantityToAdd}
+            buttonCustomRoute={handleAddProductToSale}
+            buttonCustomIcon={<FaCartPlus className="text-lg mr-1" size={20} />}
           />
         </div>
-
-        <TableOfProductsInSale
-          columns={columns}
-          data={filteredData}
-          columnAliases={columnAliases}
-          hasDelete={false}
-          hasCustomButton={() => userHasAccess}
-          quantityToAdd={quantityToAdd}
-          setQuantityToAdd={setQuantityToAdd}
-          buttonCustomRoute={handleAddProductToSale}
-          buttonCustomIcon={<FaCartPlus className="text-lg mr-1" size={20} />}
-        />
-      </div>
+      )}
     </>
   );
 }

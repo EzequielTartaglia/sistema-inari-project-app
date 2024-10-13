@@ -56,28 +56,44 @@ export default function TableOfProductsInSale({
         <button
           onClick={() => paginate(1)}
           disabled={currentPage === 1}
-          className={`mx-1 px-3 py-1 rounded ${currentPage === 1 ? "bg-disabled text-title-active-static border-secondary-light" : "bg-disabled border-primary-light"}`}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === 1
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
         >
           <FiChevronsLeft />
         </button>
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`mx-1 px-3 py-1 rounded ${currentPage === 1 ? "bg-disabled text-title-active-static border-secondary-light" : "bg-disabled border-primary-light"}`}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === 1
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
         >
           <FiChevronLeft />
         </button>
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`mx-1 px-3 py-1 rounded ${currentPage === totalPages ? "bg-disabled text-title-active-static border-secondary-light" : "bg-disabled border-primary-light"}`}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === totalPages
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
         >
           <FiChevronRight />
         </button>
         <button
           onClick={() => paginate(totalPages)}
           disabled={currentPage === totalPages}
-          className={`mx-1 px-3 py-1 rounded ${currentPage === totalPages ? "bg-disabled text-title-active-static border-secondary-light" : "bg-disabled border-primary-light"}`}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === totalPages
+              ? "bg-disabled text-title-active-static border-secondary-light"
+              : "bg-disabled border-primary-light"
+          }`}
         >
           <FiChevronsRight />
         </button>
@@ -93,16 +109,26 @@ export default function TableOfProductsInSale({
           <thead>
             <tr className="box-theme">
               {columns.map((column, index) => (
-                <th key={index} className="border border-white border-opacity-25 px-6 py-2">
+                <th
+                  key={index}
+                  className="border border-white border-opacity-25 px-6 py-2"
+                >
                   {columnAliases[column] || column}
                 </th>
               ))}
-              {hasCustomButton && <th className="border border-white border-opacity-25 px-6 py-2">Acciones</th>}
+              {hasCustomButton && (
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Acciones
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td colSpan={columns.length + 1} className="text-center p-2 rounded-lg">
+              <td
+                colSpan={columns.length + 1}
+                className="text-center p-2 rounded-lg"
+              >
                 <div className="flex justify-center items-center h-6">
                   <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 spinner-border border-opacity-50"></div>
                 </div>
@@ -119,7 +145,9 @@ export default function TableOfProductsInSale({
     return (
       <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-title-active-static">{title && title}</h3>
+          <h3 className="text-lg font-semibold text-title-active-static">
+            {title && title}
+          </h3>
           {customButton && <>{customButton}</>}
         </div>
         <div className="table-box font-semibold">
@@ -128,17 +156,27 @@ export default function TableOfProductsInSale({
               <thead>
                 <tr className="box-theme">
                   {columns.map((column, index) => (
-                    <th key={index} className="border border-white border-opacity-25 px-6 py-2">
+                    <th
+                      key={index}
+                      className="border border-white border-opacity-25 px-6 py-2"
+                    >
                       {columnAliases[column] || column}
                     </th>
                   ))}
-                  {hasCustomButton && <th className="border border-white border-opacity-25 px-6 py-2">Acciones</th>}
+                  {hasCustomButton && (
+                    <th className="border border-white border-opacity-25 px-6 py-2">
+                      Acciones
+                    </th>
+                  )}
                 </tr>
               </thead>
             )}
             <tbody>
               <tr>
-                <td colSpan={columns.length + 1} className="text-center p-2 text-primary border border-white border-opacity-25 px-6 py-2">
+                <td
+                  colSpan={columns.length + 1}
+                  className="text-center p-2 text-primary border border-white border-opacity-25 px-6 py-2"
+                >
                   No hay nada que mostrar.
                 </td>
               </tr>
@@ -149,11 +187,12 @@ export default function TableOfProductsInSale({
     );
   }
 
-  // Main table rendering
   return (
     <div className={`${title ? "box-theme text-title-active-static" : ""}`}>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-title-active-static">{title && title}</h3>
+        <h3 className="text-lg font-semibold text-title-active-static">
+          {title && title}
+        </h3>
         {customButton && <>{customButton}</>}
       </div>
       <div className="table-box font-semibold">
@@ -161,52 +200,66 @@ export default function TableOfProductsInSale({
           <thead>
             <tr className="box-theme">
               {columns.map((column, index) => (
-                <th key={index} className="border border-white border-opacity-25 px-6 py-2">
+                <th
+                  key={index}
+                  className="border border-white border-opacity-25 px-6 py-2"
+                >
                   {columnAliases[column] || column}
                 </th>
               ))}
-              {hasCustomButton && <th className="border border-white border-opacity-25 px-6 py-2">Acciones</th>}
+              {hasCustomButton && (
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Acciones
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item, rowIndex) => (
               <tr key={rowIndex}>
-                <td colSpan={columns.length + 1} className="text-center p-2 rounded-lg">
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedProductId === item.id}
-                      onChange={() => {
-                        setSelectedProductId(selectedProductId === item.id ? null : item.id);
-                        setQuantityToAdd(1); 
-                      }}
-                      className="mr-2"
-                    />
-                    {columns.map((column, colIndex) => (
-                      <div key={colIndex} className="p-2">
-                        <span className="ml-2 break-words text-title-active-static">{item[column]}</span>
-                      </div>
-                    ))}
-                    {hasCustomButton && (
-                      <div className="flex items-center mt-4">
-                        <input
-                          type="number"
-                          min="1"
-                          value={selectedProductId === item.id ? quantityToAdd : ""}
-                          onChange={quantityChangeEvent}
-                          className="border border-gray-300 rounded p-1 w-16 mr-2"
-                          disabled={selectedProductId !== item.id}
-                        />
+                {columns.map((column, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className="border border-white border-opacity-25 px-6 py-2"
+                  >
+                    <span className="ml-2 break-words text-primary">
+                      {item[column]}
+                    </span>
+                  </td>
+                ))}
+                {hasCustomButton && (
+                  <td className="border border-white border-opacity-25 px-6 py-2">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedProductId === item.id}
+                        onChange={() => {
+                          setSelectedProductId(
+                            selectedProductId === item.id ? null : item.id
+                          );
+                          setQuantityToAdd(1);
+                        }}
+                        className="mr-2"
+                      />
+                      <input
+                        type="number"
+                        min="1"
+                        value={
+                          selectedProductId === item.id ? quantityToAdd : ""
+                        }
+                        onChange={quantityChangeEvent}
+                        className="border border-gray-300 rounded p-1 w-16 mr-2"
+                        disabled={selectedProductId !== item.id}
+                      />
                         <button
                           onClick={() => buttonCustomRoute(item.id, quantityToAdd)}
                           className="bg-primary text-white px-2 py-1 rounded"
                         >
                           {buttonCustomIcon}
                         </button>
-                      </div>
-                    )}
-                  </div>
-                </td>
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

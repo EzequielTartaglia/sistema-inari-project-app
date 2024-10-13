@@ -316,11 +316,21 @@ export default function SaleOpenDetails({ saleId }) {
                 </tr>
               )}
             </tbody>
+            <tfoot>
+              <tr>
+                <td
+                  colSpan="2"
+                  className="border border-white border-opacity-25 px-6 py-2 text-right font-bold"
+                >
+                  Total
+                </td>
+                <td className="border border-white border-opacity-25 px-6 py-2">
+                  $ {totalSale.toFixed(2)}
+                </td>
+                <td className="border border-white border-opacity-25 px-6 py-2"></td>
+              </tr>
+            </tfoot>
           </table>
-          <div className="mt-4">
-            <span className="font-semibold">Total: </span>
-            <span>${totalSale.toFixed(2)}</span>
-          </div>
         </div>
       </div>
 

@@ -264,33 +264,35 @@ export default function SaleOpenDetails({ saleId }) {
                           <button className="mr-4 text-primary hover:text-red-500 px-3 py-1 rounded"></button>
                         )}
                         {item.quantity}
-                        <button
-                          onClick={async () => {
-                            try {
-                              await increaseSaleItemQuantity(
-                                item.id,
-                                product.price,
-                                item.quantity,
-                                product.id,
-                                product.quantity
-                              );
-                              const updatedSaleItems =
-                                await getSaleItemsFromSale(saleId);
-                              const sortedSaleItems = updatedSaleItems.sort(
-                                (a, b) => a.id - b.id
-                              );
-                              setSaleItems(sortedSaleItems);
-                            } catch (error) {
-                              setError(
-                                "Error al aumentar la cantidad del producto."
-                              );
-                            }
-                          }}
-                          className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"
-                          title="Aumentar Cantidad"
-                        >
-                          +
-                        </button>
+                        {product.quantity > 0 ? (
+                          <button
+                            onClick={async () => {
+                              try {
+                                await increaseSaleItemQuantity(
+                                  item.id,
+                                  product.price,
+                                  item.quantity,
+                                  product.id,
+                                  product.quantity
+                                );
+                                const updatedSaleItems =
+                                  await getSaleItemsFromSale(saleId);
+                                const sortedSaleItems = updatedSaleItems.sort(
+                                  (a, b) => a.id - b.id
+                                );
+                                setSaleItems(sortedSaleItems);
+                              } catch (error) {
+                                setError(
+                                  "Error al aumentar la cantidad del producto."
+                                );
+                              }
+                            }}
+                            className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"
+                            title="Aumentar Cantidad"
+                          >
+                            +
+                          </button>
+                        ) : <button className="ml-2 text-primary hover:text-red-500 px-3 py-1 rounded"></button>}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
                         $ {item.sale_item_total.toFixed(2)}

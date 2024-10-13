@@ -19,12 +19,7 @@ import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import SearchInput from "@/components/SearchInput";
-import {
-  FiCheckCircle,
-  FiPlus,
-  FiShoppingCart,
-  FiTrash2,
-} from "react-icons/fi";
+import { FiCheckCircle, FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";

@@ -94,7 +94,7 @@ export default function SalesPage() {
     });
 
   const hasShow = (item) => {
-    if (item.is_closed === "No") {
+    if (item.is_closed === "Sí") {
       return true;
     } else {
       return false;

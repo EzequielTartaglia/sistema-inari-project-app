@@ -1,13 +1,11 @@
 "use client";
 
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { addSale, getLastSale } from "@/src/models/platform/sale/sale";
-import Button from "@/components/Button";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi"; 
 
-export default function CreateSaleButton({ onClick, text }) {
+export default function CreateSaleButton({ customClasses = `p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2`, onClick, text, Icon = FiPlus, title = "Crear venta" }) {
   const { user } = useUserInfoContext();
   const router = useRouter();
 
@@ -38,11 +36,11 @@ export default function CreateSaleButton({ onClick, text }) {
 
   return (
     <button
-      className={`p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2`}
+      className={customClasses}
       onClick={handleButtonClick}
-      title={"Crear venta"}
+      title={title}
     >
-      {text} <FiPlus size={24} />
+      {text && text} <Icon size={20} />
     </button>
   );
 }

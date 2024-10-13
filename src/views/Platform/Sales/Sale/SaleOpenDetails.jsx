@@ -19,12 +19,18 @@ import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import SearchInput from "@/components/SearchInput";
-import { FiCheckCircle, FiPlus, FiTrash2 } from "react-icons/fi";
+import {
+  FiCheckCircle,
+  FiPlus,
+  FiShoppingCart,
+  FiTrash2,
+} from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
 import Button from "@/components/Button";
-import { FaBatteryEmpty, FaCartArrowDown, FaCartPlus } from "react-icons/fa";
+import { FaBatteryEmpty, FaCartArrowDown, FaCartPlus, FaShoppingBag } from "react-icons/fa";
+import CreateSaleButton from "../CreateSaleButton";
 
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
@@ -363,22 +369,30 @@ export default function SaleOpenDetails({ saleId }) {
 
         {totalSale.toFixed(2) > 0 && (
           <>
-            <div className="flex my-4 justify-between">
+            <div className="flex my-4">
               <Button
                 isAnimated={false}
                 customFunction={handleEmptyCart}
                 icon={<FaCartArrowDown size={20} />}
-                customClasses="px-4 py-2 bg-red-300 rounded-md shadow-md hover:bg-secondary transition duration-300  border-secondary-light text-title-active-static font-semibold gradient-button"
+                customClasses="px-4 py-2 bg-red-300 rounded-md shadow-md hover:bg-secondary transition duration-300 border-secondary-light text-title-active-static font-semibold gradient-button"
                 title={"Vaciar carrito"}
               />
-              
-              <Button
-                isAnimated={false}
-                customFunction={handleClosesale}
-                customClasses="px-4 py-2 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold gradient-button"
-                icon={<FiCheckCircle size={20} />}
-                title={"Finalizar y volver al listado de ventas"}
-              />
+
+              <div className="flex ml-auto">
+                <Button
+                  isAnimated={false}
+                  customFunction={handleClosesale}
+                  customClasses="px-2 py-1 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold mr-2 gradient-button"
+                  icon={<FiCheckCircle size={20} />}
+                  title={"Finalizar y volver al listado de ventas"}
+                />
+
+                <CreateSaleButton
+                  customClasses="px-2 py-1 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold  gradient-button"
+                  Icon={FaShoppingBag}
+                  title="Finalizar y crear nueva venta"
+                />
+              </div>
             </div>
           </>
         )}

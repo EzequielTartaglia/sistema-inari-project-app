@@ -29,8 +29,8 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
 import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
 import Button from "@/components/Button";
-import { FaBatteryEmpty, FaCartArrowDown, FaCartPlus, FaShoppingBag } from "react-icons/fa";
-import CreateSaleButton from "../CreateSaleButton";
+import { FaCartArrowDown, FaCartPlus, FaShoppingBag } from "react-icons/fa";
+import ClosePreviusSaleAndCreateNewOneButton from "../ClosePreviusSaleAndCreateNewOneButton";
 
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
@@ -387,7 +387,8 @@ export default function SaleOpenDetails({ saleId }) {
                   title={"Finalizar y volver al listado de ventas"}
                 />
 
-                <CreateSaleButton
+                <ClosePreviusSaleAndCreateNewOneButton
+                  saleId={saleId}
                   customClasses="px-2 py-1 rounded-md shadow-md transition duration-300 bg-primary border-primary-light font-semibold  gradient-button"
                   Icon={FaShoppingBag}
                   title="Finalizar y crear nueva venta"

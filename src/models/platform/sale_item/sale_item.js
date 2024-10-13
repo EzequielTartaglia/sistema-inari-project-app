@@ -171,6 +171,18 @@ export async function changeSaleItemQuantity(
   sale_item_total
 ) {
   try {
+    const { data: saleItemData, error: saleItemError } = await supabase
+      .from("sale_items")
+      .select("product_id, quantity")
+      .eq("id", sale_item_id)
+      .single();
+
+    if (saleItemError) {
+      throw saleItemError;
+    }
+
+    const quantityDifference = quantity - saleItemData.quantity;
+
     const { data, error } = await supabase
       .from("sale_items")
       .update({
@@ -178,9 +190,31 @@ export async function changeSaleItemQuantity(
         sale_item_total: sale_item_total,
       })
       .eq("id", sale_item_id);
+
     if (error) {
       throw error;
     }
+
+    const { data: productData, error: productError } = await supabase
+      .from("products")
+      .select("quantity")
+      .eq("id", saleItemData.product_id)
+      .single();
+
+    if (productError) {
+      throw productError;
+    }
+
+    const newQuantity = productData.quantity - quantityDifference;
+    const { error: updateProductError } = await supabase
+      .from("products")
+      .update({ quantity: newQuantity })
+      .eq("id", saleItemData.product_id);
+
+    if (updateProductError) {
+      throw updateProductError;
+    }
+
     return data;
   } catch (error) {
     throw error;

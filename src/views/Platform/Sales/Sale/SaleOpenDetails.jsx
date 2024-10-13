@@ -226,7 +226,15 @@ export default function SaleOpenDetails({ saleId }) {
 
   return (
     <>
-      <PageHeader title={`Detalles de venta`} />
+      {isClosed ? (
+        <PageHeader
+          title={`Detalles de venta`}
+          goBackRoute={"/platform/sales"}
+          goBackText={"Volver al listado de ventas"}
+        />
+      ) : (
+        <PageHeader title={`Detalles de venta`} />
+      )}
 
       <div className="box-theme text-title-active-static">
         <div className="flex justify-between items-center mb-4">
@@ -248,9 +256,9 @@ export default function SaleOpenDetails({ saleId }) {
                 <th className="border border-white border-opacity-25 px-6 py-2">
                   Precio
                 </th>
-                  <th className="border border-white border-opacity-25 px-6 py-2">
-                    Acciones
-                  </th>
+                <th className="border border-white border-opacity-25 px-6 py-2">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -265,7 +273,7 @@ export default function SaleOpenDetails({ saleId }) {
                         {product ? product.name : "N/A"}
                       </td>
                       <td className="border border-white border-opacity-25 px-6 py-2">
-                        {(item.quantity > 1 && !isClosed) ? (
+                        {item.quantity > 1 && !isClosed ? (
                           <button
                             onClick={async () => {
                               try {
@@ -297,7 +305,7 @@ export default function SaleOpenDetails({ saleId }) {
                           <button className="mr-4 text-primary hover:text-red-500 px-3 py-1 rounded"></button>
                         )}
                         {item.quantity}
-                        {(product.quantity > 0  && !isClosed) ? (
+                        {product.quantity > 0 && !isClosed ? (
                           <button
                             onClick={async () => {
                               try {

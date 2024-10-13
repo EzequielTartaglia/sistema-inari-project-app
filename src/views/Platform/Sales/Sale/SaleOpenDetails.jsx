@@ -310,8 +310,8 @@ export default function SaleOpenDetails({ saleId }) {
                 })
               ) : (
                 <tr>
-                  <td colSpan={4} className="text-center">
-                    No hay productos en la venta.
+                  <td colSpan="4" className="text-center py-4">
+                    No hay productos en la venta actualmente.
                   </td>
                 </tr>
               )}

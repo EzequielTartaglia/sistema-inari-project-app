@@ -228,7 +228,7 @@ export default function SaleOpenDetails({ saleId }) {
     <>
       {isClosed ? (
         <PageHeader
-          title={`Detalles de venta`}
+          title={`Detalles de venta (Cerrada)`}
           goBackRoute={"/platform/sales"}
           goBackText={"Volver al listado de ventas"}
         />

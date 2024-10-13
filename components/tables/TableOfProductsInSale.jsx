@@ -227,7 +227,7 @@ export default function TableOfProductsInSale({
                     </span>
                   </td>
                 ))}
-                {hasCustomButton && (
+                {(hasCustomButton && item.quantity > 0) &&(
                   <td className="border border-white border-opacity-25 px-6 py-2">
                     <div className="flex items-center">
                       <input

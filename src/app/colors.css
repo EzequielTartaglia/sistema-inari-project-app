@@ -3,7 +3,7 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  --body-bg: var(--bg-secondary);
+  --body-bg: #000000;
   --bg-primary: #a9afb1;
   --bg-secondary: #f0e8e8e3;
   --bg-disabled: #8d9294;

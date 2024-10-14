@@ -30,7 +30,6 @@ import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
 import Button from "@/components/Button";
 import { FaCartArrowDown, FaCartPlus, FaShoppingBag } from "react-icons/fa";
 import ClosePreviusSaleAndCreateNewOneButton from "../ClosePreviusSaleAndCreateNewOneButton";
-import DownloadSaleTicketButton from "./DownloadSaleTicketButton";
 
 export default function SaleOpenDetails({ saleId }) {
   const [categories, setCategories] = useState([]);
@@ -442,8 +441,6 @@ export default function SaleOpenDetails({ saleId }) {
           />
         </div>
       )}
-
-<DownloadSaleTicketButton/>
     </>
   );
 }

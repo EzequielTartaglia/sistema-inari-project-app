@@ -9,7 +9,7 @@ import { useNotification } from "@/contexts/NotificationContext";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import PageHeader from "@/components/page_formats/PageHeader";
-import Table from "@/components/tables/Table";
+import TableOfSales from "@/components/tables/TableOfSales";
 import SearchInput from "@/components/SearchInput";
 import formatDate from "@/src/helpers/formatDate";
 import CreateSaleButton from "./CreateSaleButton";
@@ -52,6 +52,40 @@ export default function SalesPage() {
       showNotification("¡Venta eliminada exitosamente!", "info");
     } catch (error) {
       console.error("Error trying to delete sale:", error.message);
+    }
+  };
+
+
+  const handleDownloadSaleTicketRoute = async (id) => {
+    const saleItems = [
+      { quantity: 2, description: "Item 1", price: 15.99 },
+      { quantity: 1, description: "Item 2", price: 35.50 }
+    ];
+    const totalSaleAmount = saleItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+    const saleItemsParam = encodeURIComponent(JSON.stringify(saleItems));
+
+    try {
+      const response = await fetch(`/api/sales/sale_ticket?saleItems=${saleItemsParam}&totalSaleAmount=${totalSaleAmount}`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'SalesTicket.pdf'); 
+        document.body.appendChild(link);
+        link.click();
+
+        link.parentNode.removeChild(link);
+      } else {
+        console.error("Failed to generate PDF");
+      }
+    } catch (error) {
+      console.error("Error generating PDF:", error);
     }
   };
 
@@ -113,6 +147,20 @@ export default function SalesPage() {
     return;
   };
 
+  const hasDownloadSaleTicket = (item) => {
+    if (item.is_closed === "Sí") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const hasDelete = (item) => {
+    return;
+  };
+
+  
+
   const userHasAccess =
     user.user_role_id === 1 ||
     user.user_role_id === 2 ||
@@ -133,7 +181,7 @@ export default function SalesPage() {
         onChange={handleSearchChange}
       />
 
-      <Table
+      <TableOfSales
         title={"Ventas"}
         columns={columns}
         data={filteredData}
@@ -142,9 +190,11 @@ export default function SalesPage() {
         buttonShowRoute={(id) => `/platform/sales/${id}`}
         hasEdit={hasEdit}
         buttonEditRoute={(id) => `/platform/sales/${id}`}
-        hasDelete={true}
+        hasDelete={hasDelete}
         buttonDeleteRoute={handleDeleteSale}
         hasApprove={hasApprove}
+        hasDownloadSaleTicket={hasDownloadSaleTicket}
+        buttonDownloadSaleTicketRoute={handleDownloadSaleTicketRoute}
         confirmModalText={"¿Estás seguro de que deseas eliminar esta venta?"}
         customButton={<CreateSaleButton />}
       />

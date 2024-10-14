@@ -56,41 +56,40 @@ export default function SalesPage() {
     }
   };
 
-
   const handleDownloadSaleTicketRoute = async (id) => {
     try {
       const sale = await getSale(id);
       const saleItems = await getSaleItemsFromSale(id);
-  
+
       const totalSaleAmount = saleItems.reduce((total, item) => {
-        const saleItemTotal = item.sale_item_total; 
-  
+        const saleItemTotal = item.sale_item_total;
+
         if (!isNaN(saleItemTotal)) {
           return total + saleItemTotal;
         } else {
-          return total; 
+          return total;
         }
       }, 0);
-  
+
       const saleItemsParam = encodeURIComponent(JSON.stringify(saleItems));
-  
+
       const response = await fetch(
         `/api/sales/sale_ticket?saleItems=${saleItemsParam}&totalSaleAmount=${totalSaleAmount}`,
         {
-          method: 'GET',
+          method: "GET",
         }
       );
-  
+
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-  
-        const link = document.createElement('a');
+
+        const link = document.createElement("a");
         link.href = url;
-        link.setAttribute('download', `SalesTicket_${id}.pdf`);
+        link.setAttribute("download", `SalesTicket_${id}.pdf`);
         document.body.appendChild(link);
         link.click();
-  
+
         link.parentNode.removeChild(link);
       } else {
         console.error("Failed to generate PDF");
@@ -99,7 +98,6 @@ export default function SalesPage() {
       console.error("Error generating PDF:", error);
     }
   };
-  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -170,8 +168,6 @@ export default function SalesPage() {
   const hasDelete = (item) => {
     return;
   };
-
-  
 
   const userHasAccess =
     user.user_role_id === 1 ||

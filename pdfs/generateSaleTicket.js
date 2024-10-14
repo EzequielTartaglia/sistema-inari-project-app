@@ -13,7 +13,9 @@ export async function generateSaleTicket(saleItems, totalSaleAmount) {
   const logoUrl = `${domain}/${process.env.NEXT_PUBLIC_LOGO_FILE_NAME}`;
 
   try {
-    const logoImageBytes = (await axios.get(logoUrl, { responseType: "arraybuffer" })).data;
+    const logoImageBytes = (
+      await axios.get(logoUrl, { responseType: "arraybuffer" })
+    ).data;
     const logoImage = await pdfDoc.embedPng(logoImageBytes);
     const logoDimensions = logoImage.scale(0.3);
 
@@ -25,13 +27,17 @@ export async function generateSaleTicket(saleItems, totalSaleAmount) {
     });
 
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-    const timesRomanBoldFont = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+    const timesRomanBoldFont = await pdfDoc.embedFont(
+      StandardFonts.TimesRomanBold
+    );
 
     let yPositionItems = pageHeight - 220;
 
     for (const item of saleItems) {
       const product = await getProduct(item.product_id);
-      const itemLine = `${item.quantity}x ${product.name || "Producto no encontrado"} - $${item.sale_item_total.toFixed(2)}`;
+      const itemLine = `${item.quantity}x ${
+        product.name || "Producto no encontrado"
+      } - $ ${item.sale_item_total.toFixed(2)}`;
 
       page.drawText(itemLine, {
         x: 50,

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSale, getSales } from "@/src/models/platform/sale/sale";
+import { deleteSale, getSale, getSales } from "@/src/models/platform/sale/sale";
 import { getPlatformUsers } from "@/src/models/platform/platform_user/platform_user";
 
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import TableOfSales from "@/components/tables/TableOfSales";
 import SearchInput from "@/components/SearchInput";
 import formatDate from "@/src/helpers/formatDate";
 import CreateSaleButton from "./CreateSaleButton";
+import { getSaleItemsFromSale } from "@/src/models/platform/sale_item/sale_item";
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
@@ -57,29 +58,39 @@ export default function SalesPage() {
 
 
   const handleDownloadSaleTicketRoute = async (id) => {
-    const saleItems = [
-      { quantity: 2, description: "Item 1", price: 15.99 },
-      { quantity: 1, description: "Item 2", price: 35.50 }
-    ];
-    const totalSaleAmount = saleItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
-    const saleItemsParam = encodeURIComponent(JSON.stringify(saleItems));
-
     try {
-      const response = await fetch(`/api/sales/sale_ticket?saleItems=${saleItemsParam}&totalSaleAmount=${totalSaleAmount}`, {
-        method: 'GET',
-      });
-
+      const sale = await getSale(id);
+      const saleItems = await getSaleItemsFromSale(id);
+  
+      const totalSaleAmount = saleItems.reduce((total, item) => {
+        const saleItemTotal = item.sale_item_total; 
+  
+        if (!isNaN(saleItemTotal)) {
+          return total + saleItemTotal;
+        } else {
+          return total; 
+        }
+      }, 0);
+  
+      const saleItemsParam = encodeURIComponent(JSON.stringify(saleItems));
+  
+      const response = await fetch(
+        `/api/sales/sale_ticket?saleItems=${saleItemsParam}&totalSaleAmount=${totalSaleAmount}`,
+        {
+          method: 'GET',
+        }
+      );
+  
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-
+  
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'SalesTicket.pdf'); 
+        link.setAttribute('download', `SalesTicket_${id}.pdf`);
         document.body.appendChild(link);
         link.click();
-
+  
         link.parentNode.removeChild(link);
       } else {
         console.error("Failed to generate PDF");
@@ -88,6 +99,7 @@ export default function SalesPage() {
       console.error("Error generating PDF:", error);
     }
   };
+  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

@@ -333,7 +333,7 @@ export default function TableOfSales({
                           )}
                           {hasDownloadSaleTicket(item) && (
                             <button
-                              title="Descargar ticket de venta"
+                              title="Descargar ticket"
                               onClick={() =>
                                 buttonDownloadSaleTicketRoute(item.id)
                               }
@@ -460,7 +460,7 @@ export default function TableOfSales({
                       )}
                       {hasDownloadSaleTicket(item) && (
                         <button
-                          title="Descargar ticket de venta"
+                          title="Descargar ticket"
                           onClick={() => buttonDownloadSaleTicketRoute(item.id)}
                           className="text-green-500 hover:text-green-700 mr-4"
                         >

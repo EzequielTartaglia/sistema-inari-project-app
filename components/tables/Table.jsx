@@ -281,7 +281,7 @@ export default function Table({
                           {hasShow(item) && (
                             <Link
                               href={buttonShowRoute(item.id)}
-                              className="text-blue-600 hover:text-blue-900 mr-4"
+                              className="text-title-active mr-4"
                               title="Ver"
                             >
                               <FiEye className="text-lg" size={24} />
@@ -362,13 +362,13 @@ export default function Table({
               {columns.map((column, index) => (
                 <th
                   key={index}
-                  className="border border-white border-opacity-25 px-6 py-2"
+                  className="border border-white border-opacity-25 py-2 text-center"
                 >
                   {columnAliases[column] || column}
                 </th>
               ))}
               {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                <th className="border border-white border-opacity-25 px-6 py-2">
+                <th className="border border-white border-opacity-25 py-2 text-center">
                   Acciones
                 </th>
               )}
@@ -380,18 +380,18 @@ export default function Table({
                 {columns.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className="border border-white border-opacity-25 px-6 py-2"
+                    className="border border-white border-opacity-25 py-2"
                   >
                     {item[column]}
                   </td>
                 ))}
-                <td className=" border-white border border-opacity-25 px-6 py-2 flex items-center ">
+                <td className=" border-white border border-opacity-25 px-6 py-2 flex items-center">
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
                     <>
                       {hasShow(item) && (
                         <Link
                           href={buttonShowRoute(item.id)}
-                          className="text-blue-600 hover:text-blue-900 mr-4"
+                          className="text-title-active mr-4"
                           title="Ver"
                         >
                           <FiEye className="text-lg" size={24} />

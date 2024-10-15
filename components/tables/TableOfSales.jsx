@@ -225,7 +225,7 @@ export default function TableOfSales({
                   {columns.map((column, index) => (
                     <th
                       key={index}
-                      className="border border-white border-opacity-25 px-6 py-2"
+                      className="border border-white border-opacity-25 py-2 text-center"
                     >
                       {columnAliases[column] || column}
                     </th>
@@ -235,7 +235,7 @@ export default function TableOfSales({
                     hasDelete ||
                     hasApprove ||
                     hasDownloadSaleTicket) && (
-                    <th className="border border-white border-opacity-25 px-6 py-2">
+                    <th className="border border-white border-opacity-25 py-2 text-center">
                       Acciones
                     </th>
                   )}

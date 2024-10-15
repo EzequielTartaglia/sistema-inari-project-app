@@ -158,13 +158,13 @@ export default function TableOfProductsInSale({
                   {columns.map((column, index) => (
                     <th
                       key={index}
-                      className="border border-white border-opacity-25 px-6 py-2"
+                      className="border border-white border-opacity-25 py-2 text-center"
                     >
                       {columnAliases[column] || column}
                     </th>
                   ))}
                   {hasCustomButton && (
-                    <th className="border border-white border-opacity-25 px-6 py-2">
+                    <th className="border border-white border-opacity-25 py-2 text-center">
                       Acciones
                     </th>
                   )}

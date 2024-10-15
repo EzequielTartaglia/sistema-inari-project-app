@@ -208,7 +208,7 @@ export default function Table({
                   {columns.map((column, index) => (
                     <th
                       key={index}
-                      className="border border-white border-opacity-25 px-6 py-2"
+                      className="border border-white border-opacity-25 py-2 text-center"
                     >
                       {columnAliases[column] || column}
                     </th>

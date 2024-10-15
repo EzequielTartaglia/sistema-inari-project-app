@@ -214,7 +214,7 @@ export default function Table({
                     </th>
                   ))}
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
-                    <th className="border border-white border-opacity-25 px-6 py-2">
+                    <th className="border border-white border-opacity-25 py-2 text-center">
                       Acciones
                     </th>
                   )}

@@ -111,13 +111,13 @@ export default function TableOfProductsInSale({
               {columns.map((column, index) => (
                 <th
                   key={index}
-                  className="border border-white border-opacity-25 py-2 text-center"
+                  className="border border-white border-opacity-25 py-2 px-6 text-center"
                 >
                   {columnAliases[column] || column}
                 </th>
               ))}
               {hasCustomButton && (
-                <th className="border border-white border-opacity-25 py-2 text-center">
+                <th className="border border-white border-opacity-25 py-2 px-6 text-center">
                   Acciones
                 </th>
               )}
@@ -158,13 +158,13 @@ export default function TableOfProductsInSale({
                   {columns.map((column, index) => (
                     <th
                       key={index}
-                      className="border border-white border-opacity-25 py-2 text-center"
+                      className="border border-white border-opacity-25 py-2 px-6 text-center"
                     >
                       {columnAliases[column] || column}
                     </th>
                   ))}
                   {hasCustomButton && (
-                    <th className="border border-white border-opacity-25 py-2 text-center">
+                    <th className="border border-white border-opacity-25 py-2 px-6 text-center">
                       Acciones
                     </th>
                   )}

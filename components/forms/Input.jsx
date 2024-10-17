@@ -26,7 +26,7 @@ const Input = ({
       </label>
 
       <input
-        type={type === 'password' && !showPassword ? 'password' : 'text'}
+        type={type === 'password' && !showPassword ? 'password' : type} 
         id={name}
         name={name}
         value={value}
@@ -45,9 +45,10 @@ const Input = ({
           onClick={togglePasswordVisibility} 
           className="absolute right-2 top-[50px] cursor-pointer text-gray-600"
         >
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
+          {showPassword ? <FaEye /> : <FaEyeSlash />}
         </span>
       )}
+
 
       {isSubmitted && errorMessage && (
         <span className="text-red-500 mt-1 font-semibold">{errorMessage}</span>

@@ -16,7 +16,7 @@ import {
 } from "react-icons/fi";
 import ConfirmModal from "../ConfirmModal";
 
-export default function TableOfSales({
+export default function SalesTable({
   columns,
   data,
   title,

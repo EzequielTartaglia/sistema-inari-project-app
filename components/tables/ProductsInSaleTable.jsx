@@ -9,7 +9,7 @@ import {
   FiChevronsRight,
 } from "react-icons/fi";
 
-export default function TableOfProductsInSale({
+export default function ProductsInSaleTable({
   columns,
   data,
   title,

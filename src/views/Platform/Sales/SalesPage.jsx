@@ -9,7 +9,7 @@ import { useNotification } from "@/contexts/NotificationContext";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import PageHeader from "@/components/page_formats/PageHeader";
-import TableOfSales from "@/components/tables/TableOfSales";
+import SalesTable from "@/components/tables/SalesTable";
 import SearchInput from "@/components/SearchInput";
 import formatDate from "@/src/helpers/formatDate";
 import CreateSaleButton from "./CreateSaleButton";
@@ -189,7 +189,7 @@ export default function SalesPage() {
         onChange={handleSearchChange}
       />
 
-      <TableOfSales
+      <SalesTable
         title={"Ventas"}
         columns={columns}
         data={filteredData}

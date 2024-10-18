@@ -26,7 +26,7 @@ import SearchInput from "@/components/SearchInput";
 import { FiCheckCircle, FiTrash2 } from "react-icons/fi";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageHeader from "@/components/page_formats/PageHeader";
-import TableOfProductsInSale from "@/components/tables/TableOfProductsInSale";
+import ProductsInSaleTable from "@/components/tables/ProductsInSaleTable";
 import Button from "@/components/Button";
 import { FaCartArrowDown, FaCartPlus, FaShoppingBag } from "react-icons/fa";
 import ClosePreviusSaleAndCreateNewOneButton from "../ClosePreviusSaleAndCreateNewOneButton";
@@ -428,7 +428,7 @@ export default function SaleOpenDetails({ saleId }) {
             />
           </div>
 
-          <TableOfProductsInSale
+          <ProductsInSaleTable
             columns={columns}
             data={filteredData}
             columnAliases={columnAliases}

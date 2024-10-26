@@ -424,8 +424,8 @@ export default function SalesTable({
                     {item[column]}
                   </td>
                 ))}
-                <td className=" border-white border border-opacity-25 px-6 py-2 flex items-center ">
-                  {(hasShow ||
+                <td className=" border-white border border-opacity-25 px-6 py-6 flex items-center ">
+                {(hasShow ||
                     hasEdit ||
                     hasDelete ||
                     hasApprove ||

@@ -385,7 +385,7 @@ export default function Table({
                     {item[column]}
                   </td>
                 ))}
-                <td className=" border-white border border-opacity-25 px-6 py-2 flex items-center ">
+                <td className=" border-white border border-opacity-25 px-6 py-6 flex items-center ">
                   {(hasShow || hasEdit || hasDelete || hasApprove) && (
                     <>
                       {hasShow(item) && (

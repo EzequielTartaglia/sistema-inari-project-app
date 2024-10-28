@@ -1,3 +1,5 @@
+
+'use client'
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
@@ -26,7 +28,7 @@ const Input = ({
       </label>
 
       <input
-        type={type === 'password' && !showPassword ? 'password' : type} 
+        type={type === 'password' && !showPassword ? 'password' : showPassword ? 'text' : type} 
         id={name}
         name={name}
         value={value}
@@ -48,7 +50,6 @@ const Input = ({
           {showPassword ? <FaEye /> : <FaEyeSlash />}
         </span>
       )}
-
 
       {isSubmitted && errorMessage && (
         <span className="text-red-500 mt-1 font-semibold">{errorMessage}</span>

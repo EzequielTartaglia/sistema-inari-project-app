@@ -9,6 +9,7 @@ import { UserInfoProvider } from "@/contexts/UserInfoContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { Suspense } from "react";
 import Loading from "./loading";
+import PushNotificationManager from "@/utils/web-push/PushNotificationManager";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
         <body className="min-h-screen body-bg">
           <NotificationProvider>
             <UserInfoProvider>
+            <PushNotificationManager /> 
               <AsideNavBarProvider>
                 <NavBarWrapper />
                 <main

@@ -1,3 +1,10 @@
+## Development Group
+
+- Ezequiel Matias Tartaglia
+- Nathane Katambuka Kanyesigye
+
+## Instrucciones
+
 Crear projecto en nextjs con PostgreSQL
 
 1) Descargar node.js e instalar.

@@ -21,7 +21,18 @@ import CheckboxInput from "../../CheckboxInput";
 import Image from "next/image";
 
 export default function EditProductForm({ productId }) {
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    has_image: false,
+    image_path: "",
+    product_category_id: "",
+    price: "",
+    product_measure_unit_id: "",
+    quantity: "",
+    has_bar_code: false,
+    bar_code: "",
+  });
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);

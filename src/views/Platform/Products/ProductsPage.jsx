@@ -15,6 +15,8 @@ import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import PageHeader from "@/components/page_formats/PageHeader";
 import Table from "@/components/tables/Table";
 import SearchInput from "@/components/SearchInput";
+import Image from "next/image";
+import { FiImage } from "react-icons/fi";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -24,8 +26,17 @@ export default function ProductsPage() {
   const { user } = useUserInfoContext();
   const { showNotification } = useNotification();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const router = useRouter();
+
+  const openImageModal = (imageSrc) => {
+    setSelectedImage(imageSrc);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
 
   useEffect(() => {
     async function fetchProducts() {
@@ -61,6 +72,7 @@ export default function ProductsPage() {
   };
 
   const columns = [
+    "image_path",
     "name",
     "product_category_id",
     "price",
@@ -68,8 +80,9 @@ export default function ProductsPage() {
     "quantity",
   ];
   const columnAliases = {
+    image_path: "Imagen",
     name: "Nombre",
-    product_category_id: "Categoria",
+    product_category_id: "Categoría",
     price: "Precio",
     product_measure_unit_id: "Unidad de medida",
     quantity: "Cantidad",
@@ -86,8 +99,31 @@ export default function ProductsPage() {
       const productMeasureUnit = measureUnits.find(
         (measure_unit) => measure_unit.id === product.product_measure_unit_id
       );
+
       return {
         id: product.id,
+        image_path: (
+          <div className="flex justify-center">
+            {product.image_path &&
+            (product.image_path.startsWith("/") ||
+              product.image_path.startsWith("http")) ? (
+              <button onClick={() => openImageModal(product.image_path)}>
+                <Image
+                  src={product.image_path}
+                  alt={product.name}
+                  width={50}
+                  height={50}
+                  className="rounded-md object-cover border"
+                />
+              </button>
+            ) : (
+              <FiImage
+                title="Imagen incompatible"
+                className="text-red-400 text-2xl"
+              />
+            )}
+          </div>
+        ),
         name: product.name,
         product_category_id: productCategory ? productCategory.name : "N/A",
         price: parseFloat(product.price).toFixed(2),
@@ -145,6 +181,33 @@ export default function ProductsPage() {
         hasApprove={hasApprove}
         confirmModalText={"¿Estás seguro de que deseas eliminar este producto?"}
       />
+
+      {/* Image preview modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg relative max-w-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeModal}
+              className="absolute top-1 right-2 text-gray-500 hover:text-gray-800"
+            >
+              ✖
+            </button>
+            <Image
+              src={selectedImage}
+              alt="Imagen ampliada"
+              width={500}
+              height={500}
+              className="rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

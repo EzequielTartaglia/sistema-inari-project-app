@@ -216,6 +216,7 @@ export default function EditProductForm({ productId }) {
           step="0.01"
         />
 
+
         <SelectInput
           label="Unidad de Medida"
           name="product_measure_unit_id"

@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import PageHeader from "@/components/page_formats/PageHeader";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { getPlatformSetting } from "@/src/models/platform/platform_setting/platform_setting";
+import { getPlatformSetting } from "@/src/controllers/platform/platform_setting/platform_setting";
 import { useEffect, useState } from "react";
 
 export default function PlatformSettingsPage() {

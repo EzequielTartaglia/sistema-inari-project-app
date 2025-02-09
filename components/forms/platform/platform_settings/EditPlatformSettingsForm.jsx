@@ -8,7 +8,7 @@ import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
 import SubmitLoadingButton from "../../SubmitLoadingButton";
 
-import { editPlatformSettings, getPlatformSetting } from "@/src/models/platform/platform_setting/platform_setting";
+import { editPlatformSettings, getPlatformSetting } from "@/src/controllers/platform/platform_setting/platform_setting";
 
 export default function EditPlatformSettingsForm() {
     const [platformSettings, setPlatformSettings] = useState({

@@ -3,7 +3,7 @@
 import {
   getPlatformUsers,
   editPlatformUserStatus,
-} from "@/src/models/platform/platform_user/platform_user";
+} from "@/src/controllers/platform/platform_user/platform_user";
 
 import axios from "axios";
 import { useState } from "react";

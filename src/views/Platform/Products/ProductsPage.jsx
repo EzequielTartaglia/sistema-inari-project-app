@@ -3,9 +3,9 @@
 import {
   getProducts,
   deleteProduct,
-} from "@/src/models/platform/product/product";
-import { getProductCategories } from "@/src/models/platform/product_category/product_category";
-import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+} from "@/src/controllers/platform/product/product";
+import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
+import { getProductMeasureUnits } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

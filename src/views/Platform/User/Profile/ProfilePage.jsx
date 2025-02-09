@@ -1,7 +1,7 @@
 "use client";
 
-import { getPlatformUserRole } from "@/src/models/platform/platform_user_role/platform_user_role";
-import { getCountry } from "@/src/models/platform/country/country";
+import { getPlatformUserRole } from "@/src/controllers/platform/platform_user_role/platform_user_role";
+import { getCountry } from "@/src/controllers/platform/country/country";
 
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useState, useEffect } from "react";

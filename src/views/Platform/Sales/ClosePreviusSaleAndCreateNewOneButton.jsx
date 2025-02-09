@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
-import { addSale, getLastSale, closeSale } from "@/src/models/platform/sale/sale";
+import { addSale, getLastSale, closeSale } from "@/src/controllers/platform/sale/sale";
 import { FiPlus } from "react-icons/fi"; 
 
 export default function ClosePreviusSaleAndCreateNewOneButton({ 

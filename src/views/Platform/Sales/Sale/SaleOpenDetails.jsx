@@ -1,13 +1,13 @@
 "use client";
 
-import { getProducts } from "@/src/models/platform/product/product";
-import { getProductCategories } from "@/src/models/platform/product_category/product_category";
-import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { getProducts } from "@/src/controllers/platform/product/product";
+import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
+import { getProductMeasureUnits } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 import {
   changeSaleTotal,
   closeSale,
   getSale,
-} from "@/src/models/platform/sale/sale";
+} from "@/src/controllers/platform/sale/sale";
 import {
   getSaleItemsFromSale,
   addSaleItem,
@@ -16,7 +16,7 @@ import {
   decreaseSaleItemQuantity,
   changeSaleItemQuantity,
   emptyCart,
-} from "@/src/models/platform/sale_item/sale_item";
+} from "@/src/controllers/platform/sale_item/sale_item";
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";

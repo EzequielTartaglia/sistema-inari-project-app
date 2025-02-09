@@ -1,6 +1,6 @@
 "use client";
 
-import { addProductCategory } from "@/src/models/platform/product_category/product_category";
+import { addProductCategory } from "@/src/controllers/platform/product_category/product_category";
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSale, getSale, getSales } from "@/src/models/platform/sale/sale";
-import { getPlatformUsers } from "@/src/models/platform/platform_user/platform_user";
+import { deleteSale, getSale, getSales } from "@/src/controllers/platform/sale/sale";
+import { getPlatformUsers } from "@/src/controllers/platform/platform_user/platform_user";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import SalesTable from "@/components/tables/SalesTable";
 import SearchInput from "@/components/SearchInput";
 import formatDate from "@/src/helpers/formatDate";
 import CreateSaleButton from "./CreateSaleButton";
-import { getSaleItemsFromSale } from "@/src/models/platform/sale_item/sale_item";
+import { getSaleItemsFromSale } from "@/src/controllers/platform/sale_item/sale_item";
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);

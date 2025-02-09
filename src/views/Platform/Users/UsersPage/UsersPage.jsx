@@ -3,8 +3,8 @@
 import {
   getPlatformUsers,
   deletePlatformUser,
-} from "@/src/models/platform/platform_user/platform_user";
-import { getPlatformUserRoles } from "@/src/models/platform/platform_user_role/platform_user_role";
+} from "@/src/controllers/platform/platform_user/platform_user";
+import { getPlatformUserRoles } from "@/src/controllers/platform/platform_user_role/platform_user_role";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

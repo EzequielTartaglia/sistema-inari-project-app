@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductMeasureUnits, deleteProductMeasureUnit } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { getProductMeasureUnits, deleteProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useEffect, useState } from "react";

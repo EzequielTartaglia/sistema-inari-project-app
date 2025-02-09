@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductCategory } from "@/src/models/platform/product_category/product_category";
+import { getProductCategory } from "@/src/controllers/platform/product_category/product_category";
 
 import { useEffect, useState } from "react";
 

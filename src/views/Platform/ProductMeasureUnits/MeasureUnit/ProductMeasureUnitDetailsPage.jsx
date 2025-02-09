@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductMeasureUnit } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { getProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useEffect, useState } from "react";
 

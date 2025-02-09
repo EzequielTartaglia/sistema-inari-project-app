@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductMeasureUnit,editProductMeasureUnit } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { getProductMeasureUnit,editProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState, useEffect } from "react";

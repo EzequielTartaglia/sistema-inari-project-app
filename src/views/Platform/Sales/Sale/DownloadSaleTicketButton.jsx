@@ -1,7 +1,7 @@
 "use client";
 
-import { getSale } from "@/src/models/platform/sale/sale";
-import { getSaleItemsFromSale } from "@/src/models/platform/sale_item/sale_item";
+import { getSale } from "@/src/controllers/platform/sale/sale";
+import { getSaleItemsFromSale } from "@/src/controllers/platform/sale_item/sale_item";
 
 import { useState } from "react";
 

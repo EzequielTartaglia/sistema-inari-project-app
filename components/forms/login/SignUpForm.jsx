@@ -3,10 +3,10 @@
 import {
   addPlatformUser,
   checkEmailExists,
-} from "@/src/models/platform/platform_user/platform_user";
-import { getPlatformUserRoles } from "@/src/models/platform/platform_user_role/platform_user_role";
-import { getCountries } from "@/src/models/platform/country/country";
-import { getPlatformUserGenders } from "@/src/models/platform/platform_user_gender/platform_user_gender";
+} from "@/src/controllers/platform/platform_user/platform_user";
+import { getPlatformUserRoles } from "@/src/controllers/platform/platform_user_role/platform_user_role";
+import { getCountries } from "@/src/controllers/platform/country/country";
+import { getPlatformUserGenders } from "@/src/controllers/platform/platform_user_gender/platform_user_gender";
 
 import { useNotification } from "@/contexts/NotificationContext";
 import { useEffect, useState } from "react";

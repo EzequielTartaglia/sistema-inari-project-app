@@ -1,8 +1,8 @@
 "use client";
 
-import { getProduct, editProduct } from "@/src/models/platform/product/product";
-import { getProductCategories } from "@/src/models/platform/product_category/product_category";
-import { getProductMeasureUnits } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { getProduct, editProduct } from "@/src/controllers/platform/product/product";
+import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
+import { getProductMeasureUnits } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

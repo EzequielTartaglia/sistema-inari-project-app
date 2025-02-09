@@ -1,6 +1,6 @@
 "use client";
 
-import { addProductMeasureUnit } from "@/src/models/platform/product_measure_unit/product_measure_unit";
+import { addProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

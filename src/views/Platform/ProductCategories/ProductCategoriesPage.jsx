@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductCategories, deleteProductCategory } from "@/src/models/platform/product_category/product_category";
+import { getProductCategories, deleteProductCategory } from "@/src/controllers/platform/product_category/product_category";
 
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useEffect, useState } from "react";

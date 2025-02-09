@@ -3,7 +3,7 @@
 import {
   getProductCategory,
   editProductCategory,
-} from "@/src/models/platform/product_category/product_category";
+} from "@/src/controllers/platform/product_category/product_category";
 
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState, useEffect } from "react";

@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { getProduct } from "@/src/models/platform/product/product";
+import { getProduct } from "@/src/controllers/platform/product/product";
 import axios from "axios";
 
 export async function generateSaleTicket(saleItems, totalSaleAmount) {

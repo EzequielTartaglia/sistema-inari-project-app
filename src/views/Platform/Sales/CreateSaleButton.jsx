@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
-import { addSale, getLastSale } from "@/src/models/platform/sale/sale";
+import { addSale, getLastSale } from "@/src/controllers/platform/sale/sale";
 import { FiPlus } from "react-icons/fi"; 
 
 export default function CreateSaleButton({ customClasses = `p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2`, onClick, text, Icon = FiPlus, title = "Crear venta" }) {

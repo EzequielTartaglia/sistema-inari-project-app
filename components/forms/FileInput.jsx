@@ -22,27 +22,31 @@ const FileInput = ({
   required,
   apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY,
   onUploadSuccess,
+  showPreview = true,
+  showLink = true,
 }) => {
   const [fileName, setFileName] = useState("");
   const [uploadUrl, setUploadUrl] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
-  const [isUploading, setIsUploading] = useState(false); 
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setFileName(file.name);
 
+      // Crear una URL de objeto para la vista previa local
       const objectUrl = URL.createObjectURL(file);
       setPreviewUrl(objectUrl);
 
-      onChange(event);
+      // Aquí se debe manejar el archivo según tu lógica
+      onChange({ target: { name, files: [file] } }); // Asegúrate de pasar el archivo correctamente
 
       const formData = new FormData();
       formData.append("image", file);
 
-      setIsUploading(true); 
+      setIsUploading(true);
 
       try {
         const response = await fetch(
@@ -56,7 +60,7 @@ const FileInput = ({
         const data = await response.json();
 
         if (response.ok && data.success) {
-          const url = data.data.url;
+          const url = data.data.url; // URL externa para usar en Image
           setUploadUrl(url);
           setUploadError("");
 
@@ -71,7 +75,7 @@ const FileInput = ({
         setUploadError("An error occurred while uploading.");
         setUploadUrl("");
       } finally {
-        setIsUploading(false); 
+        setIsUploading(false);
       }
     }
   };
@@ -113,19 +117,19 @@ const FileInput = ({
         </div>
       )}
 
-      {previewUrl && !isUploading && (
+      {showPreview && previewUrl && !isUploading && (
         <div className="mt-2">
           <Image
             src={previewUrl}
             alt="Vista previa"
-            width={150}
-            height={150}
+            width={250}
+            height={250}
             className="border rounded-md"
           />
         </div>
       )}
 
-      {uploadUrl && !isUploading && (
+      {showPreview && showLink && uploadUrl && !isUploading && (
         <div className="mt-2">
           <Link
             href={uploadUrl}

@@ -18,20 +18,10 @@ import SelectInput from "@/components/forms/SelectInput";
 import CheckboxWithInput from "../../CheckboxWithInput";
 import FileInput from "../../FileInput";
 import CheckboxInput from "../../CheckboxInput";
+import Image from "next/image";
 
 export default function EditProductForm({ productId }) {
-  const [product, setProduct] = useState({
-    name: "",
-    description: "",
-    has_image: false,
-    image_path: "",
-    product_category_id: "",
-    price: "",
-    product_measure_unit_id: "",
-    quantity: "",
-    has_bar_code: false,
-    bar_code: "",
-  });
+  const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -179,15 +169,27 @@ export default function EditProductForm({ productId }) {
           onChange={handleInputChange}
         />
 
-        {product.has_image && (
-          <div className="mt-4">
-            <FileInput
-              name="checkpointImage"
-              onChange={handleFileChange}
-              onUploadSuccess={handleFileUploadSuccess}
-              showPreview={false}
-            />
-          </div>
+        {product.has_image && product.image_path && (
+          <>
+            <div className="w-32 h-32 my-4 flex items-center justify-center overflow-hidden rounded-lg border bg-gray-100">
+              <Image
+                src={product.image_path}
+                alt="Imagen del producto"
+                width={200}
+                height={200}
+                className="object-cover w-full h-full"
+              />
+            </div>
+
+            <div className="mt-4">
+              <FileInput
+                name="checkpointImage"
+                onChange={handleFileChange}
+                onUploadSuccess={handleFileUploadSuccess}
+                showPreview={false}
+              />
+            </div>
+          </>
         )}
 
         <SelectInput
@@ -215,7 +217,6 @@ export default function EditProductForm({ productId }) {
           type="number"
           step="0.01"
         />
-
 
         <SelectInput
           label="Unidad de Medida"

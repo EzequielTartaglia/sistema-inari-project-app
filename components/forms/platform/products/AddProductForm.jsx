@@ -12,17 +12,12 @@ import PageHeader from "@/components/page_formats/PageHeader";
 import SubmitLoadingButton from "../../SubmitLoadingButton";
 import TextArea from "../../TextArea";
 import SelectInput from "@/components/forms/SelectInput";
+import FileInput from "../../FileInput";
+import CheckboxInput from "../../CheckboxInput";
+import CheckboxWithInput from "../../CheckboxWithInput";
 
 export default function AddProductForm() {
-  const [product, setProduct] = useState({
-    name: "",
-    description: "",
-    image_path: "",
-    product_category_id: "",
-    price: "",
-    product_measure_unit_id: "",
-    quantity: "",
-  });
+  const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -52,9 +47,11 @@ export default function AddProductForm() {
     if (
       !product.name ||
       !product.product_category_id ||
+      (product.has_image && !product.image_path) ||
       !product.price ||
       !product.product_measure_unit_id ||
-      !product.quantity
+      !product.quantity ||
+      (product.has_bar_code && !product.bar_code)
     ) {
       return;
     }
@@ -65,11 +62,14 @@ export default function AddProductForm() {
       await addProduct(
         product.name,
         product.description,
-        product.image_path,
+        product.has_image,
+        product.has_image ? product.image_path : null,
         product.product_category_id,
         product.price,
         product.product_measure_unit_id,
-        product.quantity
+        product.quantity,
+        product.has_bar_code,
+        product.has_bar_code ? product.bar_code : null
       );
 
       showNotification("¡Producto agregado exitosamente!", "success");
@@ -85,8 +85,24 @@ export default function AddProductForm() {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    setProduct({
+      ...product,
+      [name]: newValue,
+    });
+  };
+
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+  };
+
+  const handleFileUploadSuccess = (url) => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      has_image: true,
+      image_path: url,
+    }));
   };
 
   return (
@@ -109,6 +125,21 @@ export default function AddProductForm() {
           errorMessage="Campo obligatorio"
         />
 
+        <CheckboxWithInput
+          checkboxId="has_bar_code"
+          checkboxChecked={product.has_bar_code}
+          checkboxOnChange={handleInputChange}
+          checkboxName="has_bar_code"
+          checkboxLabel="¿Contiene codigo de barra?"
+          inputName="bar_code"
+          inputValue={product.bar_code}
+          inputLabel="Codigo de barra"
+          inputPlaceholder="Ingrese el codigo de barra del producto..."
+          inputOnChange={handleInputChange}
+          isSubmitted={isSubmitted}
+          inputErrorMessage="Campo obligatorio"
+        />
+
         <TextArea
           label="Descripción"
           name="description"
@@ -118,13 +149,24 @@ export default function AddProductForm() {
           isSubmitted={isSubmitted}
         />
 
-        <Input
-          label="Ruta de la Imagen"
-          name="image_path"
-          value={product.image_path}
-          placeholder="Escribe la ruta de la imagen..."
+        <CheckboxInput
+          id="has_image"
+          name="has_image"
+          label="¿Tiene imagen?"
+          checked={product.has_image}
           onChange={handleInputChange}
         />
+
+        {product.has_image && (
+          <div className="mt-4">
+            <FileInput
+              name="checkpointImage"
+              onChange={handleFileChange}
+              onUploadSuccess={handleFileUploadSuccess}
+              showPreview={false}
+            />
+          </div>
+        )}
 
         <SelectInput
           label="Categoría del Producto"

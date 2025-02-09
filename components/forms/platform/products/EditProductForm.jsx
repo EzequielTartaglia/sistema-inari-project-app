@@ -1,6 +1,9 @@
 "use client";
 
-import { getProduct, editProduct } from "@/src/controllers/platform/product/product";
+import {
+  getProduct,
+  editProduct,
+} from "@/src/controllers/platform/product/product";
 import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
 import { getProductMeasureUnits } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 import { useNotification } from "@/contexts/NotificationContext";
@@ -12,16 +15,22 @@ import PageHeader from "@/components/page_formats/PageHeader";
 import SubmitLoadingButton from "../../SubmitLoadingButton";
 import TextArea from "../../TextArea";
 import SelectInput from "@/components/forms/SelectInput";
+import CheckboxWithInput from "../../CheckboxWithInput";
+import FileInput from "../../FileInput";
+import CheckboxInput from "../../CheckboxInput";
 
 export default function EditProductForm({ productId }) {
   const [product, setProduct] = useState({
     name: "",
     description: "",
+    has_image: false,
     image_path: "",
     product_category_id: "",
     price: "",
     product_measure_unit_id: "",
     quantity: "",
+    has_bar_code: false,
+    bar_code: "",
   });
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
@@ -37,7 +46,7 @@ export default function EditProductForm({ productId }) {
         const fetchedProduct = await getProduct(productId);
         setProduct({
           ...fetchedProduct,
-          price: parseFloat(fetchedProduct.price).toFixed(2), 
+          price: parseFloat(fetchedProduct.price).toFixed(2),
         });
 
         const fetchedCategories = await getProductCategories();
@@ -58,9 +67,11 @@ export default function EditProductForm({ productId }) {
     if (
       !product.name ||
       !product.product_category_id ||
+      (product.has_image && !product.image_path) ||
       !product.price ||
       !product.product_measure_unit_id ||
-      !product.quantity
+      !product.quantity ||
+      (product.has_bar_code && !product.bar_code)
     ) {
       return;
     }
@@ -72,11 +83,14 @@ export default function EditProductForm({ productId }) {
         productId,
         product.name,
         product.description,
-        product.image_path,
+        product.has_image,
+        product.has_image ? product.image_path : null,
         product.product_category_id,
-        parseFloat(product.price).toFixed(2), 
+        product.price,
         product.product_measure_unit_id,
-        product.quantity
+        product.quantity,
+        product.has_bar_code,
+        product.has_bar_code ? product.bar_code : null
       );
 
       showNotification("¡Producto editado exitosamente!", "success");
@@ -92,8 +106,24 @@ export default function EditProductForm({ productId }) {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    setProduct({
+      ...product,
+      [name]: newValue,
+    });
+  };
+
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+  };
+
+  const handleFileUploadSuccess = (url) => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      has_image: true,
+      image_path: url,
+    }));
   };
 
   return (
@@ -117,6 +147,21 @@ export default function EditProductForm({ productId }) {
           errorMessage="Campo obligatorio"
         />
 
+        <CheckboxWithInput
+          checkboxId="has_bar_code"
+          checkboxChecked={product.has_bar_code}
+          checkboxOnChange={handleInputChange}
+          checkboxName="has_bar_code"
+          checkboxLabel="¿Contiene codigo de barra?"
+          inputName="bar_code"
+          inputValue={product.bar_code}
+          inputLabel="Codigo de barra"
+          inputPlaceholder="Ingrese el codigo de barra del producto..."
+          inputOnChange={handleInputChange}
+          isSubmitted={isSubmitted}
+          inputErrorMessage="Campo obligatorio"
+        />
+
         <TextArea
           label="Descripción"
           name="description"
@@ -126,13 +171,24 @@ export default function EditProductForm({ productId }) {
           isSubmitted={isSubmitted}
         />
 
-        <Input
-          label="Ruta de la Imagen"
-          name="image_path"
-          value={product.image_path}
-          placeholder="Escribe la ruta de la imagen..."
+        <CheckboxInput
+          id="has_image"
+          name="has_image"
+          label="¿Tiene imagen?"
+          checked={product.has_image}
           onChange={handleInputChange}
         />
+
+        {product.has_image && (
+          <div className="mt-4">
+            <FileInput
+              name="checkpointImage"
+              onChange={handleFileChange}
+              onUploadSuccess={handleFileUploadSuccess}
+              showPreview={false}
+            />
+          </div>
+        )}
 
         <SelectInput
           label="Categoría del Producto"

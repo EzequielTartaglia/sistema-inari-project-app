@@ -4,11 +4,12 @@ import axios from "axios";
 
 export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
   try {
-    const pdfDoc = await PDFDocument.create();
+    const baseHeight = 400;
+    const extraHeightPerItem = 20;
+    let pageHeight = baseHeight + saleItems.length * extraHeightPerItem;
 
-    // Size
+    const pdfDoc = await PDFDocument.create();
     const pageWidth = 226;
-    const pageHeight = 400 + saleItems.length * 20;
     const page = pdfDoc.addPage([pageWidth, pageHeight]);
 
     const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "Tienda";
@@ -48,7 +49,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
 
     // Sale date
     let dateTime = "Fecha desconocida";
-    if (saleInfo && saleInfo.sale_date) {
+    if (saleInfo?.sale_date) {
       try {
         const saleDate = new Date(saleInfo.sale_date);
         if (!isNaN(saleDate)) {
@@ -103,7 +104,14 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
         font,
         color: rgb(0, 0, 0),
       });
+
       yPosition -= 15;
+    }
+
+    if (yPosition < 50) {
+      pageHeight += 50 - yPosition;
+      page.setSize(pageWidth, pageHeight);
+      yPosition = 50;
     }
 
     // Divisor
@@ -116,8 +124,11 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     yPosition -= 20;
 
     // Sale total
-    page.drawText(`TOTAL: $${totalSaleAmount.toFixed(2)}`, {
-      x: 10,
+    const totalText = `TOTAL: $${totalSaleAmount.toFixed(2)}`;
+    const totalTextWidth = boldFont.widthOfTextAtSize(totalText, 12);
+
+    page.drawText(totalText, {
+      x: (pageWidth - totalTextWidth) / 2,
       y: yPosition,
       size: 12,
       font: boldFont,
@@ -137,7 +148,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
       color: rgb(0, 0, 0),
     });
 
-    // Guardar PDF y devolverlo
+    // Save PDF
     return await pdfDoc.save();
   } catch (error) {
     console.error("Error generando el ticket de venta:", error);

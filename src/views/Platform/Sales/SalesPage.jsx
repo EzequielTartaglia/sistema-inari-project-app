@@ -58,46 +58,40 @@ export default function SalesPage() {
 
   const handleDownloadSaleTicketRoute = async (id) => {
     try {
-      const sale = await getSale(id);
-      const saleItems = await getSaleItemsFromSale(id);
-
-      const totalSaleAmount = saleItems.reduce((total, item) => {
-        const saleItemTotal = item.sale_item_total;
-
-        if (!isNaN(saleItemTotal)) {
-          return total + saleItemTotal;
-        } else {
-          return total;
-        }
-      }, 0);
-
-      const saleItemsParam = encodeURIComponent(JSON.stringify(saleItems));
-
-      const response = await fetch(
-        `/api/sales/sale_ticket?saleItems=${saleItemsParam}&totalSaleAmount=${totalSaleAmount}`,
-        {
-          method: "GET",
-        }
+      const [saleInfo, saleItems] = await Promise.all([getSale(id), getSaleItemsFromSale(id)]);
+  
+      const totalSaleAmount = saleItems.reduce((total, { sale_item_total }) => 
+        total + (isNaN(sale_item_total) ? 0 : sale_item_total), 0
       );
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `SalesTicket_${id}.pdf`);
-        document.body.appendChild(link);
-        link.click();
-
-        link.parentNode.removeChild(link);
-      } else {
-        console.error("Failed to generate PDF");
-      }
+  
+      const queryParams = new URLSearchParams({
+        saleItems: JSON.stringify(saleItems),
+        totalSaleAmount,
+        saleInfo: JSON.stringify(saleInfo)
+      }).toString();
+  
+      const response = await fetch(`/api/sales/sale_ticket?${queryParams}`);
+  
+      if (!response.ok) throw new Error("Failed to generate PDF");
+  
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+  
+      const link = Object.assign(document.createElement("a"), {
+        href: url,
+        download: `SalesTicket_${id}.pdf`
+      });
+  
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url); 
+  
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
   };
+  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

@@ -2,28 +2,40 @@ import { generateSaleTicket } from "@/pdfs/generateSaleTicket";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const saleItemsParam = searchParams.get("saleItems");
-  const totalSaleAmount = parseFloat(searchParams.get("totalSaleAmount"));
-
-  if (!saleItemsParam || isNaN(totalSaleAmount)) {
-    return NextResponse.json(
-      { message: "Sale items and total amount are required" },
-      { status: 400 }
-    );
-  }
-
   try {
-    const saleItems = JSON.parse(saleItemsParam);
-    console.log("Parsed Sale Items:", saleItems); 
+    const { searchParams } = new URL(request.url);
+    const saleItemsParam = searchParams.get("saleItems");
+    const saleInfoParam = searchParams.get("saleInfo");
+    const totalSaleAmount = parseFloat(searchParams.get("totalSaleAmount"));
 
-    const pdfBytes = await generateSaleTicket(saleItems, totalSaleAmount);
+    if (!saleItemsParam || !saleInfoParam || isNaN(totalSaleAmount)) {
+      return NextResponse.json(
+        { message: "Sale items, sale info, and total amount are required" },
+        { status: 400 }
+      );
+    }
 
-    return new NextResponse(pdfBytes, {
+    let saleItems, saleInfo;
+    try {
+      saleItems = JSON.parse(saleItemsParam);
+      saleInfo = JSON.parse(saleInfoParam);
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Invalid JSON format in parameters" },
+        { status: 400 }
+      );
+    }
+
+    console.log("Parsed Sale Items:", saleItems);
+    console.log("Parsed Sale Info:", saleInfo);
+
+    const pdfBytes = await generateSaleTicket(saleItems, totalSaleAmount, saleInfo);
+
+    return new NextResponse(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename=SalesTicket.pdf`,
+        "Content-Disposition": `inline; filename=SalesTicket.pdf`,
       },
     });
   } catch (error) {

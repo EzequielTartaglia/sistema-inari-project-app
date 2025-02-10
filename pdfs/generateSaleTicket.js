@@ -5,18 +5,20 @@ import axios from "axios";
 export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
   try {
     const pdfDoc = await PDFDocument.create();
-    
+
     // Size
-    const pageWidth = 226; 
+    const pageWidth = 226;
     const pageHeight = 400 + saleItems.length * 20;
     const page = pdfDoc.addPage([pageWidth, pageHeight]);
 
     const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "Tienda";
     const domain = process.env.NEXT_PUBLIC_DOMAIN;
     const logoUrl = `${domain}/${process.env.NEXT_PUBLIC_LOGO_FILE_NAME}`;
-    
+
     // Logo
-    const logoImageBytes = (await axios.get(logoUrl, { responseType: "arraybuffer" })).data;
+    const logoImageBytes = (
+      await axios.get(logoUrl, { responseType: "arraybuffer" })
+    ).data;
     const logoImage = await pdfDoc.embedPng(logoImageBytes);
     const logoDimensions = logoImage.scale(0.2);
 
@@ -48,7 +50,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
       try {
         const saleDate = new Date(saleInfo.sale_date);
         if (!isNaN(saleDate)) {
-          dateTime = saleDate.toLocaleString(); 
+          dateTime = saleDate.toLocaleString();
         }
       } catch (error) {
         console.warn("Error parsing sale_date:", error);
@@ -64,14 +66,21 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     });
     yPosition -= 20;
 
-    page.drawText("--------------------------------", { x: 10, y: yPosition, size: 10, font });
+    page.drawText("--------------------------------", {
+      x: 10,
+      y: yPosition,
+      size: 10,
+      font,
+    });
     yPosition -= 20;
 
-    // 🔄 Dibujar productos
+    // Products (sale items)
     for (const item of saleItems) {
       const product = await getProduct(item.product_id);
       const productName = product?.name || "Producto desconocido";
-      const itemText = `${item.quantity}x ${productName}  $${item.sale_item_total.toFixed(2)}`;
+      const itemText = `${
+        item.quantity
+      }x ${productName}  $${item.sale_item_total.toFixed(2)}`;
 
       page.drawText(itemText, {
         x: 10,
@@ -83,10 +92,15 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
       yPosition -= 15;
     }
 
-    page.drawText("--------------------------------", { x: 10, y: yPosition, size: 10, font });
+    page.drawText("--------------------------------", {
+      x: 10,
+      y: yPosition,
+      size: 10,
+      font,
+    });
     yPosition -= 20;
 
-    // Total de la venta
+    // Sale total
     page.drawText(`TOTAL: $${totalSaleAmount.toFixed(2)}`, {
       x: 10,
       y: yPosition,
@@ -96,9 +110,12 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     });
     yPosition -= 30;
 
-    // Mensaje de descarga del sistema
-    page.drawText("Descargado por Sistema Inari", {
-      x: 10,
+    // Footer
+    const message = "Descargado por Sistema Inari";
+    const textWidth = font.widthOfTextAtSize(message, 8);
+
+    page.drawText(message, {
+      x: (pageWidth - textWidth) / 2,
       y: 20,
       size: 8,
       font,

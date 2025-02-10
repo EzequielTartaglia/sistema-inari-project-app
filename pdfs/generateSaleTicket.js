@@ -36,8 +36,9 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     let yPosition = pageHeight - logoDimensions.height - 30;
 
     // Brand name
+    const brandTextWidth = boldFont.widthOfTextAtSize(brandName, 12);
     page.drawText(brandName, {
-      x: 40,
+      x: (pageWidth - brandTextWidth) / 2,
       y: yPosition,
       size: 12,
       font: boldFont,
@@ -45,6 +46,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     });
     yPosition -= 20;
 
+    // Sale date
     let dateTime = "Fecha desconocida";
     if (saleInfo && saleInfo.sale_date) {
       try {
@@ -57,8 +59,9 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
       }
     }
 
+    const dateTextWidth = font.widthOfTextAtSize(dateTime, 10);
     page.drawText(dateTime, {
-      x: 40,
+      x: (pageWidth - dateTextWidth) / 2,
       y: yPosition,
       size: 10,
       font,
@@ -66,6 +69,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     });
     yPosition -= 20;
 
+    // Divisor
     page.drawText("--------------------------------", {
       x: 10,
       y: yPosition,
@@ -92,6 +96,7 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
       yPosition -= 15;
     }
 
+    // Divisor
     page.drawText("--------------------------------", {
       x: 10,
       y: yPosition,

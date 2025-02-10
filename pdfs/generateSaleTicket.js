@@ -82,12 +82,22 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     for (const item of saleItems) {
       const product = await getProduct(item.product_id);
       const productName = product?.name || "Producto desconocido";
-      const itemText = `${
-        item.quantity
-      }x ${productName}  $${item.sale_item_total.toFixed(2)}`;
 
-      page.drawText(itemText, {
+      const quantityText = `${item.quantity}x ${productName}`;
+      const priceText = `$${item.sale_item_total.toFixed(2)}`;
+
+      const priceTextWidth = font.widthOfTextAtSize(priceText, 10);
+
+      page.drawText(quantityText, {
         x: 10,
+        y: yPosition,
+        size: 10,
+        font,
+        color: rgb(0, 0, 0),
+      });
+
+      page.drawText(priceText, {
+        x: pageWidth - priceTextWidth - 10,
         y: yPosition,
         size: 10,
         font,

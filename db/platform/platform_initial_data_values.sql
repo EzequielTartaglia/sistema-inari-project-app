@@ -59,8 +59,8 @@ INSERT INTO public.platform_user_genders (id, abbreviation, name, created_at) VA
 INSERT INTO public.payment_methods (name)
 VALUES ('Mercado Pago');
 
--- Insert data into product_measure_units table
-INSERT INTO product_measure_units (name, description) VALUES
+-- Insert data into stock_product_measure_units table
+INSERT INTO stock_product_measure_units (name, description) VALUES
 ('Metro', 'Unidad de medida utilizada para productos vendidos por longitud.'),
 ('Caja', 'Unidad de medida utilizada para productos vendidos en cajas.'),
 ('Unidad', 'Unidad de medida utilizada para productos vendidos individualmente.'),

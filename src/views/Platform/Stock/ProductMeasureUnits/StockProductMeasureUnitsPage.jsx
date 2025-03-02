@@ -11,7 +11,7 @@ import ListWithTitle from "@/components/lists/ListWithTitle";
 import PageHeader from "@/components/page_formats/PageHeader";
 import SearchInput from "@/components/SearchInput";
 
-export default function ProductMeasureUnitsPage() {
+export default function StockProductMeasureUnitsPage() {
   const { user } = useUserInfoContext();
 
   const [productMeasureUnitsNames, setProductMeasureUnitsNames] = useState([]);
@@ -79,12 +79,12 @@ export default function ProductMeasureUnitsPage() {
       <ListWithTitle
         title=""
         hasAdd={userHasAccess}
-        buttonAddRoute={userHasAccess ? `/platform/product_measure_units/new` : null}
+        buttonAddRoute={userHasAccess ? `/platform/stock/stock_product_measure_units/new` : null}
         items={filteredMeasureUnits}
-        buttonShowRoute={(id) => `/platform/product_measure_units/${id}`}
+        buttonShowRoute={(id) => `/platform/stock/stock_product_measure_units/${id}`}
         hasEdit={userHasAccess}
         buttonEditRoute={(id) =>
-          userHasAccess ? `/platform/product_measure_units/${id}/edit` : null
+          userHasAccess ? `/platform/stock/stock_product_measure_units/${id}/edit` : null
         }
         hasDelete={userHasAccess}
         buttonDeleteRoute={handleProductMeasureUnit}

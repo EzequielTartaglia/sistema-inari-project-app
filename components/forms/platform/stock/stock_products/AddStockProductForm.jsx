@@ -61,7 +61,7 @@ export default function AddStockProductForm() {
       !product.stock_product_category_id ||
       (product.has_image && !product.image_path) ||
       !product.price ||
-      !product.product_measure_unit_id ||
+      !product.stock_product_measure_unit_id ||
       !product.quantity ||
       (product.has_bar_code && !product.bar_code)
     ) {
@@ -78,7 +78,7 @@ export default function AddStockProductForm() {
         product.has_image ? product.image_path : null,
         product.stock_product_category_id,
         product.price,
-        product.product_measure_unit_id,
+        product.stock_product_measure_unit_id,
         product.quantity,
         product.has_bar_code,
         product.has_bar_code ? product.bar_code : null
@@ -209,7 +209,7 @@ export default function AddStockProductForm() {
         <SelectInput
           label="Unidad de Medida"
           name="product_measure_unit_id"
-          value={product.product_measure_unit_id}
+          value={product.stock_product_measure_unit_id}
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"

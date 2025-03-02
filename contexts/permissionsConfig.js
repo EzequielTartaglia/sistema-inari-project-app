@@ -22,7 +22,7 @@ const sharedPermissions = [
   {
     group: "stock",
     name: "Medidas (U.)",
-    route: "/platform/product_measure_units",
+    route: "/platform/stock/stock_product_measure_units",
     icon: FiList,
   },
 ];

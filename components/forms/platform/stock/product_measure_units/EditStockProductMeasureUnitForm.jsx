@@ -1,16 +1,18 @@
 "use client";
 
-import { addProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
+import { getProductMeasureUnit,editProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
+
 import { useNotification } from "@/contexts/NotificationContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../SubmitLoadingButton";
-import TextArea from "../../TextArea";
+import SubmitLoadingButton from "../../../SubmitLoadingButton";
+import TextArea from "../../../TextArea";
 
-export default function AddProductMeasureUnitForm() {
+
+export default function EditStockProductMeasureUnitForm({ stockProductMeasureUnitId }) {
   const [productMeasureUnit, setProductMeasureUnit] = useState({
     name: "",
     description: "",
@@ -20,6 +22,20 @@ export default function AddProductMeasureUnitForm() {
 
   const router = useRouter();
   const { showNotification } = useNotification();
+
+  useEffect(() => {
+    const fetchProductMeasureUnit = async () => {
+      try {
+        const fetchedProductMeasureUnit = await getProductMeasureUnit(
+          stockProductMeasureUnitId
+        );
+        setProductMeasureUnit(fetchedProductMeasureUnit);
+      } catch (error) {
+        console.error("Error fetching the product measure unit:", error.message);
+      }
+    };
+    fetchProductMeasureUnit();
+  }, [stockProductMeasureUnitId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,19 +48,20 @@ export default function AddProductMeasureUnitForm() {
     setIsLoading(true);
 
     try {
-      await addProductMeasureUnit(
+      await editProductMeasureUnit(
+        stockProductMeasureUnitId,
         productMeasureUnit.name,
         productMeasureUnit.description
       );
 
-      showNotification("¡Unidad de medida agregada exitosamente!", "success");
+      showNotification("¡Unidad de medida editada exitosamente!", "success");
 
       setTimeout(() => {
         setIsLoading(false);
-        router.push(`/platform/product_measure_units`);
+        router.push(`/platform/stock/stock_product_measure_units`);
       }, 2000);
     } catch (error) {
-      console.error("Error adding product measure unit:", error.message);
+      console.error("Error editing product measure unit:", error.message);
       setIsLoading(false);
     }
   };
@@ -57,8 +74,8 @@ export default function AddProductMeasureUnitForm() {
   return (
     <>
       <PageHeader
-        title="Nueva unidad de medida"
-        goBackRoute="/platform/product_measure_units"
+        title="Editar unidad de medida"
+        goBackRoute="/platform/stock/stock_product_measure_units"
         goBackText="Volver al listado de unidades de medida"
       />
 
@@ -84,7 +101,7 @@ export default function AddProductMeasureUnitForm() {
         />
 
         <SubmitLoadingButton isLoading={isLoading} type="submit">
-          Agregar unidad de medida
+          Editar unidad de medida
         </SubmitLoadingButton>
       </form>
     </>

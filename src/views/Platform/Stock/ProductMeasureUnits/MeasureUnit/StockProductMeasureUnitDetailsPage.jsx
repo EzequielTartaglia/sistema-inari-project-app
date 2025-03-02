@@ -7,13 +7,13 @@ import { useEffect, useState } from "react";
 import PageHeader from "@/components/page_formats/PageHeader";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default function ProductMeasureUnitDetailsPage({ productMeasureUnitId }) {
+export default function StockProductMeasureUnitDetailsPage({ stockProductMeasureUnitId }) {
   const [productMeasureUnit, setProductMeasureUnit] = useState(null);
 
   useEffect(() => {
     async function fetchProductCategoryDetails() {
       try {
-        const measureUnitDetails = await getProductMeasureUnit(productMeasureUnitId);
+        const measureUnitDetails = await getProductMeasureUnit(stockProductMeasureUnitId);
         setProductMeasureUnit(measureUnitDetails);
       } catch (error) {
         console.error("Error fetching product measure unit:", error.message);
@@ -21,7 +21,7 @@ export default function ProductMeasureUnitDetailsPage({ productMeasureUnitId }) 
     }
 
     fetchProductCategoryDetails();
-  }, [productMeasureUnitId]);
+  }, [stockProductMeasureUnitId]);
 
   return (
     <>
@@ -29,7 +29,7 @@ export default function ProductMeasureUnitDetailsPage({ productMeasureUnitId }) 
         <>
           <PageHeader
             title={productMeasureUnit?.name}
-            goBackRoute="/platform/product_measure_units"
+            goBackRoute="/platform/stock/stock_product_measure_units"
             goBackText="Volver a la lista de unidades de medida"
           />
 

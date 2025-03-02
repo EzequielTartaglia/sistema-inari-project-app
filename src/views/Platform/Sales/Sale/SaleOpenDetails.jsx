@@ -83,7 +83,7 @@ export default function SaleOpenDetails({ saleId }) {
           (category) => category.id === product.stock_product_category_id
         );
         const productMeasureUnit = measureUnits.find(
-          (measure_unit) => measure_unit.id === product.product_measure_unit_id
+          (measure_unit) => measure_unit.id === product.stock_product_measure_unit_id
         );
         return {
           id: product.id,

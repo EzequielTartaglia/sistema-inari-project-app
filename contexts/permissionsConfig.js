@@ -118,7 +118,7 @@ const userPermissions = {
   //Root
   6: [], // Access to all routes
   //Administrador (empresas)
-  6: [
+  7: [
     ...sharedPermissions,
     {
       group: "stock",

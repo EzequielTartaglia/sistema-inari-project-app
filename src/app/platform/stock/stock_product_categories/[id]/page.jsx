@@ -1,12 +1,12 @@
-import EditProductCategoryForm from "@/components/forms/platform/product_categories/EditProductCategoryForm";
 import ConditionalSessionRender from "@/src/helpers/ConditionalSessionRender";
 import NotPermissionPage from "@/src/views/Platform/NotPermissionPage/NotPermissionPage";
+import StockProductCategoryDetailsPage from "@/src/views/Platform/Stock/ProductCategories/Category/StockProductCategoryDetailsPage";
 
-export default function EditProductCategory({params}) {
+export default function ProductCategory({params}) {
   return (
     <ConditionalSessionRender
       AuthorizedUserRoles={[1,2,3,4,6]}
-      ComponentIfUser={<EditProductCategoryForm productCategoryId={params.id} />}
+      ComponentIfUser={<StockProductCategoryDetailsPage stockProductCategoryId={params.id} />}
       ComponentIfNoUser={<NotPermissionPage />}
     />
   );

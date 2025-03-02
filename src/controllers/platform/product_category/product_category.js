@@ -29,12 +29,12 @@ export async function addProductCategory(name, description) {
   }
 }
 
-export async function getProductCategory(product_category_id) {
+export async function getProductCategory(stock_product_category_id) {
   try {
     const { data, error } = await supabase
       .from("stock_product_categories")
       .select("*")
-      .eq("id", product_category_id)
+      .eq("id", stock_product_category_id)
       .single();
     if (error) {
       throw error;
@@ -45,7 +45,7 @@ export async function getProductCategory(product_category_id) {
   }
 }
 
-export async function editProductCategory(product_category_id, name, description) {
+export async function editProductCategory(stock_product_category_id, name, description) {
   try {
     const { data, error } = await supabase
       .from("stock_product_categories")
@@ -53,7 +53,7 @@ export async function editProductCategory(product_category_id, name, description
         name: name,
         description: description
       })
-      .eq("id", product_category_id);
+      .eq("id", stock_product_category_id);
     if (error) {
       throw error;
     }
@@ -63,12 +63,12 @@ export async function editProductCategory(product_category_id, name, description
   }
 }
 
-export async function deleteProductCategory(product_category_id) {
+export async function deleteProductCategory(stock_product_category_id) {
   try {
     const { data, error } = await supabase
       .from("stock_product_categories")
       .delete()
-      .eq("id", product_category_id)
+      .eq("id", stock_product_category_id)
       .single();
     if (error) {
       throw error;

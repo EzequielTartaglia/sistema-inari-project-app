@@ -26,7 +26,7 @@ export default function EditStockProductForm({ stockProductId }) {
     description: "",
     has_image: false,
     image_path: "",
-    product_category_id: "",
+    stock_product_category_id: "",
     price: "",
     product_measure_unit_id: "",
     quantity: "",
@@ -67,7 +67,7 @@ export default function EditStockProductForm({ stockProductId }) {
 
     if (
       !product.name ||
-      !product.product_category_id ||
+      !product.stock_product_category_id ||
       (product.has_image && !product.image_path) ||
       !product.price ||
       !product.product_measure_unit_id ||
@@ -86,7 +86,7 @@ export default function EditStockProductForm({ stockProductId }) {
         product.description,
         product.has_image,
         product.has_image ? product.image_path : null,
-        product.product_category_id,
+        product.stock_product_category_id,
         product.price,
         product.product_measure_unit_id,
         product.quantity,
@@ -205,8 +205,8 @@ export default function EditStockProductForm({ stockProductId }) {
 
         <SelectInput
           label="Categoría del Producto"
-          name="product_category_id"
-          value={product.product_category_id}
+          name="stock_product_category_id"
+          value={product.stock_product_category_id}
           onChange={handleInputChange}
           isSubmitted={isSubmitted}
           errorMessage="Campo obligatorio"

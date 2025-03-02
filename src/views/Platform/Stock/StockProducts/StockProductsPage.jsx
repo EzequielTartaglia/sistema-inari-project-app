@@ -74,7 +74,7 @@ export default function StockProductsPage() {
   const columns = [
     "image_path",
     "name",
-    "product_category_id",
+    "stock_product_category_id",
     "price",
     "product_measure_unit_id",
     "quantity",
@@ -82,7 +82,7 @@ export default function StockProductsPage() {
   const columnAliases = {
     image_path: "Imagen",
     name: "Nombre",
-    product_category_id: "Categoría",
+    stock_product_category_id: "Categoría",
     price: "Precio",
     product_measure_unit_id: "Unidad de medida",
     quantity: "Cantidad",
@@ -94,7 +94,7 @@ export default function StockProductsPage() {
     )
     .map((product) => {
       const productCategory = categories.find(
-        (category) => category.id === product.product_category_id
+        (category) => category.id === product.stock_product_category_id
       );
       const productMeasureUnit = measureUnits.find(
         (measure_unit) => measure_unit.id === product.product_measure_unit_id
@@ -125,7 +125,7 @@ export default function StockProductsPage() {
           </div>
         ),
         name: product.name,
-        product_category_id: productCategory ? productCategory.name : "N/A",
+        stock_product_category_id: productCategory ? productCategory.name : "N/A",
         price: parseFloat(product.price).toFixed(2),
         product_measure_unit_id: productMeasureUnit
           ? productMeasureUnit.name

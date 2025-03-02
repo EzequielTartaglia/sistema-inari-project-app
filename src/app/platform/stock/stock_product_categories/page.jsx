@@ -1,12 +1,12 @@
-import AddProductCategoryForm from "@/components/forms/platform/product_categories/AddProductCategoryForm";
 import ConditionalSessionRender from "@/src/helpers/ConditionalSessionRender";
 import NotPermissionPage from "@/src/views/Platform/NotPermissionPage/NotPermissionPage";
+import StockProductCategoriesPage from "@/src/views/Platform/Stock/ProductCategories/StockProductCategoriesPage";
 
-export default function NewProductCategory() {
+export default function ProductCategories() {
   return (
     <ConditionalSessionRender
       AuthorizedUserRoles={[1,2,3,4,6]}
-      ComponentIfUser={<AddProductCategoryForm />}
+      ComponentIfUser={<StockProductCategoriesPage />}
       ComponentIfNoUser={<NotPermissionPage />}
     />
   );

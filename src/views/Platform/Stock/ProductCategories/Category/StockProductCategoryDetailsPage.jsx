@@ -7,13 +7,13 @@ import { useEffect, useState } from "react";
 import PageHeader from "@/components/page_formats/PageHeader";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default function ProductCategoryDetailsPage({ productCategoryId }) {
+export default function StockProductCategoryDetailsPage({ stockProductCategoryId }) {
   const [productCategory, setProductCategory] = useState(null);
 
   useEffect(() => {
     async function fetchProductCategoryDetails() {
       try {
-        const categoryDetails = await getProductCategory(productCategoryId);
+        const categoryDetails = await getProductCategory(stockProductCategoryId);
         setProductCategory(categoryDetails);
       } catch (error) {
         console.error("Error fetching product category:", error.message);
@@ -21,7 +21,7 @@ export default function ProductCategoryDetailsPage({ productCategoryId }) {
     }
 
     fetchProductCategoryDetails();
-  }, [productCategoryId]);
+  }, [stockProductCategoryId]);
 
   return (
     <>

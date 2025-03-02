@@ -11,7 +11,7 @@ import ListWithTitle from "@/components/lists/ListWithTitle";
 import PageHeader from "@/components/page_formats/PageHeader";
 import SearchInput from "@/components/SearchInput";
 
-export default function ProductCategoriesPage() {
+export default function StockProductCategoriesPage() {
   const { user } = useUserInfoContext();
 
   const [productCategoriesNames, setProductCategoriesNames] = useState([]);

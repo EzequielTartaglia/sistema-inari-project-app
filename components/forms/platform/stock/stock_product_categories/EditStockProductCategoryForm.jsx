@@ -1,16 +1,20 @@
 "use client";
 
-import { addProductCategory } from "@/src/controllers/platform/product_category/product_category";
+import {
+  getProductCategory,
+  editProductCategory,
+} from "@/src/controllers/platform/product_category/product_category";
+
 import { useNotification } from "@/contexts/NotificationContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../SubmitLoadingButton";
-import TextArea from "../../TextArea";
+import SubmitLoadingButton from "../../../SubmitLoadingButton";
+import TextArea from "../../../TextArea";
 
-export default function AddProductCategoryForm() {
+export default function EditStockProductCategoryForm({ stockProductCategoryId }) {
   const [productCategory, setProductCategory] = useState({
     name: "",
     description: "",
@@ -20,6 +24,20 @@ export default function AddProductCategoryForm() {
 
   const router = useRouter();
   const { showNotification } = useNotification();
+
+  useEffect(() => {
+    const fetchProductCategory = async () => {
+      try {
+        const fetchedProductCategory = await getProductCategory(
+          stockProductCategoryId
+        );
+        setProductCategory(fetchedProductCategory);
+      } catch (error) {
+        console.error("Error fetching the product category:", error.message);
+      }
+    };
+    fetchProductCategory();
+  }, [stockProductCategoryId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,19 +50,20 @@ export default function AddProductCategoryForm() {
     setIsLoading(true);
 
     try {
-      await addProductCategory(
+      await editProductCategory(
+        stockProductCategoryId,
         productCategory.name,
         productCategory.description
       );
 
-      showNotification("¡Categoria agregada exitosamente!", "success");
+      showNotification("¡Categoria editada exitosamente!", "success");
 
       setTimeout(() => {
         setIsLoading(false);
         router.push(`/platform/stock/stock_product_categories`);
       }, 2000);
     } catch (error) {
-      console.error("Error adding product category:", error.message);
+      console.error("Error editing product category:", error.message);
       setIsLoading(false);
     }
   };
@@ -57,7 +76,7 @@ export default function AddProductCategoryForm() {
   return (
     <>
       <PageHeader
-        title="Nueva categoria"
+        title="Editar categoria"
         goBackRoute="/platform/stock/stock_product_categories"
         goBackText="Volver al listado de categorias"
       />
@@ -84,7 +103,7 @@ export default function AddProductCategoryForm() {
         />
 
         <SubmitLoadingButton isLoading={isLoading} type="submit">
-          Agregar categoria
+          Editar categoria
         </SubmitLoadingButton>
       </form>
     </>

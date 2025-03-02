@@ -79,9 +79,9 @@ export async function generateSaleTicket(saleItems, totalSaleAmount, saleInfo) {
     });
     yPosition -= 20;
 
-    // Products (sale items)
+    // Stock_products (sale items)
     for (const item of saleItems) {
-      const product = await getProduct(item.product_id);
+      const product = await getProduct(item.stock_product_id);
       const productName = product?.name || "Producto desconocido";
 
       const quantityText = `${item.quantity}x ${productName}`;

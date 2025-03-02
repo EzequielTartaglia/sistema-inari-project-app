@@ -26,9 +26,6 @@ export async function GET(request) {
       );
     }
 
-    console.log("Parsed Sale Items:", saleItems);
-    console.log("Parsed Sale Info:", saleInfo);
-
     const pdfBytes = await generateSaleTicket(saleItems, totalSaleAmount, saleInfo);
 
     return new NextResponse(Buffer.from(pdfBytes), {

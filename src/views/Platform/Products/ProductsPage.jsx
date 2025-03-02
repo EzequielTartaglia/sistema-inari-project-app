@@ -169,13 +169,13 @@ export default function ProductsPage() {
 
       <Table
         title={"Inventario"}
-        buttonAddRoute={userHasAccess ? `/platform/products/new` : null}
+        buttonAddRoute={userHasAccess ? `/platform/stock/stock_products/new` : null}
         columns={columns}
         data={filteredData}
         columnAliases={columnAliases}
         hasShow={hasShow}
         hasEdit={hasEdit}
-        buttonEditRoute={(id) => `/platform/products/${id}/edit`}
+        buttonEditRoute={(id) => `/platform/stock/stock_products/${id}/edit`}
         hasDelete={true}
         buttonDeleteRoute={handleDeleteProduct}
         hasApprove={hasApprove}

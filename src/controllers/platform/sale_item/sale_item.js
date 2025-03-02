@@ -14,15 +14,15 @@ export async function getSaleItems() {
 
 export async function addSaleItem(
   sale_id,
-  product_id,
+  stock_product_id,
   quantity = 1,
   sale_item_total
 ) {
   try {
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from("stock_products")
       .select("quantity")
-      .eq("id", product_id)
+      .eq("id", stock_product_id)
       .single();
 
     if (productError) {
@@ -35,7 +35,7 @@ export async function addSaleItem(
 
     const { data, error } = await supabase.from("sale_items").insert({
       sale_id: sale_id,
-      product_id: product_id,
+      stock_product_id: stock_product_id,
       quantity: quantity,
       sale_item_total: sale_item_total,
     });
@@ -46,9 +46,9 @@ export async function addSaleItem(
 
     const newQuantity = productData.quantity - quantity;
     const { error: updateProductError } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({ quantity: newQuantity })
-      .eq("id", product_id);
+      .eq("id", stock_product_id);
 
     if (updateProductError) {
       throw updateProductError;
@@ -79,7 +79,7 @@ export async function getSaleItem(sale_item_id) {
 export async function editSaleItem(
   sale_item_id,
   sale_id,
-  product_id,
+  stock_product_id,
   quantity,
   sale_item_total
 ) {
@@ -88,7 +88,7 @@ export async function editSaleItem(
       .from("sale_items")
       .update({
         sale_id: sale_id,
-        product_id: product_id,
+        stock_product_id: stock_product_id,
         quantity: quantity,
         sale_item_total: sale_item_total,
       })
@@ -106,7 +106,7 @@ export async function deleteSaleItem(sale_item_id) {
   try {
     const { data: saleItemData, error: saleItemError } = await supabase
       .from("sale_items")
-      .select("product_id, quantity")
+      .select("stock_product_id, quantity")
       .eq("id", sale_item_id)
       .single();
 
@@ -125,9 +125,9 @@ export async function deleteSaleItem(sale_item_id) {
     }
 
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from("stock_products")
       .select("quantity")
-      .eq("id", saleItemData.product_id)
+      .eq("id", saleItemData.stock_product_id)
       .single();
 
     if (productError) {
@@ -136,9 +136,9 @@ export async function deleteSaleItem(sale_item_id) {
 
     const newQuantity = productData.quantity + saleItemData.quantity;
     const { error: updateProductError } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({ quantity: newQuantity })
-      .eq("id", saleItemData.product_id);
+      .eq("id", saleItemData.stock_product_id);
 
     if (updateProductError) {
       throw updateProductError;
@@ -173,7 +173,7 @@ export async function changeSaleItemQuantity(
   try {
     const { data: saleItemData, error: saleItemError } = await supabase
       .from("sale_items")
-      .select("product_id, quantity")
+      .select("stock_product_id, quantity")
       .eq("id", sale_item_id)
       .single();
 
@@ -196,9 +196,9 @@ export async function changeSaleItemQuantity(
     }
 
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from("stock_products")
       .select("quantity")
-      .eq("id", saleItemData.product_id)
+      .eq("id", saleItemData.stock_product_id)
       .single();
 
     if (productError) {
@@ -207,9 +207,9 @@ export async function changeSaleItemQuantity(
 
     const newQuantity = productData.quantity - quantityDifference;
     const { error: updateProductError } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({ quantity: newQuantity })
-      .eq("id", saleItemData.product_id);
+      .eq("id", saleItemData.stock_product_id);
 
     if (updateProductError) {
       throw updateProductError;
@@ -225,7 +225,7 @@ export async function increaseSaleItemQuantity(
   sale_item_id,
   product_price,
   current_quantity,
-  product_id,
+  stock_product_id,
   product_quantity
 ) {
   try {
@@ -245,11 +245,11 @@ export async function increaseSaleItemQuantity(
     }
 
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({
         quantity: product_quantity - 1,
       })
-      .eq("id", product_id);
+      .eq("id", stock_product_id);
 
     if (productError) {
       throw productError;
@@ -265,7 +265,7 @@ export async function decreaseSaleItemQuantity(
   sale_item_id,
   product_price,
   current_quantity,
-  product_id,
+  stock_product_id,
   product_quantity
 ) {
   try {
@@ -285,11 +285,11 @@ export async function decreaseSaleItemQuantity(
     }
 
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({
         quantity: product_quantity + 1,
       })
-      .eq("id", product_id);
+      .eq("id", stock_product_id);
 
     if (productError) {
       throw productError;
@@ -306,7 +306,7 @@ export async function emptyCart(sale_id) {
     // Paso 1: Obtener todos los sale_items para la venta
     const { data: saleItems, error: saleItemsError } = await supabase
       .from("sale_items")
-      .select("product_id, quantity")
+      .select("stock_product_id, quantity")
       .eq("sale_id", sale_id);
 
     if (saleItemsError) {
@@ -316,9 +316,9 @@ export async function emptyCart(sale_id) {
     // Paso 2: Actualizar las cantidades de los productos
     for (const saleItem of saleItems) {
       const { data: productData, error: productError } = await supabase
-        .from("products")
+        .from("stock_products")
         .select("quantity")
-        .eq("id", saleItem.product_id)
+        .eq("id", saleItem.stock_product_id)
         .single();
 
       if (productError) {
@@ -328,9 +328,9 @@ export async function emptyCart(sale_id) {
       const newQuantity = productData.quantity + saleItem.quantity;
 
       const { error: updateProductError } = await supabase
-        .from("products")
+        .from("stock_products")
         .update({ quantity: newQuantity })
-        .eq("id", saleItem.product_id);
+        .eq("id", saleItem.stock_product_id);
 
       if (updateProductError) {
         throw updateProductError;

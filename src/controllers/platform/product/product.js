@@ -2,7 +2,7 @@ import supabase from "@/utils/supabase/supabaseClient";
 
 export async function getProducts() {
   try {
-    const { data, error } = await supabase.from("products").select("*");
+    const { data, error } = await supabase.from("stock_products").select("*");
     if (error) {
       throw error;
     }
@@ -25,7 +25,7 @@ export async function addProduct(
   bar_code
 ) {
   try {
-    const { data, error } = await supabase.from("products").insert({
+    const { data, error } = await supabase.from("stock_products").insert({
       name: name,
       description: description,
       has_image: has_image,
@@ -46,12 +46,12 @@ export async function addProduct(
   }
 }
 
-export async function getProduct(product_id) {
+export async function getProduct(stock_products_id) {
   try {
     const { data, error } = await supabase
-      .from("products")
+      .from("stock_products")
       .select("*")
-      .eq("id", product_id)
+      .eq("id", stock_products_id)
       .single();
     if (error) {
       throw error;
@@ -63,7 +63,7 @@ export async function getProduct(product_id) {
 }
 
 export async function editProduct(
-  product_id,
+  stock_products_id,
   name,
   description,
   has_image,
@@ -77,7 +77,7 @@ export async function editProduct(
 ) {
   try {
     const { data, error } = await supabase
-      .from("products")
+      .from("stock_products")
       .update({
         name: name,
         description: description,
@@ -90,7 +90,7 @@ export async function editProduct(
         has_bar_code: has_bar_code,
         bar_code: bar_code,
       })
-      .eq("id", product_id);
+      .eq("id", stock_products_id);
     if (error) {
       throw error;
     }
@@ -100,12 +100,12 @@ export async function editProduct(
   }
 }
 
-export async function deleteProduct(product_id) {
+export async function deleteProduct(stock_products_id) {
   try {
     const { data, error } = await supabase
-      .from("products")
+      .from("stock_products")
       .delete()
-      .eq("id", product_id)
+      .eq("id", stock_products_id)
       .single();
     if (error) {
       throw error;

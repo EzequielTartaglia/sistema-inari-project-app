@@ -102,7 +102,7 @@ export default function SaleOpenDetails({ saleId }) {
   const handleAddProductToSale = async (productId) => {
     const product = products.find((product) => product.id === productId);
     const existingItem = saleItems.find(
-      (item) => item.product_id === product.id
+      (item) => item.stock_product_id === product.id
     );
 
     const saleItemTotal = product.price * quantityToAdd;
@@ -265,7 +265,7 @@ export default function SaleOpenDetails({ saleId }) {
               {visibleSaleItems.length > 0 ? (
                 visibleSaleItems.map((item) => {
                   const product = products.find(
-                    (prod) => prod.id === item.product_id
+                    (prod) => prod.id === item.stock_product_id
                   );
                   return (
                     <tr key={item.id}>

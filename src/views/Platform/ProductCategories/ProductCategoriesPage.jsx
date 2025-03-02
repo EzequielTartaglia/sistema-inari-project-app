@@ -67,7 +67,7 @@ export default function ProductCategoriesPage() {
     <>
       <PageHeader
         title={"Categorias"}
-        goBackRoute={`/platform/products`}
+        goBackRoute={`/platform/stock/stock_products`}
         goBackText={"Volver a la lista de productos"}
       />
 

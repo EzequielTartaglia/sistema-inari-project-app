@@ -66,7 +66,7 @@ export default function ProductMeasureUnitsPage() {
     <>
       <PageHeader
         title={"Unidades de medida"}
-        goBackRoute={`/platform/products`}
+        goBackRoute={`/platform/stock/stock_products`}
         goBackText={"Volver a la lista de productos"}
       />
 

@@ -10,7 +10,7 @@ const sharedPermissions = [
   {
     group: "stock",
     name: "Productos",
-    route: "/platform/products",
+    route: "/platform/stock/stock_products",
     icon: FiBox,
   },
   {

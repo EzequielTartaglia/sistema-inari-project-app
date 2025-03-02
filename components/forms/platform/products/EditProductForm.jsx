@@ -98,7 +98,7 @@ export default function EditProductForm({ productId }) {
 
       setTimeout(() => {
         setIsLoading(false);
-        router.push(`/platform/products`);
+        router.push(`/platform/stock/stock_products`);
       }, 2000);
     } catch (error) {
       console.error("Error editing product:", error.message);
@@ -132,7 +132,7 @@ export default function EditProductForm({ productId }) {
       <PageHeader
         title="Editar Producto"
         subtitle={product.name || "Cargando..."}
-        goBackRoute="/platform/products"
+        goBackRoute="/platform/stock/stock_products"
         goBackText="Volver al listado de productos"
       />
 

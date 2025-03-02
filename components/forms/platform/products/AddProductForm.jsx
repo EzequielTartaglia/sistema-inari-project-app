@@ -87,7 +87,7 @@ export default function AddProductForm() {
 
       setTimeout(() => {
         setIsLoading(false);
-        router.push(`/platform/products`);
+        router.push(`/platform/stock/stock_products`);
       }, 2000);
     } catch (error) {
       console.error("Error adding product:", error.message);
@@ -120,7 +120,7 @@ export default function AddProductForm() {
     <>
       <PageHeader
         title="Nuevo Producto"
-        goBackRoute="/platform/products"
+        goBackRoute="/platform/stock/stock_products"
         goBackText="Volver al listado de productos"
       />
 

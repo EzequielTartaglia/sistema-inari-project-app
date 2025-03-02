@@ -29,7 +29,7 @@ export default function ProductCategoryDetailsPage({ productCategoryId }) {
         <>
           <PageHeader
             title={productCategory?.name}
-            goBackRoute="/platform/product_categories"
+            goBackRoute="/platform/stock/stock_product_categories"
             goBackText="Volver a la lista de categorías"
           />
 

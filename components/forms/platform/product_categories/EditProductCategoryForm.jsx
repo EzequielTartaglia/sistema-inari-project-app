@@ -60,7 +60,7 @@ export default function EditProductCategoryForm({ productCategoryId }) {
 
       setTimeout(() => {
         setIsLoading(false);
-        router.push(`/platform/product_categories`);
+        router.push(`/platform/stock/stock_product_categories`);
       }, 2000);
     } catch (error) {
       console.error("Error editing product category:", error.message);
@@ -77,7 +77,7 @@ export default function EditProductCategoryForm({ productCategoryId }) {
     <>
       <PageHeader
         title="Editar categoria"
-        goBackRoute="/platform/product_categories"
+        goBackRoute="/platform/stock/stock_product_categories"
         goBackText="Volver al listado de categorias"
       />
 

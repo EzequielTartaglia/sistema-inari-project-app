@@ -80,12 +80,12 @@ export default function ProductCategoriesPage() {
       <ListWithTitle
         title=""
         hasAdd={userHasAccess}
-        buttonAddRoute={userHasAccess ? `/platform/product_categories/new` : null}
+        buttonAddRoute={userHasAccess ? `/platform/stock/stock_product_categories/new` : null}
         items={filteredCategories}
-        buttonShowRoute={(id) => `/platform/product_categories/${id}`}
+        buttonShowRoute={(id) => `/platform/stock/stock_product_categories/${id}`}
         hasEdit={userHasAccess}
         buttonEditRoute={(id) =>
-          userHasAccess ? `/platform/product_categories/${id}/edit` : null
+          userHasAccess ? `/platform/stock/stock_product_categories/${id}/edit` : null
         }
         hasDelete={userHasAccess}
         buttonDeleteRoute={handleDeleteProductCategory}

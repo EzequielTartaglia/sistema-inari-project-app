@@ -3,7 +3,7 @@ import supabase from "@/utils/supabase/supabaseClient";
 export async function getProductCategories() {
   try {
     const { data, error } = await supabase
-      .from("product_categories")
+      .from("stock_product_categories")
       .select("*");
     if (error) {
       throw error;
@@ -16,7 +16,7 @@ export async function getProductCategories() {
 
 export async function addProductCategory(name, description) {
   try {
-    const { data, error } = await supabase.from("product_categories").insert({
+    const { data, error } = await supabase.from("stock_product_categories").insert({
       name: name,
       description: description
     });
@@ -32,7 +32,7 @@ export async function addProductCategory(name, description) {
 export async function getProductCategory(product_category_id) {
   try {
     const { data, error } = await supabase
-      .from("product_categories")
+      .from("stock_product_categories")
       .select("*")
       .eq("id", product_category_id)
       .single();
@@ -48,7 +48,7 @@ export async function getProductCategory(product_category_id) {
 export async function editProductCategory(product_category_id, name, description) {
   try {
     const { data, error } = await supabase
-      .from("product_categories")
+      .from("stock_product_categories")
       .update({
         name: name,
         description: description
@@ -66,7 +66,7 @@ export async function editProductCategory(product_category_id, name, description
 export async function deleteProductCategory(product_category_id) {
   try {
     const { data, error } = await supabase
-      .from("product_categories")
+      .from("stock_product_categories")
       .delete()
       .eq("id", product_category_id)
       .single();

@@ -16,7 +16,7 @@ const sharedPermissions = [
   {
     group: "stock",
     name: "Categorias",
-    route: "/platform/product_categories",
+    route: "/platform/stock/stock_product_categories",
     icon: FiList,
   },
   {

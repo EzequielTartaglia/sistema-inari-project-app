@@ -41,7 +41,7 @@ export async function getPlatformPlugin(platform_plugin_id) {
 
     return data;
   } catch (error) {
-    console.error("Error fetching control_center user:", error);
+    console.error("Error fetching pluggin:", error);
     throw error;
   }
 }

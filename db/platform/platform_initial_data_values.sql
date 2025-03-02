@@ -81,10 +81,10 @@ INSERT INTO stock_product_measure_units (name, description) VALUES
 
 -- Insert user into platform_users
 INSERT INTO public.platform_users (
-  first_name, last_name, phone, email, username, password, is_root, user_role_id, created_at, is_active, token, dni_ssn, country_id, platform_user_gender_id, birthdate
+  id, first_name, last_name, phone, email, username, password, is_root, user_role_id, is_active, token, dni_ssn, country_id, platform_user_gender_id, birthdate,created_by_user_id
 )
 VALUES 
-  ('Ezequiel', 'Tartaglia', '2216794817', 'ezequielmtartaglia@gmail.com', 'Ezequiel M. Tartaglia', '123123123', true, 6, NOW(), false, null, '12312312', 1, 1,'1994-08-18');
+  (1, 'Ezequiel', 'Tartaglia', '2216794817', 'ezequielmtartaglia@gmail.com', 'Ezequiel M. Tartaglia', '123123123', true, 6, false, null, '12312312', 1, 1,'1994-08-18',1);
 
   -- Insert user into platform_settings
 INSERT INTO public.platform_settings (

@@ -51,7 +51,8 @@ export default function StockProductMeasureUnitsPage() {
     user.user_role_id === 2 ||
     user.user_role_id === 3 ||
     user.user_role_id === 4 ||
-    user.user_role_id === 6;
+    user.user_role_id === 6 ||
+    user.user_role_id === 7;
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

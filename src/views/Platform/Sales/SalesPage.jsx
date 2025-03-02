@@ -167,7 +167,8 @@ export default function SalesPage() {
     user.user_role_id === 1 ||
     user.user_role_id === 2 ||
     user.user_role_id === 4 ||
-    user.user_role_id === 6;
+    user.user_role_id === 6 ||
+    user.user_role_id === 7;
 
   return (
     <>

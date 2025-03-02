@@ -12,18 +12,21 @@ const sharedPermissions = [
     name: "Productos",
     route: "/platform/stock/stock_products",
     icon: FiBox,
+    requiredPlugins: [1],
   },
   {
     group: "stock",
     name: "Categorias",
     route: "/platform/stock/stock_product_categories",
     icon: FiList,
+    requiredPlugins: [1],
   },
   {
     group: "stock",
     name: "Medidas (U.)",
     route: "/platform/stock/stock_product_measure_units",
     icon: FiList,
+    requiredPlugins: [1],
   },
 ];
 
@@ -36,6 +39,7 @@ const userPermissions = {
       name: "Ventas",
       route: "/platform/sales",
       icon: FiShoppingCart,
+      requiredPlugins: [2],
     },
   ],
   //Supervisor of Salesmen
@@ -46,6 +50,7 @@ const userPermissions = {
       name: "Ventas",
       route: "/platform/sales",
       icon: FiShoppingCart,
+      requiredPlugins: [2],
     },
   ],
   //Administrative
@@ -68,10 +73,32 @@ const userPermissions = {
   4: [
     ...sharedPermissions,
     {
+      group: "stock",
+      name: "Productos",
+      route: "/platform/stock/stock_products",
+      icon: FiBox,
+      requiredPlugins: [1],
+    },
+    {
+      group: "stock",
+      name: "Categorias",
+      route: "/platform/stock/stock_product_categories",
+      icon: FiList,
+      requiredPlugins: [1],
+    },
+    {
+      group: "stock",
+      name: "Medidas (U.)",
+      route: "/platform/stock/stock_product_measure_units",
+      icon: FiList,
+      requiredPlugins: [1],
+    },
+    {
       group: "sales",
       name: "Ventas",
       route: "/platform/sales",
       icon: FiShoppingCart,
+      requiredPlugins: [2],
     },
     {
       group: "users",
@@ -98,24 +125,28 @@ const userPermissions = {
       name: "Productos",
       route: "/platform/stock/stock_products",
       icon: FiBox,
+      requiredPlugins: [1],
     },
     {
       group: "stock",
       name: "Categorias",
       route: "/platform/stock/stock_product_categories",
       icon: FiList,
+      requiredPlugins: [1],
     },
     {
       group: "stock",
       name: "Medidas (U.)",
       route: "/platform/stock/stock_product_measure_units",
       icon: FiList,
+      requiredPlugins: [1],
     },
     {
       group: "sales",
       name: "Ventas",
       route: "/platform/sales",
       icon: FiShoppingCart,
+      requiredPlugins: [2],
     },
     {
       group: "users",

@@ -7,6 +7,8 @@ import userPermissions from '@/contexts/permissionsConfig';
 import { FaPencilAlt } from 'react-icons/fa';
 import Logo from '../Logo';
 import { FiBox, FiDollarSign, FiSettings, FiShoppingCart, FiUser } from 'react-icons/fi';
+import { getPlatformUserBusinessEnabledPluggins } from '@/src/controllers/platform/platform_user_business/platform_user_business';
+import { useEffect, useState } from 'react';
 
 export default function NavBarWrapper() {
   const { user } = useUserInfoContext();
@@ -31,9 +33,27 @@ export function NavBar() {
 }
 
 export function NavBarPlataform({ user }) {
+  const [enabledPlugins, setEnabledPlugins] = useState([]);
   const isLoggedIn = !!user;
   const mainMenu = [];
   let toggleMenuItems = [];
+
+  useEffect(() => {
+    const fetchEnabledPlugins = async () => {
+      try {
+        const plugins = await getPlatformUserBusinessEnabledPluggins(
+          user.platform_user_business_id
+        ); 
+        setEnabledPlugins(plugins);
+      } catch (error) {
+        console.error("Error fetching enabled plugins:", error);
+      }
+    };
+
+    if (user) {
+      fetchEnabledPlugins();
+    }
+  }, [user]); 
 
   if (isLoggedIn) {
     const subMenuItems = [];
@@ -49,9 +69,12 @@ export function NavBarPlataform({ user }) {
         });
       });
     } else {
-      allowedPermissions.forEach(({ group, name, route, icon }) => {
-        if (!subMenuItems.some(item => item.route === route)) {
-          subMenuItems.push({ group, route, text: name, icon });
+      allowedPermissions.forEach(({ group, name, route, requiredPlugins }) => {
+        if (
+          (!requiredPlugins || enabledPlugins.includes(requiredPlugins)) &&
+          !subMenuItems.some((item) => item.route === route)
+        ) {
+          subMenuItems.push({ group, route, text: name });
         }
       });
     }

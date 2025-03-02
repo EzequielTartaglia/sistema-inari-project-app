@@ -5,7 +5,8 @@ import StockProductCategoryDetailsPage from "@/src/views/Platform/Stock/ProductC
 export default function ProductCategory({params}) {
   return (
     <ConditionalSessionRender
-      AuthorizedUserRoles={[1,2,3,4,6]}
+    AuthorizedUserRoles={[1, 2, 3, 4, 6, 7]}
+    enablePluginsRequireds={[1]}
       ComponentIfUser={<StockProductCategoryDetailsPage stockProductCategoryId={params.id} />}
       ComponentIfNoUser={<NotPermissionPage />}
     />

@@ -66,7 +66,7 @@ export async function getPlatformUserBusiness(platform_user_business_id) {
 
     return data;
   } catch (error) {
-    console.error("Error fetching control_center user:", error);
+    console.error("Error fetching platform_user:", error);
     throw error;
   }
 }
@@ -84,7 +84,7 @@ export async function getPlatformUserBusinessEnabledPluggins(platform_user_busin
     }
     return data?.enabled_plugins || []; 
   } catch (error) {
-    console.error("Error fetching control_center user:", error);
+    console.error("Error fetching platform_user:", error);
     throw error;
   }
 }

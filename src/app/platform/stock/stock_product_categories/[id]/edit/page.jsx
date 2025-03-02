@@ -5,7 +5,8 @@ import NotPermissionPage from "@/src/views/Platform/NotPermissionPage/NotPermiss
 export default function EditProductCategory({params}) {
   return (
     <ConditionalSessionRender
-      AuthorizedUserRoles={[1,2,3,4,6]}
+    AuthorizedUserRoles={[1, 2, 3, 4, 6, 7]}
+    enablePluginsRequireds={[1]}
       ComponentIfUser={<EditStockProductCategoryForm stockProductCategoryId={params.id} />}
       ComponentIfNoUser={<NotPermissionPage />}
     />

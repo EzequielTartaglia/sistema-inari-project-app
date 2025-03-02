@@ -53,6 +53,7 @@ export default function AdminUsersPage() {
         3: "No se puede eliminar este usuario con tus permisos de administrativo.",
         4: "No se puede eliminar este usuario con tus permisos de gerente.",
         6: "No se puede eliminar este usuario.",
+        7: "No se puede eliminar este usuario.",
       };
 
       // Supervisor can't delete admin or manager
@@ -200,7 +201,8 @@ export default function AdminUsersPage() {
           user.user_role_id === 2 ||
           user.user_role_id === 3 ||
           user.user_role_id === 4 ||
-          user.user_role_id === 6
+          user.user_role_id === 6 ||
+          user.user_role_id === 7
             ? `/platform/users/sign_up`
             : null
         }

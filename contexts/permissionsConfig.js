@@ -90,6 +90,53 @@ const userPermissions = {
   5: [],
   //Root
   6: [], // Access to all routes
+  //Administrador (empresas)
+  6: [
+    ...sharedPermissions,
+    {
+      group: "stock",
+      name: "Productos",
+      route: "/platform/stock/stock_products",
+      icon: FiBox,
+    },
+    {
+      group: "stock",
+      name: "Categorias",
+      route: "/platform/stock/stock_product_categories",
+      icon: FiList,
+    },
+    {
+      group: "stock",
+      name: "Medidas (U.)",
+      route: "/platform/stock/stock_product_measure_units",
+      icon: FiList,
+    },
+    {
+      group: "sales",
+      name: "Ventas",
+      route: "/platform/sales",
+      icon: FiShoppingCart,
+    },
+    {
+      group: "users",
+      name: "Usuarios",
+      route: "/platform/users",
+      icon: FiUser,
+    },
+    {
+      group: "users",
+      name: "Empresas en sistema",
+      route: "/platform/platform_user_businesses",
+      icon: FiUser,
+    },
+    {
+      group: "settings",
+      name: "Ajustes",
+      route: "/platform/platform_settings",
+      icon: FiSettings,
+    },
+
+  ], // Access to all routes
 };
 
 export default userPermissions;

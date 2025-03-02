@@ -6,7 +6,8 @@ VALUES
   (3, 'Administrador', NOW()),
   (4, 'Gerente', NOW()),
   (5, 'Proveedor', NOW()),
-  (6, 'root', NOW());
+  (6, 'root', NOW()),
+  (7, 'Administrador (Empresas)', NOW()) ;
 
 -- Insert user into platform_states
 INSERT INTO public.platform_states (id, name, created_at) 
@@ -15,6 +16,16 @@ VALUES
 (2, 'Pendiente', NOW()),
 (3, 'Pagado', NOW()),
 (4, 'Finalizado', NOW());
+
+-- Insert user into platform_user_businesses
+INSERT INTO public.platform_user_businesses (
+  id,name, enabled_plugins) VALUES 
+  (1,'Sistema Inari', '[1,2]');
+
+INSERT INTO public.platform_plugins (
+  id,name, description) VALUES 
+  (1, 'Control de Stock','Plugin para gestionar el control de stock'),
+  (2, 'Ventas (local)', 'Plugin para la gestión de ventas locales');
 
 -- Insert user into platform_states
 INSERT INTO public.currency_types (id, abbreviation, name, created_at) 

@@ -2,7 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FiCheck, FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight, FiEdit, FiEye, FiPlus, FiTrash2 } from "react-icons/fi";
+import ReactDOM from "react-dom";
+import {
+  FiCheck,
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronsLeft,
+  FiChevronsRight,
+  FiEdit,
+  FiEye,
+  FiPlus,
+  FiSettings,
+  FiTrash2,
+} from "react-icons/fi";
 import ConfirmModal from "../ConfirmModal";
 
 export default function Table({
@@ -13,14 +25,16 @@ export default function Table({
   hasAdd = true,
   hasShow = (item) => false,
   hasEdit = (item) => false,
-  hasEditTitleText = 'Editar',
+  hasEditTitleText = "Editar",
   hasDelete = true,
   hasApprove = (item) => false,
+  hasCustomButton = (item) => false,
   buttonAddRoute,
   buttonShowRoute,
   buttonEditRoute,
   buttonDeleteRoute,
   buttonApproveRoute,
+  customButtonRoute,
   confirmModalText,
   customButton,
 }) {
@@ -87,9 +101,9 @@ export default function Table({
 
   const PageNumbers = () => {
     if (data.length <= itemsPerPage) return null;
-  
+
     const totalPages = Math.ceil(data.length / itemsPerPage);
-    
+
     return (
       <div className="flex justify-center my-4">
         <button
@@ -103,7 +117,7 @@ export default function Table({
         >
           <FiChevronsLeft />
         </button>
-  
+
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
@@ -115,7 +129,7 @@ export default function Table({
         >
           <FiChevronLeft />
         </button>
-  
+
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
@@ -127,7 +141,7 @@ export default function Table({
         >
           <FiChevronRight />
         </button>
-  
+
         <button
           onClick={() => paginate(totalPages)}
           disabled={currentPage === totalPages}
@@ -157,7 +171,11 @@ export default function Table({
                   {columnAliases[column] || column}
                 </th>
               ))}
-              {(hasShow || hasEdit || hasDelete || hasApprove) && (
+              {(hasShow ||
+                hasEdit ||
+                hasDelete ||
+                hasApprove ||
+                hasCustomButton) && (
                 <th className="border border-white border-opacity-25 px-6 py-2">
                   Acciones
                 </th>
@@ -189,16 +207,16 @@ export default function Table({
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
-          <Link href={buttonAddRoute}>
-            <button
-              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-              title="Agregar"
-            >
-              <FiPlus size={24} />
-            </button>
-          </Link>
-        )}
-        {customButton && <>{customButton}</>}
+            <Link href={buttonAddRoute}>
+              <button
+                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+                title="Agregar"
+              >
+                <FiPlus size={24} />
+              </button>
+            </Link>
+          )}
+          {customButton && <>{customButton}</>}
         </div>
         <div className="table-box font-semibold">
           <table className="min-w-full border border-gray-200">
@@ -213,7 +231,11 @@ export default function Table({
                       {columnAliases[column] || column}
                     </th>
                   ))}
-                  {(hasShow || hasEdit || hasDelete || hasApprove) && (
+                  {(hasShow ||
+                    hasEdit ||
+                    hasDelete ||
+                    hasApprove ||
+                    hasCustomButton) && (
                     <th className="border border-white border-opacity-25 px-6 py-2">
                       Acciones
                     </th>
@@ -245,16 +267,16 @@ export default function Table({
             {title && title}
           </h3>
           {hasAdd && buttonAddRoute && (
-          <Link href={buttonAddRoute}>
-            <button
-              className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
-              title="Agregar"
-            >
-              <FiPlus size={24} />
-            </button>
-          </Link>
-        )}
-        {customButton && <>{customButton}</>}
+            <Link href={buttonAddRoute}>
+              <button
+                className="p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2"
+                title="Agregar"
+              >
+                <FiPlus size={24} />
+              </button>
+            </Link>
+          )}
+          {customButton && <>{customButton}</>}
         </div>
         <div className="border table-box font-semibold mt-4">
           <table className="min-w-full divide-y divide-gray-200">
@@ -276,7 +298,11 @@ export default function Table({
                       </div>
                     ))}
                     <div className="flex items-center mt-4">
-                      {(hasShow || hasEdit || hasDelete || hasApprove) && (
+                      {(hasShow ||
+                        hasEdit ||
+                        hasDelete ||
+                        hasApprove ||
+                        hasCustomButton) && (
                         <>
                           {hasShow(item) && (
                             <Link
@@ -307,6 +333,16 @@ export default function Table({
                             </button>
                           )}
 
+                          {hasCustomButton(item) && (
+                            <Link
+                              href={customButtonRoute(item.id)}
+                              className="text-gray-400 hover:text-gray-300 mr-4"
+                              title="Administrar"
+                            >
+                              <FiSettings className="text-lg" size={24} />
+                            </Link>
+                          )}
+
                           {hasDelete && (
                             <button
                               onClick={() => handleDelete(item.id)}
@@ -327,12 +363,17 @@ export default function Table({
           <PageNumbers />
         </div>
 
-        <ConfirmModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          onConfirm={confirmDelete}
-          message={confirmModalText}
-        />
+        {/* Render the modal outside of the main component using portal */}
+        {isModalOpen &&
+          ReactDOM.createPortal(
+            <ConfirmModal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              onConfirm={confirmDelete}
+              message={confirmModalText}
+            />,
+            document.body
+          )}
       </div>
     );
   }
@@ -367,7 +408,11 @@ export default function Table({
                   {columnAliases[column] || column}
                 </th>
               ))}
-              {(hasShow || hasEdit || hasDelete || hasApprove) && (
+              {(hasShow ||
+                hasEdit ||
+                hasDelete ||
+                hasApprove ||
+                hasCustomButton) && (
                 <th className="border border-white border-opacity-25 px-6 py-2">
                   Acciones
                 </th>
@@ -415,6 +460,17 @@ export default function Table({
                           <FiCheck className="text-lg" size={24} />
                         </button>
                       )}
+
+                      {hasCustomButton(item) && (
+                        <Link
+                          href={customButtonRoute(item.id)}
+                          className="text-gray-400 hover:text-gray-300 mr-4"
+                          title="Administrar"
+                        >
+                          <FiSettings className="text-lg" size={24} />
+                        </Link>
+                      )}
+
                       {hasDelete && (
                         <button
                           onClick={() => handleDelete(item.id)}
@@ -434,12 +490,17 @@ export default function Table({
         <PageNumbers />
       </div>
 
-      <ConfirmModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onConfirm={confirmDelete}
-        message={confirmModalText}
-      />
+      {/* Render the modal outside of the main component using portal */}
+      {isModalOpen &&
+        ReactDOM.createPortal(
+          <ConfirmModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onConfirm={confirmDelete}
+            message={confirmModalText}
+          />,
+          document.body
+        )}
     </div>
   );
 }

@@ -31,6 +31,8 @@ export default function SignUpForm() {
     username: "",
     user_role_id: "",
     birthdate: null,
+    platform_user_business_id: null,
+    created_by_user_id: null,
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -52,13 +54,15 @@ export default function SignUpForm() {
 
         const roleFilters = {
           // Supervisor
-          2: (role) => role.id !== 2 && role.id !== 4 && role.id !== 6,
+          2: (role) => role.id !== 2 && role.id !== 4 && role.id !== 6 && role.id !== 7,
           // Admin
-          3: (role) => role.id !== 4 && role.id !== 6,
+          3: (role) => role.id !== 4 && role.id !== 6 && role.id !== 7,
           // Manager
-          4: (role) => role.id !== 6,
+          4: (role) => role.id !== 6 && role.id !== 7,
           // Root
-          6: (role) => role.id !== 6,
+          6: (role) => role.id !== 6 && role.id !== 7,
+          // Manageer (businesses)
+          7: (role) => role.id !== 6 && role.id !== 7,
           default: (role) => role.id === 1,
         };
 
@@ -168,7 +172,9 @@ export default function SignUpForm() {
         newUser.username,
         newUser.password,
         newUser.user_role_id,
-        newUser.birthdate
+        newUser.birthdate,
+        user.platform_user_business_id,
+        user.id
       );
 
       showNotification("¡Usuario registrado exitosamente!", "success");

@@ -23,7 +23,9 @@ export async function addPlatformUser(
   username,
   password,
   user_role_id,
-  birthdate
+  birthdate,
+  platform_user_business_id,
+  created_by_user_id,
 ) {
   try {
     const { data, error } = await supabase.from("platform_users").insert({
@@ -38,6 +40,8 @@ export async function addPlatformUser(
       password: password,
       user_role_id: user_role_id,
       birthdate: birthdate,
+      platform_user_business_id: platform_user_business_id,
+      created_by_user_id: created_by_user_id
     });
     if (error) {
       throw error;
@@ -79,7 +83,9 @@ export async function editPlatformUser(
   username,
   password,
   user_role_id,
-  birthdate
+  birthdate,
+  platform_user_business_id,
+  created_by_user_id,
 ) {
   try {
     const { data, error } = await supabase
@@ -96,6 +102,8 @@ export async function editPlatformUser(
         password: password,
         user_role_id: user_role_id,
         birthdate: birthdate,
+        platform_user_business_id: platform_user_business_id,
+        created_by_user_id: created_by_user_id
       })
       .eq("id", platform_user_id);
     if (error) {

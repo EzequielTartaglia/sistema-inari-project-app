@@ -9,14 +9,15 @@ import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../SubmitLoadingButton";
-import TextArea from "../../TextArea";
 import SelectInput from "@/components/forms/SelectInput";
-import FileInput from "../../FileInput";
-import CheckboxInput from "../../CheckboxInput";
-import CheckboxWithInput from "../../CheckboxWithInput";
+import CheckboxWithInput from "@/components/forms/CheckboxWithInput";
+import TextArea from "@/components/forms/TextArea";
+import CheckboxInput from "@/components/forms/CheckboxInput";
+import FileInput from "@/components/forms/FileInput";
+import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
 
-export default function AddProductForm() {
+
+export default function AddStockProductForm() {
   const [product, setProduct] = useState({
     name: "",
     description: "",

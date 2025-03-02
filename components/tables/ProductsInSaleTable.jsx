@@ -26,7 +26,7 @@ export default function ProductsInSaleTable({
   const [isLoading, setIsLoading] = useState(data.length === 0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(20);
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedstockProductId, setSelectedstockProductId] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -232,10 +232,10 @@ export default function ProductsInSaleTable({
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={selectedProductId === item.id}
+                        checked={selectedstockProductId === item.id}
                         onChange={() => {
-                          setSelectedProductId(
-                            selectedProductId === item.id ? null : item.id
+                          setSelectedstockProductId(
+                            selectedstockProductId === item.id ? null : item.id
                           );
                           setQuantityToAdd(1);
                         }}
@@ -246,7 +246,7 @@ export default function ProductsInSaleTable({
                         min="1"
                         max={item.quantity} 
                         value={
-                          selectedProductId === item.id ? quantityToAdd : ""
+                          selectedstockProductId === item.id ? quantityToAdd : ""
                         }
                         onChange={(e) => {
                           const value = Math.max(1, e.target.value);
@@ -257,7 +257,7 @@ export default function ProductsInSaleTable({
                           }
                         }}
                         className="border border-gray-300 rounded p-1 w-16 mr-2"
-                        disabled={selectedProductId !== item.id}
+                        disabled={selectedstockProductId !== item.id}
                         placeholder="1"
                       />
                       <button

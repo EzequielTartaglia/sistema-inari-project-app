@@ -99,8 +99,8 @@ export default function SaleOpenDetails({ saleId }) {
       .sort((a, b) => a.id - b.id);
   }, [searchTerm, products, categories, measureUnits]);
 
-  const handleAddProductToSale = async (productId) => {
-    const product = products.find((product) => product.id === productId);
+  const handleAddProductToSale = async (stockProductId) => {
+    const product = products.find((product) => product.id === stockProductId);
     const existingItem = saleItems.find(
       (item) => item.stock_product_id === product.id
     );

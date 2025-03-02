@@ -12,15 +12,15 @@ import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../SubmitLoadingButton";
-import TextArea from "../../TextArea";
 import SelectInput from "@/components/forms/SelectInput";
-import CheckboxWithInput from "../../CheckboxWithInput";
-import FileInput from "../../FileInput";
-import CheckboxInput from "../../CheckboxInput";
 import Image from "next/image";
+import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
+import CheckboxWithInput from "@/components/forms/CheckboxWithInput";
+import TextArea from "@/components/forms/TextArea";
+import CheckboxInput from "@/components/forms/CheckboxInput";
+import FileInput from "@/components/forms/FileInput";
 
-export default function EditProductForm({ productId }) {
+export default function EditStockProductForm({ stockProductId }) {
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -44,7 +44,7 @@ export default function EditProductForm({ productId }) {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const fetchedProduct = await getProduct(productId);
+        const fetchedProduct = await getProduct(stockProductId);
         setProduct({
           ...fetchedProduct,
           price: parseFloat(fetchedProduct.price).toFixed(2),
@@ -59,7 +59,7 @@ export default function EditProductForm({ productId }) {
       }
     };
     fetchProductData();
-  }, [productId]);
+  }, [stockProductId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,7 +81,7 @@ export default function EditProductForm({ productId }) {
 
     try {
       await editProduct(
-        productId,
+        stockProductId,
         product.name,
         product.description,
         product.has_image,

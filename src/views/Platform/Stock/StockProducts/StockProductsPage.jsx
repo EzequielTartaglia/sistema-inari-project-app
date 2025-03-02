@@ -18,7 +18,7 @@ import SearchInput from "@/components/SearchInput";
 import Image from "next/image";
 import { FiImage } from "react-icons/fi";
 
-export default function ProductsPage() {
+export default function StockProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);

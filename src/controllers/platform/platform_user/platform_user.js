@@ -12,6 +12,20 @@ export async function getPlatformUsers() {
   }
 }
 
+export async function getPlatformUsersFromBusiness(platform_user_business_id) {
+  try {
+    const { data, error } = await supabase
+      .from("platform_users")
+      .select("*")
+      .eq("platform_user_business_id", platform_user_business_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 export async function addPlatformUser(
   first_name,
   last_name,
@@ -25,7 +39,7 @@ export async function addPlatformUser(
   user_role_id,
   birthdate,
   platform_user_business_id,
-  created_by_user_id,
+  created_by_user_id
 ) {
   try {
     const { data, error } = await supabase.from("platform_users").insert({
@@ -41,7 +55,7 @@ export async function addPlatformUser(
       user_role_id: user_role_id,
       birthdate: birthdate,
       platform_user_business_id: platform_user_business_id,
-      created_by_user_id: created_by_user_id
+      created_by_user_id: created_by_user_id,
     });
     if (error) {
       throw error;
@@ -85,7 +99,7 @@ export async function editPlatformUser(
   user_role_id,
   birthdate,
   platform_user_business_id,
-  created_by_user_id,
+  created_by_user_id
 ) {
   try {
     const { data, error } = await supabase
@@ -103,7 +117,7 @@ export async function editPlatformUser(
         user_role_id: user_role_id,
         birthdate: birthdate,
         platform_user_business_id: platform_user_business_id,
-        created_by_user_id: created_by_user_id
+        created_by_user_id: created_by_user_id,
       })
       .eq("id", platform_user_id);
     if (error) {

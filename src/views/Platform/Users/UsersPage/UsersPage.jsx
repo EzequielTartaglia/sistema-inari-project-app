@@ -2,6 +2,7 @@
 
 import {
   getPlatformUsers,
+  getPlatformUsersFromBusiness,
   deletePlatformUser,
 } from "@/src/controllers/platform/platform_user/platform_user";
 import { getPlatformUserRoles } from "@/src/controllers/platform/platform_user_role/platform_user_role";
@@ -32,17 +33,27 @@ export default function AdminUsersPage() {
   useEffect(() => {
     async function fetchUsersAndRoles() {
       try {
-        const fetchedUsers = await getPlatformUsers();
         const fetchedRoles = await getPlatformUserRoles();
-
-        setUsers(fetchedUsers);
         setRoles(fetchedRoles);
+  
+        let fetchedUsers;
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          fetchedUsers = await getPlatformUsers();
+        } else {
+          fetchedUsers = await getPlatformUsersFromBusiness(user?.platform_user_business_id);
+        }
+  
+        setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
     }
-    fetchUsersAndRoles();
-  }, []);
+  
+    if (user) {
+      fetchUsersAndRoles();
+    }
+  }, [user]);
+  
 
   const handleDeleteUser = async (id) => {
     try {

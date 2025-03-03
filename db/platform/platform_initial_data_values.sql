@@ -1,13 +1,13 @@
 -- Insert roles into platform_user_roles
-INSERT INTO public.platform_user_roles (id, name, created_at)
+INSERT INTO public.platform_user_roles (id, name)
 VALUES 
-  (1, 'Vendedor', NOW()),
-  (2, 'Supervisor de ventas', NOW()),
-  (3, 'Administrador', NOW()),
-  (4, 'Gerente', NOW()),
-  (5, 'Proveedor', NOW()),
-  (6, 'root', NOW()),
-  (7, 'Administrador (Empresas)', NOW()) ;
+  (1, 'Vendedor'),
+  (2, 'Supervisor de ventas'),
+  (3, 'Administrador'),
+  (4, 'Gerente'),
+  (5, 'Proveedor'),
+  (6, 'root'),
+  (7, 'Administrador (Empresas)');
 
 -- Insert user into platform_states
 INSERT INTO public.platform_states (id, name, created_at) 

@@ -19,10 +19,11 @@ export async function addProduct(
   image_path,
   stock_product_category_id,
   price,
-  product_measure_unit_id,
+  stock_product_measure_unit_id,
   quantity,
   has_bar_code,
-  bar_code
+  bar_code,
+  platform_user_business_id
 ) {
   try {
     const { data, error } = await supabase.from("stock_products").insert({
@@ -32,10 +33,11 @@ export async function addProduct(
       image_path: image_path,
       stock_product_category_id: stock_product_category_id,
       price: price,
-      product_measure_unit_id: product_measure_unit_id,
+      stock_product_measure_unit_id: stock_product_measure_unit_id,
       quantity: quantity,
       has_bar_code: has_bar_code,
       bar_code: bar_code,
+      platform_user_business_id: platform_user_business_id,
     });
     if (error) {
       throw error;
@@ -62,6 +64,21 @@ export async function getProduct(stock_products_id) {
   }
 }
 
+export async function getProductsFromBusiness(platform_user_business_id) {
+  try {
+    const { data, error } = await supabase
+      .from("stock_products")
+      .select("*")
+      .eq("platform_user_business_id", platform_user_business_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function editProduct(
   stock_products_id,
   name,
@@ -70,10 +87,11 @@ export async function editProduct(
   image_path,
   stock_product_category_id,
   price,
-  product_measure_unit_id,
+  stock_product_measure_unit_id,
   quantity,
   has_bar_code,
-  bar_code
+  bar_code,
+  platform_user_business_id
 ) {
   try {
     const { data, error } = await supabase
@@ -85,10 +103,11 @@ export async function editProduct(
         image_path: image_path,
         stock_product_category_id: stock_product_category_id,
         price: price,
-        product_measure_unit_id: product_measure_unit_id,
+        stock_product_measure_unit_id: stock_product_measure_unit_id,
         quantity: quantity,
         has_bar_code: has_bar_code,
         bar_code: bar_code,
+        platform_user_business_id: platform_user_business_id,
       })
       .eq("id", stock_products_id);
     if (error) {

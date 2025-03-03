@@ -6,6 +6,7 @@ import { getProductMeasureUnits } from "@/src/controllers/platform/product_measu
 import { useNotification } from "@/contexts/NotificationContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
@@ -16,8 +17,10 @@ import CheckboxInput from "@/components/forms/CheckboxInput";
 import FileInput from "@/components/forms/FileInput";
 import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
 
-
 export default function AddStockProductForm() {
+
+  const { user } = useUserInfoContext();
+  
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -25,10 +28,11 @@ export default function AddStockProductForm() {
     image_path: "",
     stock_product_category_id: "",
     price: "",
-    product_measure_unit_id: "",
+    stock_product_measure_unit_id: "",
     quantity: "",
     has_bar_code: false,
     bar_code: "",
+    platform_user_business_id: null,
   });
   const [categories, setCategories] = useState([]);
   const [measureUnits, setMeasureUnits] = useState([]);
@@ -81,7 +85,8 @@ export default function AddStockProductForm() {
         product.stock_product_measure_unit_id,
         product.quantity,
         product.has_bar_code,
-        product.has_bar_code ? product.bar_code : null
+        product.has_bar_code ? product.bar_code : null,
+        user.platform_user_business_id
       );
 
       showNotification("¡Producto agregado exitosamente!", "success");
@@ -208,7 +213,7 @@ export default function AddStockProductForm() {
 
         <SelectInput
           label="Unidad de Medida"
-          name="product_measure_unit_id"
+          name="stock_product_measure_unit_id"
           value={product.stock_product_measure_unit_id}
           onChange={handleInputChange}
           isSubmitted={isSubmitted}

@@ -47,7 +47,9 @@ create table public.stock_products (
   has_bar_code boolean not null default false,
   bar_code text null,
   created_at timestamp without time zone null default CURRENT_TIMESTAMP,
+  platform_user_business_id bigint null,
   constraint stock_products_pkey primary key (id),
+  constraint stock_products_platform_user_business_id_fkey foreign KEY (platform_user_business_id) references platform_user_businesses (id) on update CASCADE on delete CASCADE,
   constraint stock_products_stock_product_category_id_fkey foreign KEY (stock_product_category_id) references stock_product_categories (id),
   constraint stock_products_stock_product_measure_unit_id_fkey foreign KEY (stock_product_measure_unit_id) references stock_product_measure_units (id)
 ) TABLESPACE pg_default;

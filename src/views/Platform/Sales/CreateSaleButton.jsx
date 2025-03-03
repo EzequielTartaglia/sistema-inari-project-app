@@ -3,16 +3,28 @@
 import { useRouter } from "next/navigation";
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { addSale, getLastSale } from "@/src/controllers/platform/sale/sale";
-import { FiPlus } from "react-icons/fi"; 
+import { FiPlus } from "react-icons/fi";
 
-export default function CreateSaleButton({ customClasses = `p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2`, onClick, text, Icon = FiPlus, title = "Crear venta" }) {
+export default function CreateSaleButton({
+  customClasses = `p-2 rounded-full primary-button-success text-primary shadow-md transition-transform duration-300 hover:-translate-y-1 mr-2`,
+  onClick,
+  text,
+  Icon = FiPlus,
+  title = "Crear venta",
+}) {
   const { user } = useUserInfoContext();
   const router = useRouter();
 
   const createNewSale = async () => {
     try {
       if (user) {
-        await addSale(user.id, new Date().toISOString(), 0, false);
+        await addSale(
+          user.id,
+          new Date().toISOString(),
+          0,
+          false,
+          user.platform_user_business_id
+        );
 
         const lastSale = await getLastSale(user.id);
 
@@ -35,11 +47,7 @@ export default function CreateSaleButton({ customClasses = `p-2 rounded-full pri
   };
 
   return (
-    <button
-      className={customClasses}
-      onClick={handleButtonClick}
-      title={title}
-    >
+    <button className={customClasses} onClick={handleButtonClick} title={title}>
       {text && text} <Icon size={20} />
     </button>
   );

@@ -196,7 +196,7 @@ export async function checkEmailExists(email) {
 }
 
 export async function changeUserPassword(
-  user_id,
+  platform_user_id,
   currentPassword,
   newPassword
 ) {
@@ -204,7 +204,7 @@ export async function changeUserPassword(
     const { data: user, error: fetchError } = await supabase
       .from("platform_users")
       .select("id, password")
-      .eq("id", user_id)
+      .eq("id", platform_user_id)
       .eq("password", currentPassword)
       .single();
 
@@ -220,7 +220,7 @@ export async function changeUserPassword(
     const { error: updateError } = await supabase
       .from("platform_users")
       .update({ password: newPassword })
-      .eq("id", user_id);
+      .eq("id", platform_user_id);
 
     if (updateError) {
       throw updateError;

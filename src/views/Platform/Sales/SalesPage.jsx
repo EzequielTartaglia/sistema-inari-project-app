@@ -109,7 +109,7 @@ export default function SalesPage() {
 
   const filteredData = sales
     .filter((sale) => {
-      const saleUser = users.find((user) => user.id === sale.user_id);
+      const saleUser = users.find((user) => user.id === sale.platform_user_id);
       if (!saleUser) return false;
 
       const fullName =
@@ -117,7 +117,7 @@ export default function SalesPage() {
       return fullName.includes(searchTerm.toLowerCase());
     })
     .map((sale) => {
-      const saleUser = users.find((user) => user.id === sale.user_id);
+      const saleUser = users.find((user) => user.id === sale.platform_user_id);
       const fullName = saleUser
         ? `${saleUser.first_name} ${saleUser.last_name}`
         : "N/A";

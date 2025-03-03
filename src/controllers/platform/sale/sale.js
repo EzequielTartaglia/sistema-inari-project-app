@@ -12,13 +12,35 @@ export async function getSales() {
   }
 }
 
-export async function addSale(user_id, sale_date, sale_total, is_closed) {
+export async function getSalesFromBusiness(platform_user_business_id) {
+  try {
+    const { data, error } = await supabase
+      .from("sales")
+      .select("*")
+      .eq("platform_user_business_id", platform_user_business_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addSale(
+  platform_user_id,
+  sale_date,
+  sale_total,
+  is_closed,
+  platform_user_business_id
+) {
   try {
     const { data, error } = await supabase.from("sales").insert({
-      user_id: user_id,
+      platform_user_id: platform_user_id,
       sale_date: sale_date,
       sale_total: sale_total,
       is_closed: is_closed,
+      platform_user_business_id: platform_user_business_id,
     });
     if (error) {
       throw error;
@@ -47,19 +69,21 @@ export async function getSale(sale_id) {
 
 export async function editSale(
   sale_id,
-  user_id,
+  platform_user_id,
   sale_date,
   sale_total,
-  is_closed
+  is_closed,
+  platform_user_business_id
 ) {
   try {
     const { data, error } = await supabase
       .from("sales")
       .update({
-        user_id: user_id,
+        platform_user_id: platform_user_id,
         sale_date: sale_date,
         sale_total: sale_total,
         is_closed: is_closed,
+        platform_user_business_id: platform_user_business_id,
       })
       .eq("id", sale_id);
     if (error) {
@@ -87,12 +111,12 @@ export async function deleteSale(sale_id) {
   }
 }
 
-export async function getLastSale(user_id) {
+export async function getLastSale(platform_user_id) {
   try {
     const { data, error } = await supabase
       .from("sales")
       .select("*")
-      .eq("user_id", user_id)
+      .eq("platform_user_id", platform_user_id)
       .order("sale_date", { ascending: false })
       .limit(1)
       .single();

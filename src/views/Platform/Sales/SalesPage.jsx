@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSale, getSale, getSales } from "@/src/controllers/platform/sale/sale";
+import { deleteSale, getSale, getSales, getSalesFromBusiness } from "@/src/controllers/platform/sale/sale";
 import { getPlatformUsers } from "@/src/controllers/platform/platform_user/platform_user";
 import { getSaleItemsFromSale } from "@/src/controllers/platform/sale_item/sale_item";
 
@@ -28,10 +28,14 @@ export default function SalesPage() {
   useEffect(() => {
     async function fetchSalesAndUsers() {
       try {
-        const [fetchedSales, fetchedUsers] = await Promise.all([
-          getSales(),
-          getPlatformUsers(),
-        ]);
+        let fetchedSales;
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          fetchedSales = await getSales();
+        } else {
+          fetchedSales = await getSalesFromBusiness(user?.platform_user_business_id);
+        }
+
+        const fetchedUsers = await getPlatformUsers();
 
         const sortedSales = fetchedSales.sort(
           (a, b) => new Date(b.sale_date) - new Date(a.sale_date)
@@ -43,8 +47,11 @@ export default function SalesPage() {
         console.error("Error fetching sales or users:", error.message);
       }
     }
-    fetchSalesAndUsers();
-  }, []);
+
+    if (user) {
+      fetchSalesAndUsers();
+    }
+  }, [user]); 
 
   const handleDeleteSale = async (id) => {
     try {

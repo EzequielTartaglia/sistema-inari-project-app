@@ -2,6 +2,7 @@
 
 import {
   getProducts,
+  getProductsFromBusiness,
   deleteProduct,
 } from "@/src/controllers/platform/product/product";
 import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
@@ -43,8 +44,14 @@ export default function StockProductsPage() {
       try {
         const fetchedCategories = await getProductCategories();
         const fetchedMeasureUnits = await getProductMeasureUnits();
-        const fetchedProducts = await getProducts();
-
+        
+        let fetchedProducts;
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          fetchedProducts = await getProducts();
+        } else {
+          fetchedProducts = await getProductsFromBusiness(user?.platform_user_business_id);
+        }
+  
         setCategories(fetchedCategories);
         setMeasureUnits(fetchedMeasureUnits);
         setProducts(fetchedProducts);
@@ -52,8 +59,12 @@ export default function StockProductsPage() {
         console.error("Error fetching data:", error.message);
       }
     }
-    fetchProducts();
-  }, []);
+  
+    if (user) {
+      fetchProducts();
+    }
+  }, [user]);
+  
 
   const handleDeleteProduct = async (id) => {
     try {

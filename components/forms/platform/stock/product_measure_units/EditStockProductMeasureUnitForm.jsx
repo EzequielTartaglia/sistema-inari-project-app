@@ -1,6 +1,9 @@
 "use client";
 
-import { getProductMeasureUnit,editProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
+import {
+  getProductMeasureUnit,
+  editProductMeasureUnit,
+} from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState, useEffect } from "react";
@@ -10,12 +13,17 @@ import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
 import SubmitLoadingButton from "../../../SubmitLoadingButton";
 import TextArea from "../../../TextArea";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
+export default function EditStockProductMeasureUnitForm({
+  stockProductMeasureUnitId,
+}) {
+  const { user } = useUserInfoContext();
 
-export default function EditStockProductMeasureUnitForm({ stockProductMeasureUnitId }) {
   const [productMeasureUnit, setProductMeasureUnit] = useState({
     name: "",
     description: "",
+    platform_user_business_id: null
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +39,10 @@ export default function EditStockProductMeasureUnitForm({ stockProductMeasureUni
         );
         setProductMeasureUnit(fetchedProductMeasureUnit);
       } catch (error) {
-        console.error("Error fetching the product measure unit:", error.message);
+        console.error(
+          "Error fetching the product measure unit:",
+          error.message
+        );
       }
     };
     fetchProductMeasureUnit();
@@ -51,7 +62,8 @@ export default function EditStockProductMeasureUnitForm({ stockProductMeasureUni
       await editProductMeasureUnit(
         stockProductMeasureUnitId,
         productMeasureUnit.name,
-        productMeasureUnit.description
+        productMeasureUnit.description,
+        productMeasureUnit.platform_user_business_id
       );
 
       showNotification("¡Unidad de medida editada exitosamente!", "success");

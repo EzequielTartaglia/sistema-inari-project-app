@@ -4,6 +4,7 @@ import { addProductMeasureUnit } from "@/src/controllers/platform/product_measur
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
@@ -11,9 +12,12 @@ import SubmitLoadingButton from "../../../SubmitLoadingButton";
 import TextArea from "../../../TextArea";
 
 export default function AddStockProductMeasureUnitForm() {
+  const { user } = useUserInfoContext();
+
   const [productMeasureUnit, setProductMeasureUnit] = useState({
     name: "",
     description: "",
+    platform_user_business_id: null
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +38,8 @@ export default function AddStockProductMeasureUnitForm() {
     try {
       await addProductMeasureUnit(
         productMeasureUnit.name,
-        productMeasureUnit.description
+        productMeasureUnit.description,
+        user.platform_user_business_id
       );
 
       showNotification("¡Unidad de medida agregada exitosamente!", "success");

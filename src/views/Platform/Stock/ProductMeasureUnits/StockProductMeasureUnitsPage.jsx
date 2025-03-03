@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductMeasureUnits, deleteProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
+import { getProductMeasureUnits, getProductMeasureUnitsFromBusiness ,deleteProductMeasureUnit } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useEffect, useState } from "react";
@@ -23,14 +23,22 @@ export default function StockProductMeasureUnitsPage() {
   useEffect(() => {
     async function fetchProductMeasureUnitsNames() {
       try {
-        const names = await getProductMeasureUnits();
+        let names;
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          names = await getProductMeasureUnits();
+        } else {
+          names = await getProductMeasureUnitsFromBusiness(user?.platform_user_business_id);
+        }
         setProductMeasureUnitsNames(names);
       } catch (error) {
         console.error("Error fetching product measure units:", error.message);
       }
     }
-    fetchProductMeasureUnitsNames();
-  }, []);
+
+    if (user) {
+      fetchProductMeasureUnitsNames();
+    }
+  }, [user]); 
 
   const handleProductMeasureUnit = async (id) => {
     try {

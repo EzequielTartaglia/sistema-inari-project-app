@@ -71,12 +71,12 @@ INSERT INTO public.payment_methods (name)
 VALUES ('Mercado Pago');
 
 -- Insert data into stock_product_measure_units table
-INSERT INTO stock_product_measure_units (name, description) VALUES
-('Metro', 'Unidad de medida utilizada para productos vendidos por longitud.'),
-('Caja', 'Unidad de medida utilizada para productos vendidos en cajas.'),
-('Unidad', 'Unidad de medida utilizada para productos vendidos individualmente.'),
-('Litro', 'Unidad de medida utilizada para productos vendidos por volumen.'),
-('Kilogramo', 'Unidad de medida utilizada para productos vendidos por peso.');
+INSERT INTO stock_product_measure_units (id, name, description, platform_user_business_id) VALUES
+(1, 'Metro', 'Unidad de medida utilizada para productos vendidos por longitud.',1),
+(2, 'Caja', 'Unidad de medida utilizada para productos vendidos en cajas.',1),
+(3, 'Unidad', 'Unidad de medida utilizada para productos vendidos individualmente.',1),
+(4, 'Litro', 'Unidad de medida utilizada para productos vendidos por volumen.',1),
+(5, 'Kilogramo', 'Unidad de medida utilizada para productos vendidos por peso.',1);
 
 -- Insert user into platform_users
 INSERT INTO public.platform_users (

@@ -78,7 +78,6 @@ INSERT INTO stock_product_measure_units (name, description) VALUES
 ('Litro', 'Unidad de medida utilizada para productos vendidos por volumen.'),
 ('Kilogramo', 'Unidad de medida utilizada para productos vendidos por peso.');
 
-
 -- Insert user into platform_users
 INSERT INTO public.platform_users (
   id, first_name, last_name, phone, email, username, password, is_root, user_role_id, is_active, token, dni_ssn, country_id, platform_user_gender_id, birthdate,created_by_user_id

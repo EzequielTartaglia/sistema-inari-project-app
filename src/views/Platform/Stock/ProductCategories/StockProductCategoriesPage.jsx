@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductCategories, deleteProductCategory } from "@/src/controllers/platform/product_category/product_category";
+import { getProductCategories, getProductCategoriesFromBusiness, deleteProductCategory } from "@/src/controllers/platform/product_category/product_category";
 
 import { useUserInfoContext } from "@/contexts/UserInfoContext";
 import { useEffect, useState } from "react";
@@ -23,7 +23,12 @@ export default function StockProductCategoriesPage() {
   useEffect(() => {
     async function fetchProductCategoriesNames() {
       try {
-        const names = await getProductCategories();
+        let names;
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          names = await getProductCategories();
+        } else {
+          names = await getProductCategoriesFromBusiness(user?.business_id);
+        }
         setProductCategoriesNames(names);
       } catch (error) {
         console.error(
@@ -32,8 +37,11 @@ export default function StockProductCategoriesPage() {
         );
       }
     }
-    fetchProductCategoriesNames();
-  }, []);
+
+    if (user) {
+      fetchProductCategoriesNames();
+    }
+  }, [user]); 
 
   const handleDeleteProductCategory = async (id) => {
     try {

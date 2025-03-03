@@ -8,16 +8,24 @@ import {
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../../SubmitLoadingButton";
-import TextArea from "../../../TextArea";
+import TextArea from "@/components/forms/TextArea";
+import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
 
-export default function EditStockProductCategoryForm({ stockProductCategoryId }) {
+
+export default function EditStockProductCategoryForm({
+  stockProductCategoryId,
+}) {
+
+  const { user } = useUserInfoContext();
+
   const [productCategory, setProductCategory] = useState({
     name: "",
     description: "",
+    platform_user_business_id: null,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +61,8 @@ export default function EditStockProductCategoryForm({ stockProductCategoryId })
       await editProductCategory(
         stockProductCategoryId,
         productCategory.name,
-        productCategory.description
+        productCategory.description,
+        productCategory.platform_user_business_id
       );
 
       showNotification("¡Categoria editada exitosamente!", "success");

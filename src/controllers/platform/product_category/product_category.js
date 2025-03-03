@@ -14,11 +14,27 @@ export async function getProductCategories() {
   }
 }
 
-export async function addProductCategory(name, description) {
+export async function getProductCategoriesFromBusiness(platform_user_business_id) {
+  try {
+    const { data, error } = await supabase
+      .from("stock_product_categories")
+      .select("*")
+      .eq("platform_user_business_id", platform_user_business_id);
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addProductCategory(name, description, platform_user_business_id) {
   try {
     const { data, error } = await supabase.from("stock_product_categories").insert({
       name: name,
-      description: description
+      description: description,
+      platform_user_business_id: platform_user_business_id
     });
     if (error) {
       throw error;
@@ -45,13 +61,14 @@ export async function getProductCategory(stock_product_category_id) {
   }
 }
 
-export async function editProductCategory(stock_product_category_id, name, description) {
+export async function editProductCategory(stock_product_category_id, name, description, platform_user_business_id) {
   try {
     const { data, error } = await supabase
       .from("stock_product_categories")
       .update({
         name: name,
-        description: description
+        description: description,
+        platform_user_business_id: platform_user_business_id
       })
       .eq("id", stock_product_category_id);
     if (error) {

@@ -1,19 +1,25 @@
 "use client";
 
 import { addProductCategory } from "@/src/controllers/platform/product_category/product_category";
+
 import { useNotification } from "@/contexts/NotificationContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserInfoContext } from "@/contexts/UserInfoContext";
 
 import Input from "@/components/forms/Input";
 import PageHeader from "@/components/page_formats/PageHeader";
-import SubmitLoadingButton from "../../../SubmitLoadingButton";
-import TextArea from "../../../TextArea";
+import TextArea from "@/components/forms/TextArea";
+import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
 
 export default function AddStockProductCategoryForm() {
+
+  const { user } = useUserInfoContext();
+
   const [productCategory, setProductCategory] = useState({
     name: "",
     description: "",
+    platform_user_business_id: null,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +40,8 @@ export default function AddStockProductCategoryForm() {
     try {
       await addProductCategory(
         productCategory.name,
-        productCategory.description
+        productCategory.description,
+        user.platform_user_business_id
       );
 
       showNotification("¡Categoria agregada exitosamente!", "success");

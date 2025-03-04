@@ -90,7 +90,7 @@ export default function SaleOpenDetails({ saleId }) {
           name: product.name,
           stock_product_category_id: productCategory ? productCategory.name : "N/A",
           price: `$ ${parseFloat(product.price).toFixed(2)}`,
-          product_measure_unit_id: productMeasureUnit
+          stock_product_measure_unit_id: productMeasureUnit
             ? productMeasureUnit.name
             : "N/A",
           quantity: product.quantity,
@@ -181,14 +181,14 @@ export default function SaleOpenDetails({ saleId }) {
     "name",
     "stock_product_category_id",
     "price",
-    "product_measure_unit_id",
+    "stock_product_measure_unit_id",
     "quantity",
   ];
   const columnAliases = {
     name: "Nombre",
     stock_product_category_id: "Categoria",
     price: "Precio",
-    product_measure_unit_id: "Unidad de medida",
+    stock_product_measure_unit_id: "Unidad de medida",
     quantity: "Cantidad",
   };
 

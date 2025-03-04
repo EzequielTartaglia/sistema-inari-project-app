@@ -1,8 +1,14 @@
 "use client";
 
 import { addProduct } from "@/src/controllers/platform/product/product";
-import { getProductCategories } from "@/src/controllers/platform/product_category/product_category";
-import { getProductMeasureUnits } from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
+import {
+  getProductCategories,
+  getProductCategoriesFromBusiness,
+} from "@/src/controllers/platform/product_category/product_category";
+import {
+  getProductMeasureUnits,
+  getProductMeasureUnitsFromBusiness,
+} from "@/src/controllers/platform/product_measure_unit/product_measure_unit";
 import { useNotification } from "@/contexts/NotificationContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,9 +24,8 @@ import FileInput from "@/components/forms/FileInput";
 import SubmitLoadingButton from "@/components/forms/SubmitLoadingButton";
 
 export default function AddStockProductForm() {
-
   const { user } = useUserInfoContext();
-  
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -45,8 +50,18 @@ export default function AddStockProductForm() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const fetchedCategories = await getProductCategories();
-        const fetchedMeasureUnits = await getProductMeasureUnits();
+        if (user?.user_role_id === 6 || user?.user_role_id === 7) {
+          const fetchedCategories = await getProductCategories();
+          const fetchedMeasureUnits = await getProductMeasureUnits();
+          setCategories(fetchedCategories);
+          setMeasureUnits(fetchedMeasureUnits);
+        } else {
+          const fetchedCategories = await getProductCategoriesFromBusiness();
+          const fetchedMeasureUnits =
+            await getProductMeasureUnitsFromBusiness();
+          setCategories(fetchedCategories);
+          setMeasureUnits(fetchedMeasureUnits);
+        }
         setCategories(fetchedCategories);
         setMeasureUnits(fetchedMeasureUnits);
       } catch (error) {
@@ -54,7 +69,7 @@ export default function AddStockProductForm() {
       }
     }
     fetchData();
-  }, []);
+  }, [user?.user_role_id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

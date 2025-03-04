@@ -27,7 +27,7 @@ export default function StockProductCategoriesPage() {
         if (user?.user_role_id === 6 || user?.user_role_id === 7) {
           names = await getProductCategories();
         } else {
-          names = await getProductCategoriesFromBusiness(user?.business_id);
+          names = await getProductCategoriesFromBusiness(user?.platform_user_business_id);
         }
         setProductCategoriesNames(names);
       } catch (error) {
